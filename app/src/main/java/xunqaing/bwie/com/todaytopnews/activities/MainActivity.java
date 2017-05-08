@@ -1,7 +1,9 @@
-package xunqaing.bwie.com.todaytopnews;
+package xunqaing.bwie.com.todaytopnews.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
+
+import xunqaing.bwie.com.todaytopnews.R;
 
 public class MainActivity extends Activity {
 
