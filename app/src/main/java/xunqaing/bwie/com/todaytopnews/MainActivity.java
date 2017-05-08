@@ -11,6 +11,5 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         //寻寻...
-        //鳴子
     }
 }
