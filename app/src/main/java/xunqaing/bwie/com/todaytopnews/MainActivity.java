@@ -10,8 +10,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //传的人最傻逼...
-        //...
-        //
+
+        //。。。。。。。。。。
     }
 }
