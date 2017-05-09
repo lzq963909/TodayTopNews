@@ -14,12 +14,13 @@ import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 import com.nostra13.universalimageloader.utils.StorageUtils;
+import com.umeng.socialize.Config;
+import com.umeng.socialize.PlatformConfig;
+import com.umeng.socialize.UMShareAPI;
 
 import org.xutils.x;
 
 import java.io.File;
-
-import static android.view.View.X;
 
 
 public class IApplication extends Application {
@@ -30,6 +31,12 @@ public class IApplication extends Application {
         super.onCreate();
         x.Ext.init(this);
         init();
+
+        UMShareAPI.get(this);
+        Config.DEBUG = true;
+        PlatformConfig.setWeixin("wx967daebe835fbeac", "5bb696d9ccd75a38c8a0bfe0675559b3");
+        PlatformConfig.setQQZone("100424468", "c7394704798a158208a74ab60104f0ba");
+        PlatformConfig.setSinaWeibo("3921700954", "04b48b094faeb16683c32669824ebdad", "http://sns.whalecloud.com");
     }
     public void init() {
         try {
