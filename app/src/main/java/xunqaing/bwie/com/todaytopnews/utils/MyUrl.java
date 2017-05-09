@@ -1,5 +1,7 @@
 package xunqaing.bwie.com.todaytopnews.utils;
 
+import java.util.Date;
+
 /** *
  * @author  作者Trydimire E-mail: 867133009@qq.com
  * @date 创建时间：2015-8-7 上午11:31:52
