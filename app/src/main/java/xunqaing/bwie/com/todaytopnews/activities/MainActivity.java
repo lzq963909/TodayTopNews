@@ -8,6 +8,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.bwei.slidingmenu.SlidingMenu;
 import com.bwei.slidingmenu.app.SlidingFragmentActivity;
@@ -33,6 +35,8 @@ public class MainActivity extends SlidingFragmentActivity {
     private TabLayout tabLayout;
     private ViewPager viewpager;
     private MyAdapter adapter;
+    private ImageView ivleft;
+    private ImageView ivright;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,6 +45,10 @@ public class MainActivity extends SlidingFragmentActivity {
 
         tabLayout = (TabLayout) findViewById(R.id.tablayout);
         viewpager = (ViewPager) findViewById(R.id.viewpage);
+
+        ivleft = (ImageView) findViewById(R.id.pub_title_left_imageview);
+        ivright = (ImageView) findViewById(R.id.pub_title_right_imageview);
+
 
         //设置TabLayout
         setTabLayout();
@@ -57,6 +65,27 @@ public class MainActivity extends SlidingFragmentActivity {
 
         adapter = new MyAdapter(getSupportFragmentManager());
         viewpager.setAdapter(adapter);
+
+
+        //点击左右头像出现左右侧滑
+
+        ivleft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                slidingMenu.showMenu(true);
+
+            }
+        });
+
+        ivright.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                slidingMenu.showSecondaryMenu(true);
+
+            }
+        });
     }
 
     class MyAdapter extends FragmentPagerAdapter {
@@ -238,9 +267,10 @@ public class MainActivity extends SlidingFragmentActivity {
 
         Fragment menuLeftFragment = new  MenuLeftFragment();
         //左侧布局加载哪个xml中
+
         setBehindContentView(R.layout.left_menu_fragment);
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.left_fragment,menuLeftFragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.id_left_fragment,menuLeftFragment).commit();
 
         slidingMenu = getSlidingMenu();
 
