@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.alibaba.fastjson.JSON;
 import com.bwei.slidingmenu.SlidingMenu;
@@ -20,7 +22,6 @@ import xunqaing.bwie.com.todaytopnews.R;
 import xunqaing.bwie.com.todaytopnews.adapter.MyAdapter;
 import xunqaing.bwie.com.todaytopnews.bean.NewsCategory;
 import xunqaing.bwie.com.todaytopnews.fragment.MenuLeftFragment;
-import xunqaing.bwie.com.todaytopnews.fragment.MenuRightFragment;
 import xunqaing.bwie.com.todaytopnews.utils.MyUrl;
 
 public class MainActivity extends SlidingFragmentActivity {
@@ -39,6 +40,8 @@ public class MainActivity extends SlidingFragmentActivity {
         tabLayout = (TabLayout) findViewById(R.id.tablayout);
         viewpager = (ViewPager) findViewById(R.id.viewpage);
 
+        ImageView iv_left = (ImageView) findViewById(R.id.pub_title_left_imageview);
+
         //设置TabLayout
         setTabLayout();
 
@@ -48,13 +51,25 @@ public class MainActivity extends SlidingFragmentActivity {
 
         initData();
 
+        iv_left.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                slidingMenu.showMenu(true);
+
+            }
+        });
+
+
     }
 
     private void initData() {
+
         RequestParams params = new RequestParams(MyUrl.NEWS_CATEGORY);
         x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
+
                 NewsCategory newsCategory = JSON.parseObject(result, NewsCategory.class);
                 categoryList = newsCategory.getData().getData();
                 adapter = new MyAdapter(getSupportFragmentManager(), categoryList);
@@ -106,12 +121,12 @@ public class MainActivity extends SlidingFragmentActivity {
         //左侧布局加载哪个xml中
         setBehindContentView(R.layout.left_menu_fragment);
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.left_fragment, menuLeftFragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.id_left_fragment, menuLeftFragment).commit();
 
         slidingMenu = getSlidingMenu();
 
-        // 设置slidingmenu滑动的方式(左右)
-        slidingMenu.setMode(SlidingMenu.LEFT_RIGHT);
+        // 设置slidingmenu滑动的方式(左)
+        slidingMenu.setMode(SlidingMenu.LEFT);
 
         // 设置触摸屏幕的模式（边缘触摸）
         slidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
@@ -129,9 +144,9 @@ public class MainActivity extends SlidingFragmentActivity {
         slidingMenu.setFadeDegree(0.35f);
 
         //设置右边（二级）侧滑菜单
-        MenuRightFragment menuRightFragment = new MenuRightFragment();
+//        MenuRightFragment menuRightFragment = new MenuRightFragment();
         //加载右侧Fragment
-        slidingMenu.setSecondaryMenu(R.layout.right_menu_fragment);
-        getSupportFragmentManager().beginTransaction().replace(R.id.id_frame_rightmenu, menuRightFragment).commit();
+//        slidingMenu.setSecondaryMenu(R.layout.right_menu_fragment);
+//        getSupportFragmentManager().beginTransaction().replace(R.id.id_frame_rightmenu, menuRightFragment).commit();
     }
 }
