@@ -19,6 +19,8 @@ import java.util.List;
 import xunqaing.bwie.com.todaytopnews.R;
 import xunqaing.bwie.com.todaytopnews.adapter.MyAdapter;
 import xunqaing.bwie.com.todaytopnews.bean.NewsCategory;
+import xunqaing.bwie.com.todaytopnews.fragment.MenuLeftFragment;
+import xunqaing.bwie.com.todaytopnews.fragment.MenuRightFragment;
 import xunqaing.bwie.com.todaytopnews.utils.MyUrl;
 
 public class MainActivity extends SlidingFragmentActivity {
