@@ -20,16 +20,19 @@
             android:orientation="horizontal">
 
             <ImageView
+                android:id="@+id/menuleft_login_qq"
                 android:layout_weight="1"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:src="@drawable/ic_drawer_qzone"/>
             <ImageView
+                android:id="@+id/menuleft_login_txweibo"
                 android:layout_weight="1"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:src="@drawable/ic_drawer_tencent"/>
             <ImageView
+                android:id="@+id/menuleft_login_xlweibo"
                 android:layout_weight="1"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
