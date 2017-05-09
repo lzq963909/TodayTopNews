@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+              android:id="@+id/right_1"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp" android:orientation="vertical">
+
+    </LinearLayout>
+    <LinearLayout
+        android:gravity="bottom|center"
+        android:background="@drawable/login_background_introduce"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/menuright_qq"
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_qq_selector"/>
+
+        <ImageView
+            android:id="@+id/menuright_weibo"
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_weibo_selector"/>
+
+        <ImageView
+            android:id="@+id/menuright_tencent"
+            android:layout_marginBottom="100dp"
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_tencent_selector"/>
+
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

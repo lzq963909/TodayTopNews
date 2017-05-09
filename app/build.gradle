@@ -28,4 +28,6 @@ dependencies {
     compile project(':slidingmenu')
     compile 'org.xutils:xutils:3.5.0'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
+    compile 'com.android.support:support-v4:26.0.0-alpha1'
+    compile 'com.android.support:design:26.0.0-alpha1'
 }
