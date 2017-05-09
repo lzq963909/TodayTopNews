@@ -106,7 +106,7 @@ public class MainActivity extends SlidingFragmentActivity {
         //左侧布局加载哪个xml中
         setBehindContentView(R.layout.left_menu_fragment);
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.left_fragment, menuLeftFragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.id_left_fragment, menuLeftFragment).commit();
 
         slidingMenu = getSlidingMenu();
 
