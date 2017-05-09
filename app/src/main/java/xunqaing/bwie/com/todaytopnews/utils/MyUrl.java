@@ -1,38 +1,48 @@
 package xunqaing.bwie.com.todaytopnews.utils;
 
-/** *
- * @author  作者Trydimire E-mail: 867133009@qq.com
- * @date 创建时间：2015-8-7 上午11:31:52
+/**
+ * @author 作者Trydimire E-mail: 867133009@qq.com
  * @version 1.0
+ * @date 创建时间：2015-8-7 上午11:31:52
  * @parameter
- * @since
- * @return  */
+ * @return
+ */
 public class MyUrl {
 
+    /**
+     * 热词的接口地址
+     **/
+    public static final String HOT_WORDS_URL = "http://toutiao.com/hot_words/?_=";
 
-	/**热词的接口地址 **/
-	public static final String HOT_WORDS_URL= "http://toutiao.com/hot_words/?_=";
+    /**
+     * 新闻选项的接口地址
+     **/
+    public static final String NEWS_CATEGORY = "http://ic.snssdk.com/article/category/get/v2/?iid=2939228904";
 
-	/**新闻选项的接口地址**/
-	public static final String NEWS_CATEGORY = "http://ic.snssdk.com/article/category/get/v2/?iid=2939228904";
+    /**
+     * 所有城市的接口地址(按字母方式排列)
+     **/
+    public static final String CITY_ADDRESS = "http://ic.snssdk.com/2/article/city/";
 
-	/**所有城市的接口地址(按字母方式排列)**/
-	public static final String CITY_ADDRESS = "http://ic.snssdk.com/2/article/city/";
+    /**
+     * 弹出有几条更新的接口
+     **/
+    public static final String UPDATE_COUNTS = "http://ic.snssdk.com/2/article/v27";
+    /**
+     * 拼接的第一个参数
+     **/
+    private static String urlone = "http://ic.snssdk.com/2/article/v25/stream/?category=";
 
-	/**弹出有几条更新的接口**/
-	public static final String UPDATE_COUNTS="http://ic.snssdk.com/2/article/v27";
-	/**拼接的第一个参数**/
-	private static  String urlone = "http://ic.snssdk.com/2/article/v25/stream/?category=";
-	/**
-	 * 传入频道名返回接口地址
-	 * 该方法拼接可以获取实时新闻
-	 * newstype 从新闻选项的接口中获得 新闻接口中的 ategory中的数据
-	 * */
-	public   static String getUrl(String newstype) {
-		String url = "";
+    /**
+     * 传入频道名返回接口地址
+     * 该方法拼接可以获取实时新闻
+     * newstype 从新闻选项的接口中获得 新闻接口中的 ategory中的数据
+     */
+    public static String getUrl(String newstype) {
+        String url = "";
 
-		url = urlone + newstype;
-		return url;
-	}
+        url = urlone + newstype;
+        return url;
+    }
 
 }
