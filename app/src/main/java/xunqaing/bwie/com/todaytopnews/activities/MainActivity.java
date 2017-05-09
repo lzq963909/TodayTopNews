@@ -131,5 +131,6 @@ public class MainActivity extends SlidingFragmentActivity {
         //加载右侧Fragment
         slidingMenu.setSecondaryMenu(R.layout.right_menu_fragment);
         getSupportFragmentManager().beginTransaction().replace(R.id.id_frame_rightmenu, menuRightFragment).commit();
+
     }
 }
