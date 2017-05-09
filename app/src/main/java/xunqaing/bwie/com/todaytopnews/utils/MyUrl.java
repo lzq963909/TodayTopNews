@@ -1,7 +1,5 @@
 package xunqaing.bwie.com.todaytopnews.utils;
 
-import java.util.Date;
-
 /** *
  * @author  作者Trydimire E-mail: 867133009@qq.com
  * @date 创建时间：2015-8-7 上午11:31:52
@@ -10,6 +8,7 @@ import java.util.Date;
  * @since
  * @return  */
 public class MyUrl {
+
 
 	/**热词的接口地址 **/
 	public static final String HOT_WORDS_URL= "http://toutiao.com/hot_words/?_=";
