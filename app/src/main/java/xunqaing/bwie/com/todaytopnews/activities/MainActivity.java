@@ -41,6 +41,7 @@ public class MainActivity extends SlidingFragmentActivity {
         viewpager = (ViewPager) findViewById(R.id.viewpage);
 
         ImageView iv_left = (ImageView) findViewById(R.id.pub_title_left_imageview);
+        ImageView iv_right = (ImageView) findViewById(R.id.pub_title_right_imageview);
 
         //设置TabLayout
         setTabLayout();
@@ -51,6 +52,7 @@ public class MainActivity extends SlidingFragmentActivity {
 
         initData();
 
+        //点击出现侧滑
         iv_left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,6 +62,7 @@ public class MainActivity extends SlidingFragmentActivity {
             }
         });
 
+        //右侧图片点击
 
     }
 
