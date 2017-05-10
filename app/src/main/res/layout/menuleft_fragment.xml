@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/left_1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="#ffffff"
-              android:id="@+id/left_1"
-    android:layout_height="match_parent">
+    android:orientation="vertical">
 
 
     <LinearLayout
-        android:layout_margin="10dp"
         android:layout_width="match_parent"
         android:layout_height="120dp"
+        android:layout_margin="10dp"
         android:orientation="vertical">
 
 
@@ -21,136 +22,154 @@
 
             <ImageView
                 android:id="@+id/menuleft_login_qq"
-                android:layout_weight="1"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:src="@drawable/ic_drawer_qzone"/>
+                android:layout_weight="1"
+                android:src="@drawable/ic_drawer_qzone" />
+
             <ImageView
                 android:id="@+id/menuleft_login_txweibo"
-                android:layout_weight="1"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:src="@drawable/ic_drawer_tencent"/>
+                android:layout_weight="1"
+                android:src="@drawable/ic_drawer_tencent" />
+
             <ImageView
                 android:id="@+id/menuleft_login_xlweibo"
-                android:layout_weight="1"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:src="@drawable/ic_drawer_weibo"/>
+                android:layout_weight="1"
+                android:src="@drawable/ic_drawer_weibo" />
 
         </LinearLayout>
 
         <TextView
-            android:textColor="#000000"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="更多登录方式"/>
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:text="更多登录方式"
+            android:textColor="#000000" />
 
 
     </LinearLayout>
 
 
     <LinearLayout
-        android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" android:orientation="vertical"
-        >
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <LinearLayout
-                android:gravity="center"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" android:orientation="vertical" >
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
 
                 <LinearLayout
-                    android:layout_margin="10dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" android:orientation="horizontal">
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:orientation="horizontal">
+
                     <ImageView
-                        android:src="@drawable/ic_drawer_search_normal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                    <TextView
-                        android:textColor="@color/iblack"
-                        android:layout_marginLeft="10dp"
-                        android:layout_gravity="center"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="搜索"/>
+                        android:src="@drawable/ic_drawer_search_normal" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="10dp"
+                        android:text="搜索"
+                        android:textColor="@color/iblack" />
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_margin="10dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" android:orientation="horizontal">
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:orientation="horizontal">
+
                     <ImageView
-                        android:src="@drawable/ic_action_favor_on_pressed"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_action_favor_on_pressed" />
+
                     <TextView
-                        android:textColor="@color/iblack"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
                         android:layout_marginLeft="16dp"
-                        android:layout_gravity="center"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="收藏"/>
+                        android:text="收藏"
+                        android:textColor="@color/iblack" />
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_margin="10dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" android:orientation="horizontal">
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:orientation="horizontal">
+
                     <ImageView
-                        android:src="@drawable/ic_drawer_message_normal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                    <TextView
-                        android:textColor="@color/iblack"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="10dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="消息"/>
+                        android:src="@drawable/ic_drawer_message_normal" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="10dp"
+                        android:text="消息"
+                        android:textColor="@color/iblack" />
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_margin="10dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" android:orientation="horizontal">
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:orientation="horizontal">
+
                     <ImageView
-                        android:src="@drawable/ic_drawer_offline_normal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                    <TextView
-                        android:textColor="@color/iblack"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="10dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="离线"/>
+                        android:src="@drawable/ic_drawer_offline_normal" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="10dp"
+                        android:text="离线"
+                        android:textColor="@color/iblack" />
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_margin="10dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" android:orientation="horizontal">
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:orientation="horizontal">
+
                     <ImageView
-                        android:src="@drawable/left_drawer_activity"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                    <TextView
-                        android:textColor="@color/iblack"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="10dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="活动"/>
-                </LinearLayout>
+                        android:src="@drawable/left_drawer_activity" />
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="10dp"
+                        android:text="活动"
+                        android:textColor="@color/iblack" />
+                </LinearLayout>
 
 
             </LinearLayout>
@@ -159,6 +178,28 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <com.kyleduo.switchbutton.SwitchButton
+            android:id="@+id/switch_btn"
+            style="@style/SwitchButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:checked="true"
+            android:textColor="#000000"
+            custom:kswBackRadius="10dp"
+            custom:kswTextOff="夜间模式"
+            custom:kswTextOn="白天模式"
+            custom:kswThumbColor="#0000FF"
+            custom:kswThumbRadius="10dp" />
+
+
+    </LinearLayout>
 
 
 </LinearLayout>
