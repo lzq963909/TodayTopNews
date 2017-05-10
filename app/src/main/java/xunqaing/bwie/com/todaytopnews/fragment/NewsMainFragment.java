@@ -10,19 +10,21 @@ import android.widget.ListView;
 
 import com.alibaba.fastjson.JSON;
 
-import org.xmlpull.v1.XmlPullParser;
+import org.xutils.DbManager;
 import org.xutils.common.Callback;
+import org.xutils.ex.DbException;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
 import java.util.List;
 
+import xunqaing.bwie.com.todaytopnews.IApplication;
 import xunqaing.bwie.com.todaytopnews.R;
 import xunqaing.bwie.com.todaytopnews.adapter.NewsListAdapter;
 import xunqaing.bwie.com.todaytopnews.bean.TuijianBean;
 import xunqaing.bwie.com.todaytopnews.utils.MyUrl;
 
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.V;
+import static org.xutils.x.getDb;
 
 /**
  * Created by Administrator on 2017/5/9 0009.
@@ -33,12 +35,17 @@ public class NewsMainFragment extends Fragment {
     private String newsType;
     private List<TuijianBean.DataBean> list;
     private NewsListAdapter adapter;
+    private IApplication application;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main_news,null);
         listView = (ListView) view.findViewById(R.id.news_listview);
         newsType = getArguments().getString("newstype");
+
+        application = (IApplication) getActivity().getApplication();
+
         return view;
     }
 
@@ -46,11 +53,25 @@ public class NewsMainFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         RequestParams requestParams = new RequestParams(MyUrl.getUrl(newsType));
+
         x.http().get(requestParams, new Callback.CommonCallback<String>() {
+
+            private DbManager manager;
+
             @Override
             public void onSuccess(String result) {
                 TuijianBean tuijianBean = JSON.parseObject(result,TuijianBean.class);
                 list = tuijianBean.getData();
+
+                manager = getDb(application.config);
+
+                try {
+                    manager.save(tuijianBean.getData());
+//                  List<TuijianBean> list= x.getDb(application.config).findAll(TuijianBean.class);
+                } catch (DbException e) {
+                    e.printStackTrace();
+                }
+
                 adapter = new NewsListAdapter(getActivity(),list);
                 listView.setAdapter(adapter);
             }

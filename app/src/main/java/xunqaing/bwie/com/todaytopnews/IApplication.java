@@ -18,6 +18,7 @@ import com.umeng.socialize.Config;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 
+import org.xutils.DbManager;
 import org.xutils.x;
 
 import java.io.File;
@@ -25,13 +26,14 @@ import java.io.File;
 
 public class IApplication extends Application {
 
-
+    public DbManager.DaoConfig config;
     @Override
     public void onCreate() {
         super.onCreate();
         x.Ext.init(this);
         init();
 
+       initData();
         UMShareAPI.get(this);
         Config.DEBUG = true;
         PlatformConfig.setWeixin("wx967daebe835fbeac", "5bb696d9ccd75a38c8a0bfe0675559b3");
@@ -76,5 +78,17 @@ public class IApplication extends Application {
 
         return options;
     }
+
+    public void initData() {
+                 config = new DbManager.DaoConfig();
+                 config.setDbName("tj.db");
+                 config.setDbVersion(1);
+                 config.setDbUpgradeListener(new DbManager.DbUpgradeListener() {
+                        @Override
+                         public void onUpgrade(DbManager db, int oldVersion, int newVersion) {
+
+             }
+                    });
+            }
 
 }
