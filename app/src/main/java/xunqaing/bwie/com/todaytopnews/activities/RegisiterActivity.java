@@ -3,7 +3,6 @@ package xunqaing.bwie.com.todaytopnews.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,6 +26,8 @@ public class RegisiterActivity extends Activity {
     private Button regbtn;
     private EditText editUserName;
     private EditText editPassword;
+    private TextView login_register_return;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,8 +72,16 @@ public class RegisiterActivity extends Activity {
     }
 
     private void initView(RegisiterActivity regisiterActivity) {
+
         editUserName = (EditText) regisiterActivity.findViewById(R.id.register_et_baliu);
         editPassword = (EditText) regisiterActivity.findViewById(R.id.register_password);
         regbtn = (Button) regisiterActivity.findViewById(R.id.register_next);
+        login_register_return = (TextView) findViewById(R.id.login_register_return);
+        login_register_return.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 }
