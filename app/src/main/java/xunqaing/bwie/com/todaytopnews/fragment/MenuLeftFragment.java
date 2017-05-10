@@ -8,16 +8,23 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 
+import com.kyleduo.switchbutton.SwitchButton;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.Map;
 
+import xunqaing.bwie.com.todaytopnews.Constants.Constants;
 import xunqaing.bwie.com.todaytopnews.R;
+import xunqaing.bwie.com.todaytopnews.SwitchButtonEvent;
 import xunqaing.bwie.com.todaytopnews.activities.LoginActivity;
+import xunqaing.bwie.com.todaytopnews.utils.PreferencesUtils;
 
 /**
  * Created by : Xunqiang
@@ -29,6 +36,8 @@ public class MenuLeftFragment extends Fragment {
     private ImageView menuleft_login_qq;
     private ImageView menuleft_login_txweibo;
     private ImageView menuleft_login_xlweibo;
+
+    private SwitchButton switchButton;
 
     @Nullable
     @Override
@@ -42,12 +51,25 @@ public class MenuLeftFragment extends Fragment {
 
         menuleft_login_xlweibo = (ImageView) view.findViewById(R.id.menuleft_login_xlweibo);
 
+        switchButton = (SwitchButton) view.findViewById(R.id.switch_btn);
+
         return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        switchButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+
+                boolean mode = PreferencesUtils.getValueByKey(getContext(), Constants.isNightMode,isChecked);
+
+                EventBus.getDefault().post(new SwitchButtonEvent(mode));
+
+            }
+        });
 
         menuleft_login_qq.setOnClickListener(new View.OnClickListener() {
             @Override
