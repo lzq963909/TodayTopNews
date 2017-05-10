@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 
@@ -22,11 +23,10 @@ import xunqaing.bwie.com.todaytopnews.bean.LoginBean;
  */
 
 public class RegisiterActivity extends Activity {
-    private String username ;
-    private String password;
     private Button logBtn;
     private EditText editUserName;
     private EditText editPassword;
+    private TextView et;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

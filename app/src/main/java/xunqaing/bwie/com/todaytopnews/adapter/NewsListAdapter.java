@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -66,6 +67,31 @@ public class NewsListAdapter extends BaseAdapter{
 	}
 
 	static class ViewHolder {
+		//第一个布局下的
+		LinearLayout linearLayoutOne;
+
+		TextView item_one_title;
+		TextView item_one_title;
+		TextView item_one_title;
+		TextView item_one_title;
+		TextView item_one_title;
+		TextView item_one_title;
+		TextView item_one_title;
+		TextView item_one_title;
+		TextView item_one_title;
+		TextView item_one_title;
+		TextView item_one_title;
+		TextView item_one_title;
+		TextView item_one_title;
+		TextView item_one_title;
+
+
+
+
+
+
+
+
 
 	}
 	
