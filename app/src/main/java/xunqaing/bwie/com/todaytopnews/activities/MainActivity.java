@@ -11,13 +11,17 @@ import android.widget.ImageView;
 import com.alibaba.fastjson.JSON;
 import com.bwei.slidingmenu.SlidingMenu;
 import com.bwei.slidingmenu.app.SlidingFragmentActivity;
+import com.umeng.socialize.UMAuthListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
 import java.util.List;
+import java.util.Map;
 
+import xunqaing.bwie.com.todaytopnews.IApplication;
 import xunqaing.bwie.com.todaytopnews.R;
 import xunqaing.bwie.com.todaytopnews.adapter.MyAdapter;
 import xunqaing.bwie.com.todaytopnews.bean.NewsCategory;
@@ -25,13 +29,14 @@ import xunqaing.bwie.com.todaytopnews.fragment.MenuLeftFragment;
 import xunqaing.bwie.com.todaytopnews.fragment.MenuRightFragment;
 import xunqaing.bwie.com.todaytopnews.utils.MyUrl;
 
-public class MainActivity extends SlidingFragmentActivity {
+public class MainActivity extends SlidingFragmentActivity implements UMAuthListener{
 
     private SlidingMenu slidingMenu;
     private TabLayout tabLayout;
     private ViewPager viewpager;
     private MyAdapter adapter;
     private List<NewsCategory.DataBeanX.DataBean> categoryList;
+    private IApplication application;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -73,6 +78,7 @@ public class MainActivity extends SlidingFragmentActivity {
             }
         });
 
+        application = (IApplication) getApplication();
     }
 
     private void initData() {
@@ -160,5 +166,26 @@ public class MainActivity extends SlidingFragmentActivity {
         //加载右侧Fragment
         slidingMenu.setSecondaryMenu(R.layout.right_menu_fragment);
         getSupportFragmentManager().beginTransaction().replace(R.id.id_frame_rightmenu, menuRightFragment).commit();
+    }
+
+
+    @Override
+    public void onStart(SHARE_MEDIA share_media) {
+
+    }
+
+    @Override
+    public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
+
+    }
+
+    @Override
+    public void onError(SHARE_MEDIA share_media, int i, Throwable throwable) {
+
+    }
+
+    @Override
+    public void onCancel(SHARE_MEDIA share_media, int i) {
+
     }
 }
