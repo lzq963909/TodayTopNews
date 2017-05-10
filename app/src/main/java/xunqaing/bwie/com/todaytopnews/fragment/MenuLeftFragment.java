@@ -55,7 +55,6 @@ public class MenuLeftFragment extends Fragment {
 
                 login();
 
-
             }
         });
 
@@ -70,7 +69,8 @@ public class MenuLeftFragment extends Fragment {
         menuleft_login_xlweibo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                login();
+
+
 
             }
         });
