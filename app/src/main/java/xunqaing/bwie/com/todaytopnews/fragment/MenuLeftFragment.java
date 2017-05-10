@@ -2,6 +2,7 @@ package xunqaing.bwie.com.todaytopnews.fragment;
 
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -38,12 +39,13 @@ public class MenuLeftFragment extends Fragment {
     private ImageView menuleft_login_xlweibo;
 
     private SwitchButton switchButton;
+    private View view;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.menuleft_fragment,container,false);
+        view = inflater.inflate(R.layout.menuleft_fragment, container, false);
 
         menuleft_login_qq = (ImageView) view.findViewById(R.id.menuleft_login_qq);
 
@@ -64,9 +66,13 @@ public class MenuLeftFragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
 
-                boolean mode = PreferencesUtils.getValueByKey(getContext(), Constants.isNightMode,isChecked);
+                boolean mode = PreferencesUtils.getValueByKey(getContext(), Constants.isNightMode, isChecked);
 
-                EventBus.getDefault().post(new SwitchButtonEvent(mode));
+                setMode(isChecked);
+
+                EventBus.getDefault().post(new SwitchButtonEvent(isChecked));
+
+                setBackground(isChecked);
 
             }
         });
@@ -100,12 +106,34 @@ public class MenuLeftFragment extends Fragment {
 
     }
 
+    public void setBackground(boolean isWhite) {
+
+        //白天模式
+        if (isWhite) {
+
+            view.setBackgroundColor(Color.WHITE);
+
+        } else {
+
+            view.setBackgroundColor(Color.BLACK);
+
+        }
+
+    }
+
+    public void setMode(boolean mode) {
+
+        PreferencesUtils.addConfigInfo(getContext(), Constants.isNightMode, mode);
+
+    }
+
+
     private void loginOrRegisiter() {
 
         startActivity(new Intent(getActivity(), LoginActivity.class));
     }
 
-    public void login(){
+    public void login() {
 
         UMShareAPI.get(getActivity()).getPlatformInfo(getActivity(), SHARE_MEDIA.SINA, new UMAuthListener() {
             @Override
@@ -122,10 +150,10 @@ public class MenuLeftFragment extends Fragment {
 //                iconurl
 
                 //获取资料
-                String uid =  map.get("uid");
-                String name =  map.get("name");
-                String gender =  map.get("gender");
-                String iconurl =  map.get("iconurl");
+                String uid = map.get("uid");
+                String name = map.get("name");
+                String gender = map.get("gender");
+                String iconurl = map.get("iconurl");
 
 
             }
