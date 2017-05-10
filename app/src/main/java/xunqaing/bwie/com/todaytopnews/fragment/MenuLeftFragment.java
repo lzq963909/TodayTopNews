@@ -1,7 +1,6 @@
 package xunqaing.bwie.com.todaytopnews.fragment;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -19,8 +18,6 @@ import com.umeng.socialize.bean.SHARE_MEDIA;
 import java.util.Map;
 
 import xunqaing.bwie.com.todaytopnews.R;
-import xunqaing.bwie.com.todaytopnews.activities.LoginActivity;
-import xunqaing.bwie.com.todaytopnews.activities.RegisiterActivity;
 
 /**
  * Created by : Xunqiang
@@ -73,17 +70,12 @@ public class MenuLeftFragment extends Fragment {
         menuleft_login_xlweibo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //跳转到登录注册页面
-                loginOrRegisiter();
+
+                login();
 
             }
         });
 
-    }
-
-    private void loginOrRegisiter() {
-
-        startActivity(new Intent(getActivity(), LoginActivity.class));
     }
 
     private void shareto() {
