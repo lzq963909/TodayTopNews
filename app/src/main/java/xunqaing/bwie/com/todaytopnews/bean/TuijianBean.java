@@ -212,6 +212,7 @@ public class TuijianBean {
     }
 
     public static class DataBean {
+
         /**
          * read_count : 938921
          * ban_comment : 0
