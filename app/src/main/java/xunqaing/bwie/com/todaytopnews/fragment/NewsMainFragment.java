@@ -21,6 +21,7 @@ import java.util.List;
 import xunqaing.bwie.com.todaytopnews.IApplication;
 import xunqaing.bwie.com.todaytopnews.R;
 import xunqaing.bwie.com.todaytopnews.adapter.NewsListAdapter;
+import xunqaing.bwie.com.todaytopnews.bean.DbBean;
 import xunqaing.bwie.com.todaytopnews.bean.TuijianBean;
 import xunqaing.bwie.com.todaytopnews.utils.MyUrl;
 
@@ -66,9 +67,17 @@ public class NewsMainFragment extends Fragment {
                 manager = getDb(application.config);
 
                try {
-                    manager.save(tuijianBean.getData());
+                   for (TuijianBean.DataBean dataBean: list) {
 
-//                  List<TuijianBean> list= x.getDb(application.config).findAll(TuijianBean.class);
+                       DbBean dbBean = new DbBean();
+                       dbBean.setTitle(dataBean.getTitle());
+                       dbBean.setSource(dataBean.getSource());
+                       dbBean.setComment_count(dataBean.getComment_count());
+
+                       manager.save(dbBean);
+                   }
+
+//                  List<DbBean> list= x.getDb(application.config).findAll(DbBean.class);
 
                 } catch (DbException e) {
                     e.printStackTrace();
