@@ -12,16 +12,15 @@ import com.alibaba.fastjson.JSON;
 
 import org.xutils.DbManager;
 import org.xutils.common.Callback;
-import org.xutils.ex.DbException;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import xunqaing.bwie.com.todaytopnews.IApplication;
 import xunqaing.bwie.com.todaytopnews.R;
 import xunqaing.bwie.com.todaytopnews.adapter.NewsListAdapter;
-import xunqaing.bwie.com.todaytopnews.bean.DbBean;
 import xunqaing.bwie.com.todaytopnews.bean.TuijianBean;
 import xunqaing.bwie.com.todaytopnews.utils.MyUrl;
 
@@ -34,10 +33,11 @@ import static org.xutils.x.getDb;
 public class NewsMainFragment extends Fragment {
     private ListView listView;
     private String newsType;
-    private List<TuijianBean.DataBean> list;
+//    private List<TuijianBean.DataBean> list;
     private NewsListAdapter adapter;
     private IApplication application;
-
+    private List<TuijianBean.DataBean> list = new ArrayList<TuijianBean.DataBean>();
+    private DbManager manager;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -57,30 +57,24 @@ public class NewsMainFragment extends Fragment {
 
         x.http().get(requestParams, new Callback.CommonCallback<String>() {
 
-            private List<DbBean> list1;
-            private DbManager manager;
+
 
             @Override
             public void onSuccess(String result) {
                 TuijianBean tuijianBean = JSON.parseObject(result,TuijianBean.class);
-                list = tuijianBean.getData();
+                list.addAll(tuijianBean.getData());
+
+                adapter.notifyDataSetChanged();
 
                 manager = getDb(application.config);
 
                try {
-                   for (TuijianBean.DataBean dataBean: list) {
+                    manager.save(tuijianBean.getData());
 
-                       DbBean dbBean = new DbBean();
-                       dbBean.setTitle(dataBean.getTitle());
-                       dbBean.setSource(dataBean.getSource());
-                       dbBean.setComment_count(dataBean.getComment_count());
+                   List<TuijianBean.DataBean> lists =  manager.findAll(TuijianBean.DataBean.class);
+                   System.out.println("lists = " + lists);
 
-                       manager.save(dbBean);
-                   }
-
-                   list1 = x.getDb(application.config).findAll(DbBean.class);
-
-                } catch (DbException e) {
+               } catch (Exception e) {
                     e.printStackTrace();
                 }
 
