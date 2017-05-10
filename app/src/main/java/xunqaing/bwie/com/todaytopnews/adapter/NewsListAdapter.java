@@ -1,13 +1,6 @@
 package xunqaing.bwie.com.todaytopnews.adapter;
 
-import java.util.List;
-
-
-import android.app.Activity;
 import android.content.Context;
-import android.text.TextUtils;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -18,12 +11,20 @@ import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import org.xutils.DbManager;
+import org.xutils.ex.DbException;
+
+import java.util.List;
+
+import xunqaing.bwie.com.todaytopnews.IApplication;
 import xunqaing.bwie.com.todaytopnews.R;
 import xunqaing.bwie.com.todaytopnews.bean.TuijianBean;
 
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
+import static org.xutils.x.getDb;
 
 public class NewsListAdapter extends BaseAdapter{
+	private DbManager manager;
+	private IApplication application;
 	List<TuijianBean.DataBean> newsList;
 	ImageLoader imageLoader = ImageLoader.getInstance();
 	Context mcontext;
@@ -81,6 +82,18 @@ public class NewsListAdapter extends BaseAdapter{
 		}
 		//获取position对应的数据
 		TuijianBean.DataBean news = getItem(position);
+
+		manager = getDb(application.config);
+
+		try {
+
+			manager.save(news);
+
+//            List<TuijianBean> list= x.getDb(application.config).findAll(TuijianBean.class);
+		} catch (DbException e) {
+			e.printStackTrace();
+		}
+
 		mHolder.item_title.setText(news.getTitle()+"");
 		mHolder.item_lable.setText(news.getSource());
 		mHolder.item_comment_count.setText("评论" + news.getComment_count());
