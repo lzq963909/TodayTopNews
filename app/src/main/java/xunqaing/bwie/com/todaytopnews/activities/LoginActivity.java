@@ -3,8 +3,6 @@ package xunqaing.bwie.com.todaytopnews.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -48,6 +46,7 @@ public class LoginActivity extends Activity {
                     @Override
                     public void onSuccess(String result) {
                         LoginBean loginBean = JSON.parseObject(result, LoginBean.class);
+                        Log.d("msg",result.toString());
                         if (loginBean.getRet_code() == 200) {
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         } else {
