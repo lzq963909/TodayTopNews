@@ -14,6 +14,7 @@ import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
+import xunqaing.bwie.com.todaytopnews.R;
 import xunqaing.bwie.com.todaytopnews.bean.LoginBean;
 
 /**
@@ -29,7 +30,7 @@ public class RegisiterActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setContentView(R.layout.register_activity);
         initView(this);
         logBtn.setOnClickListener(new View.OnClickListener() {
             @Override

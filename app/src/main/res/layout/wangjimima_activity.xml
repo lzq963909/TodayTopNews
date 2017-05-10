@@ -9,58 +9,58 @@
         android:layout_height="45dp">
 
         <TextView
+            android:id="@+id/login_register_return"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:text="<"
-            android:id="@+id/login_register_return"
+            android:text="&lt;"
             android:layout_marginLeft="20dp"
             android:textSize="25dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
             android:text="找回密码"
-            android:textSize="25dp"
-            android:layout_centerInParent="true"/>
+            android:textSize="25dp" />
 
     </RelativeLayout>
 
-    <view
+    <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:background="#000000"/>
+        android:background="#000000" />
 
     <LinearLayout
-        android:layout_marginTop="50sp"
         android:layout_width="wrap_content"
-        android:orientation="horizontal"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50sp"
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="100dp"
-            android:textSize="20dp"
+            android:text="+ 86"
             android:textColor="#666666"
-            android:text="+ 86"/>
+            android:textSize="20dp" />
 
         <EditText
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:hint="请输入手机号"/>
+            android:hint="请输入手机号" />
 
     </LinearLayout>
 
     <Button
+        android:id="@+id/zhaohuimima_next_button"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:id="@+id/zhaohuimima_next_button"
-        android:text="下一步"
-        android:textColor="#ff0000"
-        android:background="@drawable/next_button_style"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="15dp"/>
+        android:layout_marginTop="15dp"
+        android:background="@drawable/next_button_style"
+        android:text="下一步"
+        android:textColor="#ff0000" />
 
 
 </LinearLayout>
