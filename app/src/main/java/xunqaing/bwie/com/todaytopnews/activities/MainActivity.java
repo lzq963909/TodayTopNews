@@ -26,6 +26,7 @@ import xunqaing.bwie.com.todaytopnews.R;
 import xunqaing.bwie.com.todaytopnews.adapter.MyAdapter;
 import xunqaing.bwie.com.todaytopnews.bean.NewsCategory;
 import xunqaing.bwie.com.todaytopnews.fragment.MenuLeftFragment;
+import xunqaing.bwie.com.todaytopnews.fragment.MenuRightFragment;
 import xunqaing.bwie.com.todaytopnews.utils.MyUrl;
 
 public class MainActivity extends SlidingFragmentActivity implements UMAuthListener{
@@ -46,6 +47,7 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
         viewpager = (ViewPager) findViewById(R.id.viewpage);
 
         ImageView iv_left = (ImageView) findViewById(R.id.pub_title_left_imageview);
+        ImageView iv_right = (ImageView) findViewById(R.id.pub_title_right_imageview);
 
         //设置TabLayout
         setTabLayout();
@@ -56,6 +58,7 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
 
         initData();
 
+        //点击出现侧滑
         iv_left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,6 +68,15 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
             }
         });
 
+        //右侧图片点击
+        iv_right.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                slidingMenu.showSecondaryMenu(true);
+
+            }
+        });
 
         application = (IApplication) getApplication();
     }
@@ -132,7 +144,7 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
         slidingMenu = getSlidingMenu();
 
         // 设置slidingmenu滑动的方式(左)
-        slidingMenu.setMode(SlidingMenu.LEFT);
+        slidingMenu.setMode(SlidingMenu.LEFT_RIGHT);
 
         // 设置触摸屏幕的模式（边缘触摸）
         slidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
@@ -150,10 +162,10 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
         slidingMenu.setFadeDegree(0.35f);
 
         //设置右边（二级）侧滑菜单
-//        MenuRightFragment menuRightFragment = new MenuRightFragment();
+        MenuRightFragment menuRightFragment = new MenuRightFragment();
         //加载右侧Fragment
-//        slidingMenu.setSecondaryMenu(R.layout.right_menu_fragment);
-//        getSupportFragmentManager().beginTransaction().replace(R.id.id_frame_rightmenu, menuRightFragment).commit();
+        slidingMenu.setSecondaryMenu(R.layout.right_menu_fragment);
+        getSupportFragmentManager().beginTransaction().replace(R.id.id_frame_rightmenu, menuRightFragment).commit();
     }
 
 
