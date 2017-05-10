@@ -1,12 +1,16 @@
 package xunqaing.bwie.com.todaytopnews.activities;
 
 import android.graphics.Color;
+import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.bwei.slidingmenu.SlidingMenu;
@@ -14,6 +18,9 @@ import com.bwei.slidingmenu.app.SlidingFragmentActivity;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
@@ -23,13 +30,14 @@ import java.util.Map;
 
 import xunqaing.bwie.com.todaytopnews.IApplication;
 import xunqaing.bwie.com.todaytopnews.R;
+import xunqaing.bwie.com.todaytopnews.SwitchButtonEvent;
 import xunqaing.bwie.com.todaytopnews.adapter.MyAdapter;
 import xunqaing.bwie.com.todaytopnews.bean.NewsCategory;
 import xunqaing.bwie.com.todaytopnews.fragment.MenuLeftFragment;
 import xunqaing.bwie.com.todaytopnews.fragment.MenuRightFragment;
 import xunqaing.bwie.com.todaytopnews.utils.MyUrl;
 
-public class MainActivity extends SlidingFragmentActivity implements UMAuthListener{
+public class MainActivity extends SlidingFragmentActivity implements UMAuthListener {
 
     private SlidingMenu slidingMenu;
     private TabLayout tabLayout;
@@ -37,6 +45,9 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
     private MyAdapter adapter;
     private List<NewsCategory.DataBeanX.DataBean> categoryList;
     private IApplication application;
+    private WindowManager manager;
+    private View view;
+    private WindowManager.LayoutParams params;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,6 +60,12 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
         ImageView iv_left = (ImageView) findViewById(R.id.pub_title_left_imageview);
         ImageView iv_right = (ImageView) findViewById(R.id.pub_title_right_imageview);
 
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+
+        }
+
+
         //设置TabLayout
         setTabLayout();
 
@@ -56,8 +73,9 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
         //加载左右侧滑Fragment
         initLeftRight();
 
-        initData();
 
+        initData();
+        initGrayBackground();
         //点击出现侧滑
         iv_left.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,6 +98,105 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
 
         application = (IApplication) getApplication();
     }
+
+    public void initGrayBackground() {
+
+        manager = (WindowManager) getSystemService(WINDOW_SERVICE);
+
+        /**
+         * 应用程序窗口。WindowManager.LayoutParams.TYPE_APPLICATION
+         * 所有程序窗口的"基地"窗口，其他应用程序窗口都显示在它上面
+         * 普通应用功能程序窗口。token必须设置为Activity的token，以指出该窗口属谁
+         */
+        //1.应用程序的窗口，
+        //2. (1)设置此窗口不抢焦点   (2)设置此窗口没有点击事件
+        //3.设置窗口时透明的
+        params = new WindowManager.LayoutParams(WindowManager.LayoutParams.TYPE_APPLICATION, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+                , PixelFormat.TRANSPARENT);
+
+        view = new View(this);
+
+        view.setBackgroundResource(R.color.color_window);
+
+    }
+
+    //日夜切换
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMainActivityEvent(SwitchButtonEvent event) {
+
+        if (event.isWhite()) {
+            //    白
+            manager.removeViewImmediate(view);
+
+        } else {
+
+            //晚
+            manager.addView(view, params);
+
+        }
+
+        //对所有的空间取出，设置对应图片
+        setView();
+
+        //更改字体颜色  --- 获取当前 Windou 上最顶端的 view   ;
+        switchTextViewColor((ViewGroup) getWindow().getDecorView(), event.isWhite());
+
+        MainActivity activity = new MainActivity();
+        activity.changeMode(event.isWhite());
+    }
+
+    private void changeMode(boolean white) {
+
+        if (white) {
+
+            tabLayout.setBackgroundColor(Color.GRAY);
+
+            setWhiteMode();
+        } else {
+            tabLayout.setBackgroundColor(Color.BLACK);
+
+            setNightMode();
+        }
+
+
+    }
+
+    /**
+     * 遍历出所有的textView设置对应的颜色 （递归）
+     */
+    private void switchTextViewColor(ViewGroup view, boolean white) {
+
+        //  view.getChildCount()  --- 获取子view个数
+        for (int i = 0; i < view.getChildCount(); i++) {
+
+            //  view.getChildAt(i)  --- 根据下标获取子view
+            if (view.getChildAt(i) instanceof ViewGroup) {
+
+                switchTextViewColor((ViewGroup) view.getChildAt(i), white);
+
+            } else if (view.getChildAt(i) instanceof TextView) {
+
+                //设置颜色
+                int resoutId;
+
+                TextView tv = (TextView) view.getChildAt(i);
+
+                if (white) {
+
+                    //白天字黑
+                    resoutId = Color.BLACK;
+
+                } else {
+                    //黑天字白
+                    resoutId = Color.WHITE;
+                }
+
+                tv.setTextColor(resoutId);
+            }
+        }
+
+    }
+
 
     private void initData() {
 
@@ -128,6 +245,31 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
 
         //        设置正常模式
 //        tabLayout.setTabMode(TabLayout.MODE_FIXED);
+
+
+    }
+
+    // 更改 控件 背景
+    private void setView() {
+
+
+    }
+
+    private void setWhiteMode() {
+
+        tabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.title_color));
+
+        tabLayout.setTabTextColors(getResources().getColor(R.color.iblack),getResources().getColor(R.color.title_color));
+
+
+    }
+
+    //夜间
+    private void setNightMode() {
+
+        tabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.title_color));
+
+        tabLayout.setTabTextColors(getResources().getColor(R.color.iblack),getResources().getColor(R.color.title_color));
 
 
     }
