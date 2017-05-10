@@ -10,10 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
-import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 
 import java.util.Map;
@@ -83,34 +81,6 @@ public class MenuLeftFragment extends Fragment {
     private void loginOrRegisiter() {
 
         startActivity(new Intent(getActivity(), LoginActivity.class));
-    }
-
-    private void shareto() {
-
-        new ShareAction(getActivity()).withText("hello")
-                .setDisplayList(SHARE_MEDIA.SINA,SHARE_MEDIA.QQ,SHARE_MEDIA.WEIXIN)
-                .setCallback(new UMShareListener() {
-                    @Override
-                    public void onStart(SHARE_MEDIA share_media) {
-
-                    }
-
-                    @Override
-                    public void onResult(SHARE_MEDIA share_media) {
-
-                    }
-
-                    @Override
-                    public void onError(SHARE_MEDIA share_media, Throwable throwable) {
-
-                    }
-
-                    @Override
-                    public void onCancel(SHARE_MEDIA share_media) {
-                    }
-                }).open();
-
-
     }
 
     public void login(){
