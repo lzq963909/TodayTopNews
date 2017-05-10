@@ -2,26 +2,20 @@ package xunqaing.bwie.com.todaytopnews;
 
 import android.app.Application;
 import android.graphics.Bitmap;
+import android.os.Environment;
 
-import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiskCache;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
-import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
-import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
-import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
-import com.nostra13.universalimageloader.utils.StorageUtils;
 import com.umeng.socialize.Config;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 
 import org.xutils.DbManager;
 import org.xutils.x;
-
-import java.io.File;
 
 
 public class IApplication extends Application {
@@ -31,7 +25,7 @@ public class IApplication extends Application {
     public void onCreate() {
         super.onCreate();
         x.Ext.init(this);
-        init();
+        initImageLoader();
 
        initData();
         UMShareAPI.get(this);
@@ -40,25 +34,25 @@ public class IApplication extends Application {
         PlatformConfig.setQQZone("100424468", "c7394704798a158208a74ab60104f0ba");
         PlatformConfig.setSinaWeibo("3921700954", "04b48b094faeb16683c32669824ebdad", "http://sns.whalecloud.com");
     }
-    public void init() {
-        try {
+    private void initImageLoader(){
 
-            File cacheDir = StorageUtils.getOwnCacheDirectory(this, "/SD");
-            ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this)
-                    .threadPriority(Thread.NORM_PRIORITY - 2)
-                    .denyCacheImageMultipleSizesInMemory()
-                    .threadPoolSize(3)//线程池内加载的数量
-                    .discCacheFileNameGenerator(new Md5FileNameGenerator())//diskCache() and diskCacheFileNameGenerator()调用相互重叠
-                    .tasksProcessingOrder(QueueProcessingType.LIFO)
-                    .memoryCache(new LruMemoryCache((int) (6 * 1024 * 1024)))
-                    .diskCache(new UnlimitedDiskCache(cacheDir))
-                    .imageDownloader(new BaseImageDownloader(this, 5 * 1000, 30 * 1000))//设置超时时间
-                    .build();
-            ImageLoader.getInstance().init(config);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+
+                 String path = Environment.getExternalStorageDirectory() + "/imageload" ;
+
+
+                 ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this)
+                         .memoryCacheExtraOptions(480, 800)//缓存图片最大的长和宽
+                         .threadPoolSize(2)//线程池的数量
+                         .threadPriority(4)
+                         .memoryCacheSize(2*1024*1024)//设置内存缓存区大小
+                         .diskCacheSize(20*1024*1024)//设置sd卡缓存区大小
+         //                .diskCache(new UnlimitedDiskCache(new File(path)))//自定义缓存目录
+                         .writeDebugLogs()//打印日志内容
+                         .diskCacheFileNameGenerator(new Md5FileNameGenerator())
+                         .build();
+                 ImageLoader.getInstance().init(config);
+             }
+
     /**
      *圆角图片
      * */

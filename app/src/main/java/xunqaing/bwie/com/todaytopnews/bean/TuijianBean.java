@@ -2,9 +2,6 @@ package xunqaing.bwie.com.todaytopnews.bean;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
-import org.xutils.db.annotation.Column;
-import org.xutils.db.annotation.Table;
-
 import java.util.List;
 
 /**
@@ -202,11 +199,10 @@ public class TuijianBean {
         }
     }
 
-    @Table(name = "tuijian")
+
     public static class DataBean {
 
-        @Column(name = "t_id",isId = true,autoGen = true)
-        private int id;
+
         private int read_count;
         private int ban_comment;
         @JSONField(name="abstract")
@@ -225,7 +221,6 @@ public class TuijianBean {
         private int cell_type;
         private int article_sub_type;
         private int bury_count;
-        @Column(name = "title")
         private String title;
         private int ignore_web_transform;
         private int source_icon_style;
@@ -233,9 +228,7 @@ public class TuijianBean {
         private int hot;
         private String share_url;
         private int has_mp4_video;
-        @Column(name = "source")
         private String source;
-        @Column(name = "comment_count")
         private int comment_count;
         private String article_url;
         private int share_count;
@@ -285,13 +278,7 @@ public class TuijianBean {
         private List<ActionListBean> action_list;
         private List<?> large_image_list;
 
-        public int getId() {
-            return id;
-        }
 
-        public void setId(int id) {
-            this.id = id;
-        }
 
         public int getRead_count() {
             return read_count;
