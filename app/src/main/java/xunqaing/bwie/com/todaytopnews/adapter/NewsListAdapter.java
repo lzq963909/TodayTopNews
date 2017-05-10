@@ -1,16 +1,14 @@
 package xunqaing.bwie.com.todaytopnews.adapter;
 
-import java.util.List;
-
-
 import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
+
+import java.util.List;
 
 import xunqaing.bwie.com.todaytopnews.R;
 import xunqaing.bwie.com.todaytopnews.bean.TuijianBean;
@@ -20,10 +18,11 @@ public class NewsListAdapter extends BaseAdapter{
 	Activity activity;
 	LayoutInflater inflater = null;
 	ImageLoader imageLoader = ImageLoader.getInstance();
+
 	public NewsListAdapter(List<TuijianBean.DataBean> newsList) {
 		this.newsList = newsList;
 	}
-	
+
 
 
 	@Override
@@ -49,6 +48,7 @@ public class NewsListAdapter extends BaseAdapter{
 		return position;
 	}
 
+
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
@@ -56,6 +56,7 @@ public class NewsListAdapter extends BaseAdapter{
 		View view = convertView;
 		if (view == null) {
 			view = inflater.inflate(R.layout.list_item, null);
+
 			mHolder = new ViewHolder();
 			view.setTag(mHolder);
 		} else {
