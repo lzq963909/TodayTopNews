@@ -57,6 +57,7 @@ public class NewsMainFragment extends Fragment {
 
         x.http().get(requestParams, new Callback.CommonCallback<String>() {
 
+            private List<DbBean> list1;
             private DbManager manager;
 
             @Override
@@ -77,7 +78,7 @@ public class NewsMainFragment extends Fragment {
                        manager.save(dbBean);
                    }
 
-//                  List<DbBean> list= x.getDb(application.config).findAll(DbBean.class);
+                   list1 = x.getDb(application.config).findAll(DbBean.class);
 
                 } catch (DbException e) {
                     e.printStackTrace();
