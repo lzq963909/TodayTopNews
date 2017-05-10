@@ -12,6 +12,7 @@ import com.alibaba.fastjson.JSON;
 
 import org.xutils.DbManager;
 import org.xutils.common.Callback;
+import org.xutils.ex.DbException;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
@@ -22,6 +23,8 @@ import xunqaing.bwie.com.todaytopnews.R;
 import xunqaing.bwie.com.todaytopnews.adapter.NewsListAdapter;
 import xunqaing.bwie.com.todaytopnews.bean.TuijianBean;
 import xunqaing.bwie.com.todaytopnews.utils.MyUrl;
+
+import static org.xutils.x.getDb;
 
 /**
  * Created by Administrator on 2017/5/9 0009.
@@ -60,14 +63,16 @@ public class NewsMainFragment extends Fragment {
                 TuijianBean tuijianBean = JSON.parseObject(result,TuijianBean.class);
                 list = tuijianBean.getData();
 
-//                manager = getDb(application.config);
-//
-//                try {
-//                    manager.save(tuijianBean.getData());
-////                  List<TuijianBean> list= x.getDb(application.config).findAll(TuijianBean.class);
-//                } catch (DbException e) {
-//                    e.printStackTrace();
-//                }
+                manager = getDb(application.config);
+
+               try {
+                    manager.save(tuijianBean.getData());
+
+                  List<TuijianBean> list= x.getDb(application.config).findAll(TuijianBean.class);
+
+                } catch (DbException e) {
+                    e.printStackTrace();
+                }
 
                 adapter = new NewsListAdapter(getActivity(),list);
                 listView.setAdapter(adapter);
