@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 
@@ -23,19 +24,18 @@ import xunqaing.bwie.com.todaytopnews.bean.LoginBean;
  */
 
 public class RegisiterActivity extends Activity {
-    private Button logBtn;
+    private Button regbtn;
     private EditText editUserName;
     private EditText editPassword;
-    private TextView et;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register_activity);
         initView(this);
-        logBtn.setOnClickListener(new View.OnClickListener() {
+        regbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RequestParams requestParams = new RequestParams("http://qhb.2dyt.com/Bwei/login");
+                RequestParams requestParams = new RequestParams("http://qhb.2dyt.com/Bwei/register");
                 requestParams.addBodyParameter("phone", editUserName.getText().toString().trim());
                 requestParams.addBodyParameter("password", editPassword.getText().toString().trim());
                 requestParams.addBodyParameter("postkey","1503d");
@@ -46,6 +46,8 @@ public class RegisiterActivity extends Activity {
                         LoginBean loginBean = JSON.parseObject(result,LoginBean.class);
                         if (loginBean.getRet_code() == 200){
                             startActivity(new Intent(RegisiterActivity.this,LoginActivity.class));
+                        }else {
+                            Toast.makeText(RegisiterActivity.this,"注册失败",Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -69,6 +71,8 @@ public class RegisiterActivity extends Activity {
     }
 
     private void initView(RegisiterActivity regisiterActivity) {
-
+        editUserName = (EditText) regisiterActivity.findViewById(R.id.register_et_baliu);
+        editPassword = (EditText) regisiterActivity.findViewById(R.id.register_password);
+        regbtn = (Button) regisiterActivity.findViewById(R.id.register_next);
     }
 }

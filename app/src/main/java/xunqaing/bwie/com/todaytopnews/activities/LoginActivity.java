@@ -48,6 +48,7 @@ public class LoginActivity extends Activity {
                     @Override
                     public void onSuccess(String result) {
                         LoginBean loginBean = JSON.parseObject(result, LoginBean.class);
+                        Log.d("msg",result.toString());
                         if (loginBean.getRet_code() == 200) {
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         } else {

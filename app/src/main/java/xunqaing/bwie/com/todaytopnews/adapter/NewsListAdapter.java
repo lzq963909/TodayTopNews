@@ -70,6 +70,7 @@ public class NewsListAdapter extends BaseAdapter{
 		//第一个布局下的
 		LinearLayout linearLayoutOne;
 
+/*		TextView item_one_title;
 		TextView item_one_title;
 		TextView item_one_title;
 		TextView item_one_title;
@@ -82,8 +83,7 @@ public class NewsListAdapter extends BaseAdapter{
 		TextView item_one_title;
 		TextView item_one_title;
 		TextView item_one_title;
-		TextView item_one_title;
-		TextView item_one_title;
+		TextView item_one_title;*/
 
 
 
