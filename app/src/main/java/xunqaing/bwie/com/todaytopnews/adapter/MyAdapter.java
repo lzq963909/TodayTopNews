@@ -1,5 +1,6 @@
 package xunqaing.bwie.com.todaytopnews.adapter;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -24,6 +25,9 @@ public class MyAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         NewsMainFragment f = new  NewsMainFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("newstype",list.get(position).getCategory());
+        f.setArguments(bundle);
         return  f;
 
     }
