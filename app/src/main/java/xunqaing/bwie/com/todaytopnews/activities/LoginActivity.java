@@ -15,6 +15,7 @@ import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
+import xunqaing.bwie.com.todaytopnews.R;
 import xunqaing.bwie.com.todaytopnews.bean.LoginBean;
 
 /**
@@ -22,14 +23,14 @@ import xunqaing.bwie.com.todaytopnews.bean.LoginBean;
  */
 
 public class LoginActivity extends Activity {
-    private String username ;
-    private String password;
     private Button logBtn;
     private EditText editUserName;
     private EditText editPassword;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.weibo_login);
+
 
         initView(this);
         logBtn.setOnClickListener(new View.OnClickListener() {
@@ -71,6 +72,8 @@ public class LoginActivity extends Activity {
     }
 
     private void initView(LoginActivity loginActivity) {
-
+        editUserName = (EditText) this.findViewById(R.id.login_phone);
+        editPassword = (EditText) this.findViewById(R.id.login_password);
+        logBtn = (Button) this.findViewById(R.id.login);
     }
 }
