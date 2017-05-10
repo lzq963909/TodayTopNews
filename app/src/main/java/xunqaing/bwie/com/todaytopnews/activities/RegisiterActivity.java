@@ -3,7 +3,6 @@ package xunqaing.bwie.com.todaytopnews.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -35,6 +34,7 @@ public class RegisiterActivity extends Activity {
         logBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 RequestParams requestParams = new RequestParams("http://qhb.2dyt.com/Bwei/login");
                 requestParams.addBodyParameter("phone", editUserName.getText().toString().trim());
                 requestParams.addBodyParameter("password", editPassword.getText().toString().trim());
