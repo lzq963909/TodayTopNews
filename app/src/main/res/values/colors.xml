@@ -12,4 +12,7 @@
 
     <color name="color_window">#44000000</color>
 
+    <color name="login_textview_select">#ff0000</color>
+    <color name="login_textview_unselect">#cccccc</color>
+
 </resources>
