@@ -68,7 +68,7 @@ public class NewsMainFragment extends Fragment {
                try {
                     manager.save(tuijianBean.getData());
 
-                  List<TuijianBean> list= x.getDb(application.config).findAll(TuijianBean.class);
+//                  List<TuijianBean> list= x.getDb(application.config).findAll(TuijianBean.class);
 
                 } catch (DbException e) {
                     e.printStackTrace();
