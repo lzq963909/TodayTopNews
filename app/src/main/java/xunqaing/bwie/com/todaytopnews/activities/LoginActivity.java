@@ -28,6 +28,8 @@ public class LoginActivity extends Activity {
     private EditText editUserName;
     private EditText editPassword;
     private TextView text_regist;
+    private TextView login_register_return;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,5 +86,12 @@ public class LoginActivity extends Activity {
         editPassword = (EditText) loginActivity.findViewById(R.id.login_password);
         logBtn = (Button) loginActivity.findViewById(R.id.login);
         text_regist = (TextView) loginActivity.findViewById(R.id.login_register);
+        login_register_return = (TextView) findViewById(R.id.login_register_return);
+        login_register_return.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 }
