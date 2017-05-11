@@ -152,13 +152,14 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
         if (white) {
 
             tabLayout.setBackgroundColor(Color.GRAY);
-            viewpager.setBackgroundColor(Color.GRAY);
-            linearLayout.setBackgroundColor(Color.GRAY);
+           /* viewpager.setBackgroundColor(Color.GRAY);
+            linearLayout.setBackgroundColor(Color.GRAY);*/
             setWhiteMode();
         } else {
             tabLayout.setBackgroundColor(Color.BLACK);
-            viewpager.setBackgroundColor(Color.BLACK);            linearLayout.setBackgroundColor(Color.GRAY);
-            linearLayout.setBackgroundColor(Color.BLACK);
+            /*viewpager.setBackgroundColor(Color.BLACK);
+            linearLayout.setBackgroundColor(Color.GRAY);
+            linearLayout.setBackgroundColor(Color.BLACK);*/
 
             setNightMode();
         }
