@@ -64,7 +64,7 @@ public class NewsMainFragment extends Fragment {
                 TuijianBean tuijianBean = JSON.parseObject(result,TuijianBean.class);
                 list.addAll(tuijianBean.getData());
 
-                adapter.notifyDataSetChanged();
+//                adapter.notifyDataSetChanged();
 
                 manager = getDb(application.config);
 

@@ -233,7 +233,7 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
         tabLayout.setTabTextColors(Color.GRAY, Color.BLACK);
 
         // 设置 指示器的颜色
-        tabLayout.setSelectedTabIndicatorColor(Color.YELLOW);
+        tabLayout.setSelectedTabIndicatorColor(Color.RED);
 
         setWhiteMode();
         //设置滚动模式
