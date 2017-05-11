@@ -16,7 +16,6 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.xutils.DbManager;
 import org.xutils.common.Callback;
-import org.xutils.ex.DbException;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
@@ -29,8 +28,7 @@ import xunqaing.bwie.com.todaytopnews.adapter.NewsListAdapter;
 import xunqaing.bwie.com.todaytopnews.bean.TuijianBean;
 import xunqaing.bwie.com.todaytopnews.utils.MyUrl;
 import xunqaing.bwie.com.todaytopnews.utils.NetUtil;
-
-import static org.xutils.x.getDb;
+import xunqaing.bwie.com.todaytopnews.utils.SteamTools;
 
 /**
  * Created by Administrator on 2017/5/9 0009.
@@ -63,7 +61,7 @@ public class NewsMainFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        //判断是否有网络
+        //判断是否WIFI网络
         if (NetUtil.GetNetype(getActivity()).equals("WIFI")){
             findDatasFromIntentle();
         }else {
@@ -109,18 +107,7 @@ public class NewsMainFragment extends Fragment {
                 list = tuijianBean.getData();
                 adapter = new NewsListAdapter(getActivity(),list);
                 listView.setAdapter(adapter);
-
-                manager = getDb(application.config);
-
-                try {
-                    for (TuijianBean.DataBean dataBean: list) {
-                        manager.save(dataBean);
-                    }
-
-
-                } catch (DbException e) {
-                    e.printStackTrace();
-                }
+                SteamTools.WriteToFile(result);
             }
 
             @Override
@@ -141,14 +128,11 @@ public class NewsMainFragment extends Fragment {
     }
 
     private void findDatasFromDB() {
-        try {
-            List<TuijianBean.DataBean> mlist= x.getDb(application.config).selector(TuijianBean.DataBean.class).findAll();
-            list =mlist;
-            adapter = new NewsListAdapter(getActivity(),list);
-            listView.setAdapter(adapter);
-        } catch (DbException e) {
-            e.printStackTrace();
-        }
+        String result = SteamTools.readSdcardFile();
+        TuijianBean tuijianBean = JSON.parseObject(result,TuijianBean.class);
+        list = tuijianBean.getData();
+        adapter = new NewsListAdapter(getActivity(),list);
+        listView.setAdapter(adapter);
 
     }
 }
