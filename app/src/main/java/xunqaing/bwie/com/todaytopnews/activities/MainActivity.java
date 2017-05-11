@@ -101,7 +101,6 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
             public void onClick(View v) {
 
                 slidingMenu.showSecondaryMenu(true);
-
             }
         });
 
@@ -111,10 +110,7 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
     @Override
     protected void onResume() {
         super.onResume();
-        // com.getui.demo.DemoPushService 为第三方自定义推送服务
-        PushManager.getInstance().initialize(this.getApplicationContext(), DemoPushService.class);
-        // com.getui.demo.DemoIntentService 为第三方自定义的推送服务事件接收类
-        PushManager.getInstance().registerPushIntentService(this.getApplicationContext(), DemoIntentService.class);
+
     }
 
     public void initGrayBackground() {
