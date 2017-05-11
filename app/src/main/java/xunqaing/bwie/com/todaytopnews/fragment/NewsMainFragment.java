@@ -21,11 +21,11 @@ import java.util.List;
 import xunqaing.bwie.com.todaytopnews.IApplication;
 import xunqaing.bwie.com.todaytopnews.R;
 import xunqaing.bwie.com.todaytopnews.adapter.NewsListAdapter;
-import xunqaing.bwie.com.todaytopnews.bean.DbBean;
 import xunqaing.bwie.com.todaytopnews.bean.TuijianBean;
 import xunqaing.bwie.com.todaytopnews.utils.MyUrl;
 import xunqaing.bwie.com.todaytopnews.utils.NetUtil;
 
+import static android.R.attr.x;
 import static org.xutils.x.getDb;
 
 /**
