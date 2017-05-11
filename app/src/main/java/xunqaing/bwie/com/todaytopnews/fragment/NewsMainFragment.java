@@ -1,5 +1,6 @@
 package xunqaing.bwie.com.todaytopnews.fragment;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -27,6 +28,7 @@ import xunqaing.bwie.com.todaytopnews.IApplication;
 import xunqaing.bwie.com.todaytopnews.R;
 import xunqaing.bwie.com.todaytopnews.RefreshLayout;
 import xunqaing.bwie.com.todaytopnews.SwitchButtonEvent;
+import xunqaing.bwie.com.todaytopnews.activities.CityActivity;
 import xunqaing.bwie.com.todaytopnews.adapter.NewsListAdapter;
 import xunqaing.bwie.com.todaytopnews.bean.TuijianBean;
 import xunqaing.bwie.com.todaytopnews.utils.MyUrl;
@@ -183,6 +185,15 @@ public class NewsMainFragment extends Fragment implements SwipeRefreshLayout.OnR
 
             }
         });
+
+
+        if (newsType.equals("news_local")){
+
+            Intent i = new Intent(getActivity(), CityActivity.class);
+            startActivity(i);
+
+        }
+
     }
 
     private void findDatasFromDB() {
