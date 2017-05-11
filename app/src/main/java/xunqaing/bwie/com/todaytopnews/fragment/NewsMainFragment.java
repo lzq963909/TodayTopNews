@@ -16,6 +16,7 @@ import org.xutils.ex.DbException;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import xunqaing.bwie.com.todaytopnews.IApplication;
@@ -34,7 +35,7 @@ import static org.xutils.x.getDb;
 public class NewsMainFragment extends Fragment {
     private ListView listView;
     private String newsType;
-    private List<TuijianBean.DataBean> list;
+    private List<TuijianBean.DataBean> list=new ArrayList<TuijianBean.DataBean>();
     private NewsListAdapter adapter;
     private IApplication application;
 
@@ -74,13 +75,15 @@ public class NewsMainFragment extends Fragment {
             @Override
             public void onSuccess(String result) {
                 TuijianBean tuijianBean = JSON.parseObject(result,TuijianBean.class);
-                list = tuijianBean.getData();
+                list.addAll(tuijianBean.getData());
+
                 adapter = new NewsListAdapter(getActivity(),list);
                 listView.setAdapter(adapter);
 
                 manager = getDb(application.config);
 
                 try {
+
                         manager.save(result);
                 } catch (DbException e) {
                     e.printStackTrace();
