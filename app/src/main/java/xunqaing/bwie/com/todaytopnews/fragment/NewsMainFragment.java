@@ -1,5 +1,6 @@
 package xunqaing.bwie.com.todaytopnews.fragment;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,6 +11,9 @@ import android.widget.ListView;
 
 import com.alibaba.fastjson.JSON;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.xutils.DbManager;
 import org.xutils.common.Callback;
 import org.xutils.ex.DbException;
@@ -20,8 +24,8 @@ import java.util.List;
 
 import xunqaing.bwie.com.todaytopnews.IApplication;
 import xunqaing.bwie.com.todaytopnews.R;
+import xunqaing.bwie.com.todaytopnews.SwitchButtonEvent;
 import xunqaing.bwie.com.todaytopnews.adapter.NewsListAdapter;
-import xunqaing.bwie.com.todaytopnews.bean.DbBean;
 import xunqaing.bwie.com.todaytopnews.bean.TuijianBean;
 import xunqaing.bwie.com.todaytopnews.utils.MyUrl;
 import xunqaing.bwie.com.todaytopnews.utils.NetUtil;
@@ -48,6 +52,10 @@ public class NewsMainFragment extends Fragment {
 
         application = (IApplication) getActivity().getApplication();
 
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
+
         return view;
     }
 
@@ -60,6 +68,29 @@ public class NewsMainFragment extends Fragment {
             findDatasFromIntentle();
         }else {
             findDatasFromDB();
+        }
+
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void setListViewTextView(SwitchButtonEvent event) {
+
+        setBackground(event.isWhite());
+
+
+    }
+
+    public void setBackground(boolean isWhite) {
+
+        //白天模式
+        if (isWhite) {
+
+            listView.setBackgroundColor(Color.WHITE);
+
+        } else {
+
+            listView.setBackgroundColor(Color.BLACK);
+
         }
 
     }
