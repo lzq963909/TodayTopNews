@@ -4,6 +4,7 @@ import android.app.Application;
 import android.graphics.Bitmap;
 import android.os.Environment;
 
+import com.igexin.sdk.PushManager;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -17,6 +18,9 @@ import com.umeng.socialize.UMShareAPI;
 import org.xutils.DbManager;
 import org.xutils.x;
 
+import xunqaing.bwie.com.todaytopnews.service.DemoIntentService;
+import xunqaing.bwie.com.todaytopnews.service.DemoPushService;
+
 
 public class IApplication extends Application {
 
@@ -26,14 +30,22 @@ public class IApplication extends Application {
         super.onCreate();
         x.Ext.init(this);
         initImageLoader();
-
-       initData();
+        initgetui(this);
+        initData();
         UMShareAPI.get(this);
         Config.DEBUG = true;
         PlatformConfig.setWeixin("wx967daebe835fbeac", "5bb696d9ccd75a38c8a0bfe0675559b3");
         PlatformConfig.setQQZone("100424468", "c7394704798a158208a74ab60104f0ba");
         PlatformConfig.setSinaWeibo("3921700954", "04b48b094faeb16683c32669824ebdad", "http://sns.whalecloud.com");
     }
+
+    private void initgetui(IApplication iApplication) {
+        // com.getui.demo.DemoPushService 为第三方自定义推送服务
+        PushManager.getInstance().initialize(this, DemoPushService.class);
+        // com.getui.demo.DemoIntentService 为第三方自定义的推送服务事件接收类
+        PushManager.getInstance().registerPushIntentService(this, DemoIntentService.class);
+    }
+
     private void initImageLoader(){
 
 
