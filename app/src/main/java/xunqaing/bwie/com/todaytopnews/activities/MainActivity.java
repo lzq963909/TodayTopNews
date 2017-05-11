@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
 import com.bwei.slidingmenu.SlidingMenu;
 import com.bwei.slidingmenu.app.SlidingFragmentActivity;
+import com.igexin.sdk.PushManager;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 
@@ -36,6 +37,8 @@ import xunqaing.bwie.com.todaytopnews.adapter.MyAdapter;
 import xunqaing.bwie.com.todaytopnews.bean.NewsCategory;
 import xunqaing.bwie.com.todaytopnews.fragment.MenuLeftFragment;
 import xunqaing.bwie.com.todaytopnews.fragment.MenuRightFragment;
+import xunqaing.bwie.com.todaytopnews.service.DemoIntentService;
+import xunqaing.bwie.com.todaytopnews.service.DemoPushService;
 import xunqaing.bwie.com.todaytopnews.utils.MyUrl;
 
 public class MainActivity extends SlidingFragmentActivity implements UMAuthListener {
@@ -60,6 +63,10 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
         linearLayout = (LinearLayout) findViewById(R.id.activity_main);
         ImageView iv_left = (ImageView) findViewById(R.id.pub_title_left_imageview);
         ImageView iv_right = (ImageView) findViewById(R.id.pub_title_right_imageview);
+        // com.getui.demo.DemoPushService 为第三方自定义推送服务
+        PushManager.getInstance().initialize(this.getApplicationContext(), DemoPushService.class);
+        // com.getui.demo.DemoIntentService 为第三方自定义的推送服务事件接收类
+        PushManager.getInstance().registerPushIntentService(this.getApplicationContext(), DemoIntentService.class);
 
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
@@ -99,6 +106,15 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
         });
 
         application = (IApplication) getApplication();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // com.getui.demo.DemoPushService 为第三方自定义推送服务
+        PushManager.getInstance().initialize(this.getApplicationContext(), DemoPushService.class);
+        // com.getui.demo.DemoIntentService 为第三方自定义的推送服务事件接收类
+        PushManager.getInstance().registerPushIntentService(this.getApplicationContext(), DemoIntentService.class);
     }
 
     public void initGrayBackground() {
