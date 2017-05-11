@@ -12,17 +12,19 @@ import com.alibaba.fastjson.JSON;
 
 import org.xutils.DbManager;
 import org.xutils.common.Callback;
+import org.xutils.ex.DbException;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import xunqaing.bwie.com.todaytopnews.IApplication;
 import xunqaing.bwie.com.todaytopnews.R;
 import xunqaing.bwie.com.todaytopnews.adapter.NewsListAdapter;
+import xunqaing.bwie.com.todaytopnews.bean.DbBean;
 import xunqaing.bwie.com.todaytopnews.bean.TuijianBean;
 import xunqaing.bwie.com.todaytopnews.utils.MyUrl;
+import xunqaing.bwie.com.todaytopnews.utils.NetUtil;
 
 import static org.xutils.x.getDb;
 
@@ -33,11 +35,10 @@ import static org.xutils.x.getDb;
 public class NewsMainFragment extends Fragment {
     private ListView listView;
     private String newsType;
-//    private List<TuijianBean.DataBean> list;
+    private List<TuijianBean.DataBean> list;
     private NewsListAdapter adapter;
     private IApplication application;
-    private List<TuijianBean.DataBean> list = new ArrayList<TuijianBean.DataBean>();
-    private DbManager manager;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -53,33 +54,42 @@ public class NewsMainFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        //判断是否有网络
+        if (NetUtil.GetNetype(getActivity()).equals("WIFI")){
+            findDatasFromIntentle();
+        }else {
+            findDatasFromDB();
+        }
+
+    }
+
+    private void findDatasFromIntentle() {
+
         RequestParams requestParams = new RequestParams(MyUrl.getUrl(newsType));
 
         x.http().get(requestParams, new Callback.CommonCallback<String>() {
 
-
+            private DbManager manager;
 
             @Override
             public void onSuccess(String result) {
                 TuijianBean tuijianBean = JSON.parseObject(result,TuijianBean.class);
-                list.addAll(tuijianBean.getData());
-
-//                adapter.notifyDataSetChanged();
+                list = tuijianBean.getData();
+                adapter = new NewsListAdapter(getActivity(),list);
+                listView.setAdapter(adapter);
 
                 manager = getDb(application.config);
 
-               try {
-                    manager.save(tuijianBean.getData());
+                try {
+                    for (TuijianBean.DataBean dataBean: list) {
+                        manager.save(dataBean);
+                    }
 
-                   List<TuijianBean.DataBean> lists =  manager.findAll(TuijianBean.DataBean.class);
-                   System.out.println("lists = " + lists);
 
-               } catch (Exception e) {
+                } catch (DbException e) {
                     e.printStackTrace();
                 }
-
-                adapter = new NewsListAdapter(getActivity(),list);
-                listView.setAdapter(adapter);
             }
 
             @Override
@@ -99,5 +109,15 @@ public class NewsMainFragment extends Fragment {
         });
     }
 
+    private void findDatasFromDB() {
+        try {
+            List<TuijianBean.DataBean> mlist= x.getDb(application.config).selector(TuijianBean.DataBean.class).findAll();
+            list =mlist;
+            adapter = new NewsListAdapter(getActivity(),list);
+            listView.setAdapter(adapter);
+        } catch (DbException e) {
+            e.printStackTrace();
+        }
 
+    }
 }
