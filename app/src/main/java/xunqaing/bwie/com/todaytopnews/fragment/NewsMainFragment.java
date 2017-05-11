@@ -71,7 +71,7 @@ public class NewsMainFragment extends Fragment {
         x.http().get(requestParams, new Callback.CommonCallback<String>() {
 
             private DbManager manager;
-
+//
             @Override
             public void onSuccess(String result) {
                 TuijianBean tuijianBean = JSON.parseObject(result,TuijianBean.class);
