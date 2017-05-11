@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -48,7 +49,7 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
     private WindowManager manager;
     private View view;
     private WindowManager.LayoutParams params;
-
+    private LinearLayout linearLayout;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +57,7 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
 
         tabLayout = (TabLayout) findViewById(R.id.tablayout);
         viewpager = (ViewPager) findViewById(R.id.viewpage);
-
+        linearLayout = (LinearLayout) findViewById(R.id.activity_main);
         ImageView iv_left = (ImageView) findViewById(R.id.pub_title_left_imageview);
         ImageView iv_right = (ImageView) findViewById(R.id.pub_title_right_imageview);
 
@@ -150,10 +151,13 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
         if (white) {
 
             tabLayout.setBackgroundColor(Color.GRAY);
-
+            viewpager.setBackgroundColor(Color.GRAY);
+            linearLayout.setBackgroundColor(Color.GRAY);
             setWhiteMode();
         } else {
             tabLayout.setBackgroundColor(Color.BLACK);
+            viewpager.setBackgroundColor(Color.BLACK);            linearLayout.setBackgroundColor(Color.GRAY);
+            linearLayout.setBackgroundColor(Color.BLACK);
 
             setNightMode();
         }
