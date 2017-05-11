@@ -140,11 +140,12 @@ public class CityActivity extends Activity {
             viewholder.tv1.setBackgroundColor(Color.GRAY);
 
             List<String> strings = listcity.get(position);
+            String result = "";
             for (String s:strings) {
-
-            viewholder.tv2.setText(s);
+                result +=s+"\n";
 
             }
+            viewholder.tv2.setText(result);
 
             return convertView;
         }
