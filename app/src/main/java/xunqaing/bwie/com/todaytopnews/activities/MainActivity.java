@@ -75,8 +75,9 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
         initLeftRight();
 
 
-        initData();
         initGrayBackground();
+
+        initData();
         //点击出现侧滑
         iv_left.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -139,8 +140,8 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
         //对所有的空间取出，设置对应图片
         setView();
 
-        //更改字体颜色  --- 获取当前 Windou 上最顶端的 view   ;
-        switchTextViewColor((ViewGroup) getWindow().getDecorView(), event.isWhite());
+        //更改字体颜色
+        switchTextViewColor((ViewGroup) getWindow().getDecorView(),event.isWhite());
 
         MainActivity activity = new MainActivity();
         activity.changeMode(event.isWhite());
@@ -151,13 +152,14 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
         if (white) {
 
             tabLayout.setBackgroundColor(Color.GRAY);
-            viewpager.setBackgroundColor(Color.GRAY);
-            linearLayout.setBackgroundColor(Color.GRAY);
+           /* viewpager.setBackgroundColor(Color.GRAY);
+            linearLayout.setBackgroundColor(Color.GRAY);*/
             setWhiteMode();
         } else {
             tabLayout.setBackgroundColor(Color.BLACK);
-            viewpager.setBackgroundColor(Color.BLACK);            linearLayout.setBackgroundColor(Color.GRAY);
-            linearLayout.setBackgroundColor(Color.BLACK);
+            /*viewpager.setBackgroundColor(Color.BLACK);
+            linearLayout.setBackgroundColor(Color.GRAY);
+            linearLayout.setBackgroundColor(Color.BLACK);*/
 
             setNightMode();
         }
@@ -168,37 +170,32 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
     /**
      * 遍历出所有的textView设置对应的颜色 （递归）
      */
-    private void switchTextViewColor(ViewGroup view, boolean white) {
-
-        //  view.getChildCount()  --- 获取子view个数
+    public void switchTextViewColor(ViewGroup view,boolean white) {
+//        getChildCount 获取ViewGroup下view的个数
+//        view.getChildAt(i) 根据下标获取对应的子view
         for (int i = 0; i < view.getChildCount(); i++) {
-
-            //  view.getChildAt(i)  --- 根据下标获取子view
             if (view.getChildAt(i) instanceof ViewGroup) {
-
-                switchTextViewColor((ViewGroup) view.getChildAt(i), white);
-
+                switchTextViewColor((ViewGroup) view.getChildAt(i),white);
             } else if (view.getChildAt(i) instanceof TextView) {
-
                 //设置颜色
-                int resoutId;
-
-                TextView tv = (TextView) view.getChildAt(i);
-
-                if (white) {
-
-                    //白天字黑
-                    resoutId = Color.BLACK;
-
-                } else {
-                    //黑天字白
-                    resoutId = Color.WHITE;
+                int resouseId ;
+                TextView textView = (TextView) view.getChildAt(i);
+                if(white){
+                    resouseId = Color.BLACK;
+                }else {
+                    resouseId = Color.WHITE;
                 }
-
-                tv.setTextColor(resoutId);
+                textView.setTextColor(resouseId);
             }
         }
 
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
 
@@ -242,8 +239,9 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
         tabLayout.setTabTextColors(Color.GRAY, Color.BLACK);
 
         // 设置 指示器的颜色
-        tabLayout.setSelectedTabIndicatorColor(Color.YELLOW);
+        tabLayout.setSelectedTabIndicatorColor(Color.RED);
 
+        setWhiteMode();
         //设置滚动模式
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
 
@@ -259,23 +257,14 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
 
     }
 
-    private void setWhiteMode() {
-
+    // 改变tablayout 字颜色 下标颜色
+    private void setWhiteMode(){
         tabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.title_color));
-
         tabLayout.setTabTextColors(getResources().getColor(R.color.iblack),getResources().getColor(R.color.title_color));
-
-
     }
-
-    //夜间
-    private void setNightMode() {
-
+    private void setNightMode(){
         tabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.title_color));
-
         tabLayout.setTabTextColors(getResources().getColor(R.color.iblack),getResources().getColor(R.color.title_color));
-
-
     }
 
 

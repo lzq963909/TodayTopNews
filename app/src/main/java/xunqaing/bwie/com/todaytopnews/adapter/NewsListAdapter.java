@@ -21,10 +21,13 @@ public class NewsListAdapter extends BaseAdapter{
 	List<TuijianBean.DataBean> newsList;
 	ImageLoader imageLoader = ImageLoader.getInstance();
 	Context mcontext;
-	public NewsListAdapter(Context mcontext,List<TuijianBean.DataBean> newsList) {
+
+	public NewsListAdapter(Context mcontext, List<TuijianBean.DataBean> newsList) {
 		this.newsList = newsList;
 		this.mcontext = mcontext;
+
 	}
+
 	
 
 
