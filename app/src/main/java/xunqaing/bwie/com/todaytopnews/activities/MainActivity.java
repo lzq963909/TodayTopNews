@@ -74,8 +74,9 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
         initLeftRight();
 
 
-        initData();
         initGrayBackground();
+
+        initData();
         //点击出现侧滑
         iv_left.setOnClickListener(new View.OnClickListener() {
             @Override
