@@ -25,7 +25,6 @@ import xunqaing.bwie.com.todaytopnews.bean.TuijianBean;
 import xunqaing.bwie.com.todaytopnews.utils.MyUrl;
 import xunqaing.bwie.com.todaytopnews.utils.NetUtil;
 
-import static android.R.attr.x;
 import static org.xutils.x.getDb;
 
 /**
