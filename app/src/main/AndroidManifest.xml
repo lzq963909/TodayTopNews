@@ -194,6 +194,7 @@
 
         <activity android:name=".activities.CityActivity"/>
 
+        <activity android:name=".activities.SetActivity"/>
     </application>
 
 </manifest>

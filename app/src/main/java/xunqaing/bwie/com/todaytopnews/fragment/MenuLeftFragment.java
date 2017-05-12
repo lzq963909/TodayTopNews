@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.kyleduo.switchbutton.SwitchButton;
 import com.umeng.socialize.UMAuthListener;
@@ -25,6 +26,7 @@ import xunqaing.bwie.com.todaytopnews.Constants.Constants;
 import xunqaing.bwie.com.todaytopnews.R;
 import xunqaing.bwie.com.todaytopnews.SwitchButtonEvent;
 import xunqaing.bwie.com.todaytopnews.activities.LoginActivity;
+import xunqaing.bwie.com.todaytopnews.activities.SetActivity;
 import xunqaing.bwie.com.todaytopnews.utils.PreferencesUtils;
 
 /**
@@ -40,6 +42,8 @@ public class MenuLeftFragment extends Fragment {
 
     private SwitchButton switchButton;
     private View view;
+//    private TextView tv_set;
+    private LinearLayout linear_set;
 
     @Nullable
     @Override
@@ -54,6 +58,10 @@ public class MenuLeftFragment extends Fragment {
         menuleft_login_xlweibo = (ImageView) view.findViewById(R.id.menuleft_login_xlweibo);
 
         switchButton = (SwitchButton) view.findViewById(R.id.switch_btn);
+
+//        tv_set = (TextView) view.findViewById(R.id.tv_set);
+
+        linear_set = (LinearLayout) view.findViewById(R.id.linear_set);
 
         return view;
     }
@@ -104,6 +112,16 @@ public class MenuLeftFragment extends Fragment {
             }
         });
 
+        linear_set.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent=new Intent(getActivity(),SetActivity.class);
+                startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.in1,R.anim.out1);
+
+            }
+        });
     }
 
     public void setBackground(boolean isWhite) {
