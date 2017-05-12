@@ -94,9 +94,9 @@ public class NewsListAdapter extends BaseAdapter{
 			if(imgUrlList.size() == 3){
 				mHolder.right_image.setVisibility(View.GONE);
 				mHolder.item_image_layout.setVisibility(View.VISIBLE);
-				Glide.with(mcontext).load(imgUrlList.get(0).getUrl()).into(mHolder.item_image_0);
-				Glide.with(mcontext).load(imgUrlList.get(1).getUrl()).into(mHolder.item_image_1);
-				Glide.with(mcontext).load(imgUrlList.get(2).getUrl()).into(mHolder.item_image_2);
+				Glide.with(mcontext).load(imgUrlList.get(0).getUrl()).override(250, 180).centerCrop().into(mHolder.item_image_0);
+				Glide.with(mcontext).load(imgUrlList.get(1).getUrl()).override(250, 180).centerCrop().into(mHolder.item_image_1);
+				Glide.with(mcontext).load(imgUrlList.get(2).getUrl()).override(250, 180).centerCrop().into(mHolder.item_image_2);
 
 				//imageLoader.displayImage(imgUrlList.get(0).getUrl(), mHolder.item_image_0);
 				//imageLoader.displayImage(imgUrlList.get(1).getUrl(), mHolder.item_image_1);
