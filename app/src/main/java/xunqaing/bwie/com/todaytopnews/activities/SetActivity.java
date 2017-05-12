@@ -1,6 +1,7 @@
 package xunqaing.bwie.com.todaytopnews.activities;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -32,12 +33,15 @@ public class SetActivity extends Activity implements View.OnClickListener{
         set_tv_jingCaiTuiJian = (TextView) findViewById(R.id.set_tv_jingCaiTuiJian);
         set_tv_help = (TextView) findViewById(R.id.set_tv_help);
 
+
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.set_com:
+
+                AlertDialog.Builder builder=new AlertDialog.Builder(this);
 
             break;
 
