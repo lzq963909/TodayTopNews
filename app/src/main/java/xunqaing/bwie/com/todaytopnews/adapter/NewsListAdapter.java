@@ -9,12 +9,15 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.List;
 
 import xunqaing.bwie.com.todaytopnews.R;
 import xunqaing.bwie.com.todaytopnews.bean.TuijianBean;
+
+import static java.lang.System.load;
 
 public class NewsListAdapter extends BaseAdapter{
 
@@ -91,14 +94,20 @@ public class NewsListAdapter extends BaseAdapter{
 			if(imgUrlList.size() == 3){
 				mHolder.right_image.setVisibility(View.GONE);
 				mHolder.item_image_layout.setVisibility(View.VISIBLE);
-				imageLoader.displayImage(imgUrlList.get(0).getUrl(), mHolder.item_image_0);
-				imageLoader.displayImage(imgUrlList.get(1).getUrl(), mHolder.item_image_1);
-				imageLoader.displayImage(imgUrlList.get(2).getUrl(), mHolder.item_image_2);
+				Glide.with(mcontext).load(imgUrlList.get(0).getUrl()).override(250, 180).centerCrop().into(mHolder.item_image_0);
+				Glide.with(mcontext).load(imgUrlList.get(1).getUrl()).override(250, 180).centerCrop().into(mHolder.item_image_1);
+				Glide.with(mcontext).load(imgUrlList.get(2).getUrl()).override(250, 180).centerCrop().into(mHolder.item_image_2);
+
+				//imageLoader.displayImage(imgUrlList.get(0).getUrl(), mHolder.item_image_0);
+				//imageLoader.displayImage(imgUrlList.get(1).getUrl(), mHolder.item_image_1);
+				//imageLoader.displayImage(imgUrlList.get(2).getUrl(), mHolder.item_image_2);
 			}
 		}else if (newsList.get(position).getMiddle_image()!=null){
 			mHolder.right_image.setVisibility(View.VISIBLE);
 			mHolder.item_image_layout.setVisibility(View.GONE);
-			imageLoader.displayImage(newsList.get(position).getMiddle_image().getUrl(), mHolder.right_image);
+			Glide.with(mcontext).load(newsList.get(position).getMiddle_image().getUrl()).centerCrop().into(mHolder.right_image);
+
+			//imageLoader.displayImage(newsList.get(position).getMiddle_image().getUrl(), mHolder.right_image);
 
 		}
 		return view;

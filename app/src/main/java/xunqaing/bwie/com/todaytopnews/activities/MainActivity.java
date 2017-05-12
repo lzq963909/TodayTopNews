@@ -74,6 +74,7 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
         }
 
 
+
         //设置TabLayout
         setTabLayout();
 
