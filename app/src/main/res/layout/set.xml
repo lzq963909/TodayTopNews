@@ -36,10 +36,10 @@
             android:text="意见反馈"
             android:textSize="15dp" />
     </LinearLayout>
-    <View
+    <include
+        layout="@layout/view_"
         android:layout_width="match_parent"
-        android:layout_height="0.7dp"
-        android:background="#cccccc"/>
+        android:layout_height="wrap_content"/>
     <ScrollView
         android:layout_marginTop="20dp"
         android:layout_width="match_parent"
@@ -74,10 +74,10 @@
                     android:layout_weight="1" />
             </LinearLayout>
 
-            <View
+            <include
+                layout="@layout/view_"
                 android:layout_width="match_parent"
-                android:layout_height="0.7dp"
-                android:background="#cccccc"/>
+                android:layout_height="wrap_content"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -105,10 +105,10 @@
                     android:text="中 &gt;"
                     android:textSize="15dp" />
             </LinearLayout>
-            <View
+            <include
+                layout="@layout/view_"
                 android:layout_width="match_parent"
-                android:layout_height="0.7dp"
-                android:background="#cccccc"/>
+                android:layout_height="wrap_content"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -135,10 +135,10 @@
                     android:text="不限 &gt;"
                     android:textSize="15dp" />
             </LinearLayout>
-            <View
+            <include
+                layout="@layout/view_"
                 android:layout_width="match_parent"
-                android:layout_height="0.7dp"
-                android:background="#cccccc"/>
+                android:layout_height="wrap_content"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -166,10 +166,10 @@
                     android:text="转省流量（智能下图） &gt;"
                     android:textSize="15dp" />
             </LinearLayout>
-            <View
+            <include
+                layout="@layout/view_"
                 android:layout_width="match_parent"
-                android:layout_height="0.7dp"
-                android:background="#cccccc"/>
+                android:layout_height="wrap_content"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -196,10 +196,10 @@
                     android:text="        当前缓存:2.84MB  &gt;"
                     android:textSize="15dp" />
             </LinearLayout>
-            <View
+            <include
+                layout="@layout/view_"
                 android:layout_width="match_parent"
-                android:layout_height="0.7dp"
-                android:background="#cccccc"/>
+                android:layout_height="wrap_content"/>
         </LinearLayout>
     </ScrollView>
 
@@ -238,10 +238,10 @@
                     android:layout_weight="1" />
             </LinearLayout>
 
-            <View
+            <include
+                layout="@layout/view_"
                 android:layout_width="match_parent"
-                android:layout_height="0.7dp"
-                android:background="#cccccc"/>
+                android:layout_height="wrap_content"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -293,10 +293,10 @@
                     android:layout_weight="1" />
             </LinearLayout>
 
-            <View
+            <include
+                layout="@layout/view_"
                 android:layout_width="match_parent"
-                android:layout_height="0.7dp"
-                android:background="#cccccc"/>
+                android:layout_height="wrap_content"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -320,10 +320,10 @@
                     android:layout_weight="1" />
             </LinearLayout>
 
-            <View
+            <include
+                layout="@layout/view_"
                 android:layout_width="match_parent"
-                android:layout_height="0.7dp"
-                android:background="#cccccc"/>
+                android:layout_height="wrap_content"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -347,10 +347,10 @@
                     android:layout_weight="1" />
             </LinearLayout>
 
-            <View
+            <include
+                layout="@layout/view_"
                 android:layout_width="match_parent"
-                android:layout_height="0.7dp"
-                android:background="#cccccc"/>
+                android:layout_height="wrap_content"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -378,10 +378,10 @@
                     android:textSize="15dp" />
             </LinearLayout>
 
-            <View
+            <include
+                layout="@layout/view_"
                 android:layout_width="match_parent"
-                android:layout_height="0.7dp"
-                android:background="#cccccc"/>
+                android:layout_height="wrap_content"/>
         </LinearLayout>
     </ScrollView>
 
@@ -423,10 +423,10 @@
                     android:textSize="15dp" />
             </LinearLayout>
 
-            <View
+            <include
+                layout="@layout/view_"
                 android:layout_width="match_parent"
-                android:layout_height="0.7dp"
-                android:background="#cccccc"/>
+                android:layout_height="wrap_content"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -454,10 +454,10 @@
                     android:textSize="15dp" />
             </LinearLayout>
 
-            <View
+            <include
+                layout="@layout/view_"
                 android:layout_width="match_parent"
-                android:layout_height="0.7dp"
-                android:background="#cccccc"/>
+                android:layout_height="wrap_content"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
