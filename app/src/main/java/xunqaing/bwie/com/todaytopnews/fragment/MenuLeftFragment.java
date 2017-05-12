@@ -40,11 +40,12 @@ public class MenuLeftFragment extends Fragment {
     private ImageView menuleft_login_txweibo;
     private ImageView menuleft_login_xlweibo;
 
+
     private SwitchButton switchButton;
     private View view;
 //    private TextView tv_set;
     private LinearLayout linear_set;
-
+    private LinearLayout OfflineDownld_layout;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -62,7 +63,7 @@ public class MenuLeftFragment extends Fragment {
 //        tv_set = (TextView) view.findViewById(R.id.tv_set);
 
         linear_set = (LinearLayout) view.findViewById(R.id.linear_set);
-
+        OfflineDownld_layout = (LinearLayout) view.findViewById(R.id.OfflineDownld_layout);
         return view;
     }
 
@@ -82,6 +83,15 @@ public class MenuLeftFragment extends Fragment {
 
                 setBackground(isChecked);
 
+            }
+        });
+
+        OfflineDownld_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getActivity(),SetActivity.class);
+                startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.in1,R.anim.out1);
             }
         });
 
