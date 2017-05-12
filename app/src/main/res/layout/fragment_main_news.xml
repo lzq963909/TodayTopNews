@@ -4,16 +4,16 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <xunqaing.bwie.com.todaytopnews.RefreshLayout
-        android:id="@+id/news_swiperefreshlayout"
+    <com.liaoinstan.springview.widget.SpringView
+        android:id="@+id/news_springview"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <ListView
             android:id="@+id/news_listview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"></ListView>
+            android:layout_height="match_parent"/>
 
 
-    </xunqaing.bwie.com.todaytopnews.RefreshLayout>
+    </com.liaoinstan.springview.widget.SpringView>
 </LinearLayout>

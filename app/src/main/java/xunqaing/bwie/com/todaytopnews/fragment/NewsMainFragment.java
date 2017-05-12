@@ -5,13 +5,15 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.alibaba.fastjson.JSON;
+import com.liaoinstan.springview.container.AcFunFooter;
+import com.liaoinstan.springview.container.AcFunHeader;
+import com.liaoinstan.springview.widget.SpringView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -26,7 +28,6 @@ import java.util.List;
 
 import xunqaing.bwie.com.todaytopnews.IApplication;
 import xunqaing.bwie.com.todaytopnews.R;
-import xunqaing.bwie.com.todaytopnews.RefreshLayout;
 import xunqaing.bwie.com.todaytopnews.SwitchButtonEvent;
 import xunqaing.bwie.com.todaytopnews.activities.CityActivity;
 import xunqaing.bwie.com.todaytopnews.adapter.NewsListAdapter;
@@ -39,7 +40,7 @@ import xunqaing.bwie.com.todaytopnews.utils.SteamTools;
  * Created by Administrator on 2017/5/9 0009.
  */
 
-public class NewsMainFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class NewsMainFragment extends Fragment{
     private ListView listView;
     private String newsType;
     private List<TuijianBean.DataBean> list;
@@ -48,14 +49,14 @@ public class NewsMainFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     private NewsListAdapter adapter;
     private IApplication application;
-    private RefreshLayout swipeRefreshLayout;
+    private SpringView springView;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main_news, null);
 
-        swipeRefreshLayout = (RefreshLayout) view.findViewById(R.id.news_swiperefreshlayout);
+        springView = (SpringView) view.findViewById(R.id.news_springview);
 
         listView = (ListView) view.findViewById(R.id.news_listview);
         newsType = getArguments().getString("newstype");
@@ -73,19 +74,30 @@ public class NewsMainFragment extends Fragment implements SwipeRefreshLayout.OnR
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        swipeRefreshLayout.setOnRefreshListener(this);
+        springView.setType(SpringView.Type.FOLLOW);//不重叠
 
-        swipeRefreshLayout.setOnLoadListener(new RefreshLayout.OnLoadListener() {
+        springView.setHeader(new AcFunHeader(getActivity(),R.drawable.acfun_header));
+
+        springView.setFooter(new AcFunFooter(getActivity(),R.drawable.acfun_footer));
+
+        springView.setListener(new SpringView.OnFreshListener() {
+            @Override
+            public void onRefresh() {//刷新
+
+                listAll.clear();
+
+                initData(true);
+
+                springView.onFinishFreshAndLoad();
+
+            }
 
             @Override
-            public void onLoad() {
-                swipeRefreshLayout.postDelayed(new Runnable() {
+            public void onLoadmore() {//加载更多
 
-                    @Override
-                    public void run() {
-                        initData(false);
-                    }
-                }, 1000);
+                initData(false);
+                springView.onFinishFreshAndLoad();
+
             }
         });
 
@@ -162,7 +174,7 @@ public class NewsMainFragment extends Fragment implements SwipeRefreshLayout.OnR
                     adapter = new NewsListAdapter(getActivity(), listAll);
                     listView.setAdapter(adapter);
 
-                }else{
+                } else {
                     adapter.notifyDataSetChanged();
                 }
 
@@ -187,7 +199,7 @@ public class NewsMainFragment extends Fragment implements SwipeRefreshLayout.OnR
         });
 
 
-        if (newsType.equals("news_local")){
+        if (newsType.equals("news_local")) {
 
             Intent i = new Intent(getActivity(), CityActivity.class);
             startActivity(i);
@@ -205,7 +217,7 @@ public class NewsMainFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     }
 
-    //shuaxin
+    /*//shuaxin
     @Override
     public void onRefresh() {
 
@@ -215,8 +227,5 @@ public class NewsMainFragment extends Fragment implements SwipeRefreshLayout.OnR
 
         initData(true);
 
-
-        swipeRefreshLayout.setRefreshing(false);
-
-    }
+    }*/
 }
