@@ -3,6 +3,7 @@ package xunqaing.bwie.com.todaytopnews.activities;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -26,7 +27,7 @@ public class CityActivity extends Activity {
 
     private ListView lv;
     private List<WhichCity.DataBean> listcityz;
-
+    private MyAdapterCity adapter;
     //城市名
     List<String> listname = new ArrayList<>();
     //所有城市
@@ -36,7 +37,7 @@ public class CityActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_city);
+        setContentView(R.layout .activity_city);
 
         lv = (ListView) findViewById(R.id.activity_city_listview);
 
@@ -47,7 +48,7 @@ public class CityActivity extends Activity {
         View v = View.inflate(this,R.layout.activity_city_listhead,null);
         lv.addHeaderView(v);
 
-        MyAdapterCity adapter = new MyAdapterCity();
+        adapter = new MyAdapterCity();
         lv.setAdapter(adapter);
     }
 
@@ -58,7 +59,7 @@ public class CityActivity extends Activity {
         x.http().get(requestparams, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-
+                Log.e("MSGG",result+"========");
                 if (result != null){
 
                 WhichCity whichCity = JSON.parseObject(result, WhichCity.class);
@@ -70,6 +71,7 @@ public class CityActivity extends Activity {
                     listname.add(wd.getName());
                     listcity.add(wd.getCities());
                     }
+                    adapter.notifyDataSetChanged();
 
                 }else{
 

@@ -2,7 +2,6 @@
 <resources>
 
 
-
     <!--&lt;!&ndash; Default screen margins, per the Android Design guidelines. &ndash;&gt;-->
     <!--<dimen name="activity_horizontal_margin">16dp</dimen>-->
     <!--<dimen name="activity_vertical_margin">16dp</dimen>-->
@@ -15,12 +14,9 @@
     <integer name="num_cols">1</integer>
 
 
-
-
     <!-- customview -->
     <dimen name="default_width">200dp</dimen>
     <dimen name="default_height">200dp</dimen>
-
 
 
     <dimen name="abc_config_prefDialogWidth">320.0dip</dimen>
@@ -138,5 +134,8 @@
     <dimen name="alt_mark_size">15.0dip</dimen>
     <dimen name="detail_ad_banner_img_size">50.0dip</dimen>
     <dimen name="detail_ad_banner_img_corner">2.0dip</dimen>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
 
 </resources>

@@ -29,6 +29,7 @@ public class LoginActivity extends Activity {
     private EditText editPassword;
     private TextView text_regist;
     private TextView login_register_return;
+    private TextView tv_wangji;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -36,6 +37,16 @@ public class LoginActivity extends Activity {
         setContentView(R.layout.weibo_login);
 
         initView(this);
+
+        tv_wangji.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent i = new Intent(LoginActivity.this,ForgetActivity.class);
+                startActivity(i);
+            }
+        });
+
         logBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,9 +98,13 @@ public class LoginActivity extends Activity {
         logBtn = (Button) loginActivity.findViewById(R.id.login);
         text_regist = (TextView) loginActivity.findViewById(R.id.login_register);
         login_register_return = (TextView) findViewById(R.id.login_register_return);
+        tv_wangji = (TextView) findViewById(R.id.login_unremeber);
         login_register_return.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                Intent i = new Intent(LoginActivity.this,RegisiterActivity.class);
+                startActivity(i);
                 finish();
             }
         });

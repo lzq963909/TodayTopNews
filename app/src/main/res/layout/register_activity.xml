@@ -103,7 +103,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="70dp"
                 android:checked="true"
-                android:text="同意《"
+
                 android:textSize="18sp"
 
                 />
@@ -116,15 +116,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="13dp"
-            android:text="今日头条用户协议"
+            android:text="同意《今日头条用户协议》"
             android:textSize="18sp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="13dp"
-            android:text="》"
-            android:textSize="18sp" />
+
 
 
     </LinearLayout>
