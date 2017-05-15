@@ -24,7 +24,7 @@ import xunqaing.bwie.com.todaytopnews.service.DemoPushService;
 
 public class IApplication extends Application {
 
-    public DbManager.DaoConfig config;
+    public DbManager.DaoConfig configTj;
     @Override
     public void onCreate() {
         super.onCreate();
@@ -46,28 +46,28 @@ public class IApplication extends Application {
         PushManager.getInstance().registerPushIntentService(this, DemoIntentService.class);
     }
 
-    private void initImageLoader(){
+    private void initImageLoader() {
 
 
-                 String path = Environment.getExternalStorageDirectory() + "/imageload" ;
+        String path = Environment.getExternalStorageDirectory() + "/imageload";
 
 
-                 ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this)
-                         .memoryCacheExtraOptions(480, 800)//缓存图片最大的长和宽
-                         .threadPoolSize(2)//线程池的数量
-                         .threadPriority(4)
-                         .memoryCacheSize(2*1024*1024)//设置内存缓存区大小
-                         .diskCacheSize(20*1024*1024)//设置sd卡缓存区大小
-         //                .diskCache(new UnlimitedDiskCache(new File(path)))//自定义缓存目录
-                         .writeDebugLogs()//打印日志内容
-                         .diskCacheFileNameGenerator(new Md5FileNameGenerator())
-                         .build();
-                 ImageLoader.getInstance().init(config);
-             }
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this)
+                .memoryCacheExtraOptions(480, 800)//缓存图片最大的长和宽
+                .threadPoolSize(2)//线程池的数量
+                .threadPriority(4)
+                .memoryCacheSize(2 * 1024 * 1024)//设置内存缓存区大小
+                .diskCacheSize(20 * 1024 * 1024)//设置sd卡缓存区大小
+                //                .diskCache(new UnlimitedDiskCache(new File(path)))//自定义缓存目录
+                .writeDebugLogs()//打印日志内容
+                .diskCacheFileNameGenerator(new Md5FileNameGenerator())
+                .build();
+        ImageLoader.getInstance().init(config);
+    }
 
     /**
-     *圆角图片
-     * */
+     * 圆角图片
+     */
     public static DisplayImageOptions MyDisplayImageOptions() {
         DisplayImageOptions options = new DisplayImageOptions.Builder()
                 .showImageOnLoading(R.mipmap.ic_launcher) //设置图片在下载期间显示的图片
@@ -86,15 +86,15 @@ public class IApplication extends Application {
     }
 
     public void initData() {
-                 config = new DbManager.DaoConfig();
-                 config.setDbName("tj.db");
-                 config.setDbVersion(1);
-                 config.setDbUpgradeListener(new DbManager.DbUpgradeListener() {
-                        @Override
-                         public void onUpgrade(DbManager db, int oldVersion, int newVersion) {
+        configTj = new DbManager.DaoConfig();
+        configTj.setDbName("tj.db");
+        configTj.setDbVersion(1);
+        configTj.setDbUpgradeListener(new DbManager.DbUpgradeListener() {
+            @Override
+            public void onUpgrade(DbManager db, int oldVersion, int newVersion) {
 
-             }
-                    });
             }
+        });
+    }
 
 }

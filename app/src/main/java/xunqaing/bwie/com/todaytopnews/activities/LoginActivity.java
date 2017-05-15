@@ -16,8 +16,12 @@ import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import xunqaing.bwie.com.todaytopnews.R;
 import xunqaing.bwie.com.todaytopnews.bean.LoginBean;
+import xunqaing.bwie.com.todaytopnews.utils.PreferencesUtils;
 
 /**
  * Created by Administrator on 2017/5/10 0010.
@@ -61,6 +65,10 @@ public class LoginActivity extends Activity {
                         LoginBean loginBean = JSON.parseObject(result, LoginBean.class);
                         Log.d("msg",result.toString());
                         if (loginBean.getRet_code() == 200) {
+                            Map<String,Object> users = new HashMap<String, Object>();
+                            users.put("username",editUserName.getText().toString().trim());
+                            users.put("isLogin",true);
+                            PreferencesUtils.setMapKey(LoginActivity.this,users);
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         } else {
                             Toast.makeText(LoginActivity.this, "账号密码错误请重新输入!", Toast.LENGTH_SHORT).show();
