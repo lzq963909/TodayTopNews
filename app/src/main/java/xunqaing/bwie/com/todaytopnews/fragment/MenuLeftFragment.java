@@ -183,7 +183,6 @@ public class MenuLeftFragment extends Fragment {
                 String gender = map.get("gender");
                 String iconurl = map.get("iconurl");
 
-
             }
 
             @Override
