@@ -43,6 +43,44 @@
         android:background="#000000" />
 
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="70dp"
+                android:checked="true"
+
+                android:textSize="18sp"
+
+                />
+
+
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/register_yonghuxieyi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="13dp"
+            android:text="同意《今日头条用户协议》"
+            android:textSize="18sp" />
+
+
+
+
+    </LinearLayout>
+
     <RelativeLayout
 
 
@@ -82,47 +120,6 @@
 
 
     </RelativeLayout>
-
-
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-
-        <RadioGroup
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="70dp"
-                android:checked="true"
-
-                android:textSize="18sp"
-
-                />
-
-
-        </RadioGroup>
-
-        <TextView
-            android:id="@+id/register_yonghuxieyi"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="13dp"
-            android:text="同意《今日头条用户协议》"
-            android:textSize="18sp" />
-
-
-
-
-    </LinearLayout>
 
     <Button
         android:layout_marginTop="20dp"
