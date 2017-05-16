@@ -6,28 +6,45 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.kyleduo.switchbutton.SwitchButton;
+import com.tencent.connect.UserInfo;
+import com.tencent.open.utils.HttpUtils;
+import com.tencent.tauth.IRequestListener;
+import com.tencent.tauth.IUiListener;
+import com.tencent.tauth.Tencent;
+import com.tencent.tauth.UiError;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 
+import org.apache.http.conn.ConnectTimeoutException;
 import org.greenrobot.eventbus.EventBus;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.SocketTimeoutException;
 import java.util.Map;
 
 import xunqaing.bwie.com.todaytopnews.Constants.Constants;
 import xunqaing.bwie.com.todaytopnews.R;
 import xunqaing.bwie.com.todaytopnews.SwitchButtonEvent;
 import xunqaing.bwie.com.todaytopnews.activities.LoginActivity;
+import xunqaing.bwie.com.todaytopnews.activities.MainActivity;
 import xunqaing.bwie.com.todaytopnews.activities.SetActivity;
 import xunqaing.bwie.com.todaytopnews.utils.PreferencesUtils;
+
+import static android.provider.UserDictionary.Words.APP_ID;
 
 /**
  * Created by : Xunqiang
@@ -41,16 +58,27 @@ public class MenuLeftFragment extends Fragment {
     private ImageView menuleft_login_xlweibo;
 
 
+    //得到登录用户信息的接口
+    private IUiListener loginListener;
+    //登录成功的回调
+    private IUiListener userInfoListener;
+
     private SwitchButton switchButton;
     private View view;
 //    private TextView tv_set;
     private LinearLayout linear_set;
     private LinearLayout OfflineDownld_layout;
+    private Tencent mTencent;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.menuleft_fragment, container, false);
+
+        //实例化Tencent 实例
+        mTencent = Tencent.createInstance("1106165798",getActivity().getApplicationContext());
+
+
 
         menuleft_login_qq = (ImageView) view.findViewById(R.id.menuleft_login_qq);
 
@@ -99,7 +127,7 @@ public class MenuLeftFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                login();
+                tentenctLogin();
 
 
             }
@@ -132,6 +160,68 @@ public class MenuLeftFragment extends Fragment {
 
             }
         });
+    }
+
+    private void tentenctLogin() {
+
+        loginListener = new IUiListener() {
+            @Override
+            public void onComplete(Object o) {
+                //登录成功后调用的方法
+                JSONObject jo = (JSONObject) o;
+                Toast.makeText(getActivity(), "登录成功", Toast.LENGTH_SHORT).show();
+                Log.e("COMPLETE:", jo.toString());
+                String openID;
+                try {
+                    openID = jo.getString("openid");
+                    String accessToken = jo.getString("access_token");
+                    String expires = jo.getString("expires_in");
+                    mTencent.setOpenId(openID);
+                    mTencent.setAccessToken(accessToken, expires);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            @Override
+            public void onError(UiError uiError) {
+                //登录失败后调用的方法
+                Toast.makeText(getActivity(), "登录失败", Toast.LENGTH_SHORT).show();
+            }
+            @Override
+            public void onCancel() {
+                //取消登录后调用的方法
+            }
+        };
+
+        userInfoListener = new IUiListener() {
+            @Override
+            public void onComplete(Object o) {
+                if(o == null){
+                    return;
+                }
+                try {
+                    JSONObject jo = (JSONObject) o;
+                    Log.e("JO:",jo.toString());
+                    int ret = jo.getInt("ret");
+                    String nickName = jo.getString("nickname");
+                    String gender = jo.getString("gender");
+                    Toast.makeText(getActivity(), "你好，" + nickName,Toast.LENGTH_LONG).show();
+                } catch (Exception e) {
+                }
+            }
+            @Override
+            public void onError(UiError uiError) {
+            }
+            @Override
+            public void onCancel() {
+            }
+        };
+
+
+        if (!mTencent.isSessionValid())
+        {
+            mTencent.login(this,"all", userInfoListener);
+        }
     }
 
     public void setBackground(boolean isWhite) {
@@ -198,6 +288,15 @@ public class MenuLeftFragment extends Fragment {
 
             }
         });
+
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Tencent.onActivityResultData(requestCode, resultCode, data,  loginListener);
+        Tencent.handleResultData(data, loginListener);
+        UserInfo info = new UserInfo(getActivity(), mTencent.getQQToken());
+        info.getUserInfo(userInfoListener);
 
     }
 }

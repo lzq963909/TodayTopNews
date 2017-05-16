@@ -122,6 +122,7 @@ public class NewsMainFragment extends Fragment{
 
     public void initData(boolean flag) {
 
+
         //判断是否WIFI网络
         if (NetUtil.GetNetype(getActivity()).equals("WIFI")) {
             findDatasFromIntentle(flag);

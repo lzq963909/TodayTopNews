@@ -23,10 +23,13 @@ import com.umeng.socialize.bean.SHARE_MEDIA;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.xutils.DbManager;
 import org.xutils.common.Callback;
+import org.xutils.ex.DbException;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -35,11 +38,13 @@ import xunqaing.bwie.com.todaytopnews.R;
 import xunqaing.bwie.com.todaytopnews.SwitchButtonEvent;
 import xunqaing.bwie.com.todaytopnews.adapter.MyAdapter;
 import xunqaing.bwie.com.todaytopnews.bean.NewsCategory;
+import xunqaing.bwie.com.todaytopnews.bean.UserNewsCategory;
 import xunqaing.bwie.com.todaytopnews.fragment.MenuLeftFragment;
 import xunqaing.bwie.com.todaytopnews.fragment.MenuRightFragment;
 import xunqaing.bwie.com.todaytopnews.service.DemoIntentService;
 import xunqaing.bwie.com.todaytopnews.service.DemoPushService;
 import xunqaing.bwie.com.todaytopnews.utils.MyUrl;
+import xunqaing.bwie.com.todaytopnews.utils.PreferencesUtils;
 
 public class MainActivity extends SlidingFragmentActivity implements UMAuthListener {
 
@@ -51,13 +56,15 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
     private IApplication application;
     private WindowManager manager;
     private View view;
+    private DbManager db;
     private WindowManager.LayoutParams params;
     private LinearLayout linearLayout;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        application = (IApplication) getApplication();
+        db = x.getDb(application.configTj);
         tabLayout = (TabLayout) findViewById(R.id.tablayout);
         viewpager = (ViewPager) findViewById(R.id.viewpage);
         linearLayout = (LinearLayout) findViewById(R.id.activity_main);
@@ -104,8 +111,6 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
                 slidingMenu.showSecondaryMenu(true);
             }
         });
-
-        application = (IApplication) getApplication();
     }
 
     @Override
@@ -221,7 +226,31 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
 
                 NewsCategory newsCategory = JSON.parseObject(result, NewsCategory.class);
                 categoryList = newsCategory.getData().getData();
-                adapter = new MyAdapter(getSupportFragmentManager(), categoryList);
+                List<NewsCategory.DataBeanX.DataBean> list = new ArrayList<NewsCategory.DataBeanX.DataBean>();
+                for (int i=0;i<20;i++){
+                    list.add(categoryList.get(i));
+                }
+
+                //处于登录状态的话 得到用户频道信息 否则只显示20条数据
+                if (PreferencesUtils.getValueByKey(MainActivity.this,"isLogin",false)){
+                    try {
+                        UserNewsCategory userNewsCategory = db.selector(UserNewsCategory.class)
+                                .where("username","=",PreferencesUtils.getValueByKey(MainActivity.this,"username","")).findFirst();
+                        if (userNewsCategory == null){
+                            UserNewsCategory userNewsCategory1 = new UserNewsCategory();
+                            userNewsCategory1.setUsername(PreferencesUtils.getValueByKey(MainActivity.this,"username",""));
+                            List<String> categoryList = new ArrayList<String>();
+                            for (int i=0;i<20;i++){
+                                categoryList.add(list.get(i).getCategory());
+                            }
+                            userNewsCategory1.setNewsCategoryList(categoryList);
+                            db.save(userNewsCategory1);
+                        }
+                    } catch (DbException e) {
+                        e.printStackTrace();
+                    }
+                }
+                adapter = new MyAdapter(getSupportFragmentManager(), list);
                 viewpager.setAdapter(adapter);
             }
 

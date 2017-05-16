@@ -24,8 +24,7 @@ import xunqaing.bwie.com.todaytopnews.service.DemoPushService;
 
 public class IApplication extends Application {
 
-    public DbManager.DaoConfig config;
-
+    public DbManager.DaoConfig configTj;
     @Override
     public void onCreate() {
         super.onCreate();
@@ -38,7 +37,6 @@ public class IApplication extends Application {
         PlatformConfig.setWeixin("wx967daebe835fbeac", "5bb696d9ccd75a38c8a0bfe0675559b3");
         PlatformConfig.setQQZone("100424468", "c7394704798a158208a74ab60104f0ba");
         PlatformConfig.setSinaWeibo("3921700954", "04b48b094faeb16683c32669824ebdad", "http://sns.whalecloud.com");
-
     }
 
     private void initgetui(IApplication iApplication) {
@@ -88,10 +86,10 @@ public class IApplication extends Application {
     }
 
     public void initData() {
-        config = new DbManager.DaoConfig();
-        config.setDbName("tj.db");
-        config.setDbVersion(1);
-        config.setDbUpgradeListener(new DbManager.DbUpgradeListener() {
+        configTj = new DbManager.DaoConfig();
+        configTj.setDbName("tj.db");
+        configTj.setDbVersion(1);
+        configTj.setDbUpgradeListener(new DbManager.DbUpgradeListener() {
             @Override
             public void onUpgrade(DbManager db, int oldVersion, int newVersion) {
 
