@@ -189,7 +189,7 @@ public class NewsMainFragment extends Fragment{
                 }
 
 
-                SteamTools.WriteToFile(result);
+                SteamTools.WriteToFile(result,"data.txt");
             }
 
             @Override
@@ -219,7 +219,7 @@ public class NewsMainFragment extends Fragment{
     }
 
     private void findDatasFromDB() {
-        String result = SteamTools.readSdcardFile();
+        String result = SteamTools.readSdcardFile("data.txt");
         TuijianBean tuijianBean = JSON.parseObject(result, TuijianBean.class);
         list = tuijianBean.getData();
         adapter = new NewsListAdapter(getActivity(), list);

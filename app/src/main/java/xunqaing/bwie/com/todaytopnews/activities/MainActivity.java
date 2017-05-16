@@ -44,7 +44,9 @@ import xunqaing.bwie.com.todaytopnews.fragment.MenuRightFragment;
 import xunqaing.bwie.com.todaytopnews.service.DemoIntentService;
 import xunqaing.bwie.com.todaytopnews.service.DemoPushService;
 import xunqaing.bwie.com.todaytopnews.utils.MyUrl;
+import xunqaing.bwie.com.todaytopnews.utils.NetUtil;
 import xunqaing.bwie.com.todaytopnews.utils.PreferencesUtils;
+import xunqaing.bwie.com.todaytopnews.utils.SteamTools;
 
 public class MainActivity extends SlidingFragmentActivity implements UMAuthListener {
 
@@ -92,7 +94,16 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
 
         initGrayBackground();
 
-        initData();
+        //判断是否WIFI网络
+        if (NetUtil.GetNetype(MainActivity.this).equals("WIFI")) {
+            initData();
+        } else {
+            findDatasFromDB();
+        }
+
+
+
+
         //点击出现侧滑
         iv_left.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,6 +122,19 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
                 slidingMenu.showSecondaryMenu(true);
             }
         });
+    }
+
+    private void findDatasFromDB() {
+        String result = SteamTools.readSdcardFile("categorYlist.txt");
+        NewsCategory newsCategory = JSON.parseObject(result, NewsCategory.class);
+        categoryList = newsCategory.getData().getData();
+        List<NewsCategory.DataBeanX.DataBean> list = new ArrayList<NewsCategory.DataBeanX.DataBean>();
+        for (int i=0;i<20;i++){
+            list.add(categoryList.get(i));
+        }
+        adapter = new MyAdapter(getSupportFragmentManager(), list);
+        viewpager.setAdapter(adapter);
+
     }
 
     @Override
@@ -224,9 +248,11 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
             @Override
             public void onSuccess(String result) {
 
+
                 NewsCategory newsCategory = JSON.parseObject(result, NewsCategory.class);
                 categoryList = newsCategory.getData().getData();
                 List<NewsCategory.DataBeanX.DataBean> list = new ArrayList<NewsCategory.DataBeanX.DataBean>();
+                SteamTools.WriteToFile(result,"categorYlist.txt");
                 for (int i=0;i<20;i++){
                     list.add(categoryList.get(i));
                 }
