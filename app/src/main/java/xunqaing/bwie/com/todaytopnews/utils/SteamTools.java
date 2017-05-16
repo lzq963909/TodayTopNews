@@ -21,9 +21,9 @@ public class SteamTools {
     /**
      * 读取SD卡的文件
      * */
-    public static String readSdcardFile(){
+    public static String readSdcardFile(String fileName){
         try {
-            InputStream is = new FileInputStream(new File(Environment.getExternalStorageDirectory(),"datas.txt"));
+            InputStream is = new FileInputStream(new File(Environment.getExternalStorageDirectory(),fileName));
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             int len = 0;
             byte[] buffer = new byte[1024];
@@ -41,11 +41,11 @@ public class SteamTools {
     /**
      * 写入SD卡的操作
      * */
-    public static void WriteToFile(String string){
+    public static void WriteToFile(String string,String fileName){
         //先判断是否有SD卡
         if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
             try {
-                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(Environment.getExternalStorageDirectory(),"datas.txt"))));
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(Environment.getExternalStorageDirectory(),fileName))));
                 bufferedWriter.write(string);
                 bufferedWriter.close();
             } catch (FileNotFoundException e) {
