@@ -103,6 +103,15 @@ public class NewsMainFragment extends Fragment{
 
         initData(true);
 
+      /*  listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                Intent intent;
+                getActivity().startActivity(intent);
+            }
+        });*/
+
     }
 
 //    public void setAdapterFlush(boolean flag) {
