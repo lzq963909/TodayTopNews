@@ -207,6 +207,7 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:configChanges="orientation|keyboardHidden|screenSize"
             />
+        <activity android:name=".activities.WebViewActivity"></activity>
     </application>
 
 </manifest>
