@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 
+import org.greenrobot.eventbus.EventBus;
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
@@ -21,6 +22,7 @@ import java.util.Map;
 
 import xunqaing.bwie.com.todaytopnews.R;
 import xunqaing.bwie.com.todaytopnews.bean.LoginBean;
+import xunqaing.bwie.com.todaytopnews.eventbean.IsLoginEvent;
 import xunqaing.bwie.com.todaytopnews.utils.PreferencesUtils;
 
 /**
@@ -69,6 +71,7 @@ public class LoginActivity extends Activity {
                             users.put("username",editUserName.getText().toString().trim());
                             users.put("isLogin",true);
                             PreferencesUtils.setMapKey(LoginActivity.this,users);
+                            EventBus.getDefault().post(new IsLoginEvent(true));
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         } else {
                             Toast.makeText(LoginActivity.this, "账号密码错误请重新输入!", Toast.LENGTH_SHORT).show();

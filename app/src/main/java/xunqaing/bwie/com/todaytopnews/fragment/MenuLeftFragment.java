@@ -17,8 +17,6 @@ import android.widget.Toast;
 
 import com.kyleduo.switchbutton.SwitchButton;
 import com.tencent.connect.UserInfo;
-import com.tencent.open.utils.HttpUtils;
-import com.tencent.tauth.IRequestListener;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
@@ -26,25 +24,18 @@ import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 
-import org.apache.http.conn.ConnectTimeoutException;
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.SocketTimeoutException;
 import java.util.Map;
 
 import xunqaing.bwie.com.todaytopnews.Constants.Constants;
 import xunqaing.bwie.com.todaytopnews.R;
-import xunqaing.bwie.com.todaytopnews.SwitchButtonEvent;
+import xunqaing.bwie.com.todaytopnews.eventbean.SwitchButtonEvent;
 import xunqaing.bwie.com.todaytopnews.activities.LoginActivity;
-import xunqaing.bwie.com.todaytopnews.activities.MainActivity;
 import xunqaing.bwie.com.todaytopnews.activities.SetActivity;
 import xunqaing.bwie.com.todaytopnews.utils.PreferencesUtils;
-
-import static android.provider.UserDictionary.Words.APP_ID;
 
 /**
  * Created by : Xunqiang

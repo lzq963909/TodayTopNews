@@ -1,4 +1,4 @@
-package xunqaing.bwie.com.todaytopnews;
+package xunqaing.bwie.com.todaytopnews.eventbean;
 
 /**
  * Created by

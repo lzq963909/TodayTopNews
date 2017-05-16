@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -35,7 +36,8 @@ import java.util.Map;
 
 import xunqaing.bwie.com.todaytopnews.IApplication;
 import xunqaing.bwie.com.todaytopnews.R;
-import xunqaing.bwie.com.todaytopnews.SwitchButtonEvent;
+import xunqaing.bwie.com.todaytopnews.eventbean.IsLoginEvent;
+import xunqaing.bwie.com.todaytopnews.eventbean.SwitchButtonEvent;
 import xunqaing.bwie.com.todaytopnews.adapter.MyAdapter;
 import xunqaing.bwie.com.todaytopnews.bean.NewsCategory;
 import xunqaing.bwie.com.todaytopnews.bean.UserNewsCategory;
@@ -189,6 +191,12 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
         activity.changeMode(event.isWhite());
     }
 
+    //登录成功发送的Event
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void LoginEvent(IsLoginEvent event) {
+        Log.d("msgg","运行到这里");
+
+    }
     private void changeMode(boolean white) {
 
         if (white) {
@@ -269,8 +277,7 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
                             for (int i=0;i<20;i++){
                                 categoryList.add(list.get(i).getCategory());
                             }
-                            userNewsCategory1.setNewsCategoryList(categoryList);
-                            db.save(userNewsCategory1);
+
                         }
                     } catch (DbException e) {
                         e.printStackTrace();

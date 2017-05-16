@@ -28,7 +28,7 @@ import java.util.List;
 
 import xunqaing.bwie.com.todaytopnews.IApplication;
 import xunqaing.bwie.com.todaytopnews.R;
-import xunqaing.bwie.com.todaytopnews.SwitchButtonEvent;
+import xunqaing.bwie.com.todaytopnews.eventbean.SwitchButtonEvent;
 import xunqaing.bwie.com.todaytopnews.activities.CityActivity;
 import xunqaing.bwie.com.todaytopnews.adapter.NewsListAdapter;
 import xunqaing.bwie.com.todaytopnews.bean.TuijianBean;
@@ -137,7 +137,6 @@ public class NewsMainFragment extends Fragment{
     public void setListViewTextView(SwitchButtonEvent event) {
 
         setBackground(event.isWhite());
-
 
     }
 

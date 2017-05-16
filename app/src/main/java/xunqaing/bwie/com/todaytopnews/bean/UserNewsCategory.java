@@ -11,13 +11,11 @@ import static com.igexin.push.core.g.S;
 /**
  * Created by Administrator on 2017/5/14 0014.
  */
-@Table(name = "UserNewsCategory")
 public class UserNewsCategory {
 
-    @Column(name = "id" ,isId = true , autoGen = true)
     private int id;
     private String username;
-    private List<String> newsCategoryList;
+    private List<MyCateGory> newsCategoryList;
 
     public int getId() {
         return id;
@@ -35,11 +33,27 @@ public class UserNewsCategory {
         this.username = username;
     }
 
-    public List<String> getNewsCategoryList() {
-        return newsCategoryList;
-    }
 
-    public void setNewsCategoryList(List<String> newsCategoryList) {
-        this.newsCategoryList = newsCategoryList;
+    private class MyCateGory {
+        @Column(name = "category")
+        private String category;
+        @Column(name = "name")
+        private String name;
+
+        public String getCategory() {
+            return category;
+        }
+
+        public void setCategory(String category) {
+            this.category = category;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
     }
 }
