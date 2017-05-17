@@ -1,5 +1,8 @@
 package xunqaing.bwie.com.todaytopnews.utils;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 /**
  * @author 作者Trydimire E-mail: 867133009@qq.com
  * @version 1.0
@@ -42,6 +45,14 @@ public class MyUrl {
         String url = "";
 
         url = urlone + newstype;
+        if(newstype.equals("news_local")){
+            try {
+                url = urlone + newstype+"&user_city="+ URLEncoder.encode("北京","UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+        }
+
         return url;
     }
 

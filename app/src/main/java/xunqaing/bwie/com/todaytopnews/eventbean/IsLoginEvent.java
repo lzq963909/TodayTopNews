@@ -6,6 +6,7 @@ package xunqaing.bwie.com.todaytopnews.eventbean;
 
 public class IsLoginEvent {
     private boolean isLogin;
+    private String username;
 
     public boolean isLogin() {
         return isLogin;
@@ -15,7 +16,16 @@ public class IsLoginEvent {
         isLogin = login;
     }
 
-    public IsLoginEvent(boolean isLogin) {
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public IsLoginEvent(boolean isLogin, String username) {
         this.isLogin = isLogin;
+        this.username = username;
     }
 }

@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.alibaba.fastjson.JSON;
@@ -52,18 +53,37 @@ public class NewsMainFragment extends Fragment{
     private NewsListAdapter adapter;
     private IApplication application;
     private SpringView springView;
-
+    private LinearLayout linearLayout;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main_news, null);
+        View headerView = inflater.inflate(R.layout.listview_header_item,null);
+
+        linearLayout = (LinearLayout) headerView.findViewById(R.id.linearlayout_city);
+
 
         springView = (SpringView) view.findViewById(R.id.news_springview);
 
         listView = (ListView) view.findViewById(R.id.news_listview);
+        listView.addHeaderView(headerView);
         newsType = getArguments().getString("newstype");
 
         application = (IApplication) getActivity().getApplication();
+
+        if (newsType.equals("news_local")) {
+            linearLayout.setVisibility(View.VISIBLE);
+            linearLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(getActivity(), CityActivity.class);
+                    getActivity().overridePendingTransition(R.anim.in1,R.anim.out1);
+                    startActivity(i);
+                }
+            });
+
+
+        }
 
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
@@ -111,7 +131,7 @@ public class NewsMainFragment extends Fragment{
 
                 Intent intent=new Intent(getActivity(),WebViewActivity.class);
 
-                intent.putExtra("url",list.get(i).getUrl());
+                intent.putExtra("url",list.get(i - 1).getUrl());
 
                 getActivity().startActivity(intent);
 
@@ -121,20 +141,6 @@ public class NewsMainFragment extends Fragment{
 
     }
 
-//    public void setAdapterFlush(boolean flag) {
-//
-//        if (flag) {
-//
-//            adapter = new NewsListAdapter(getActivity(), listAll);
-//            listView.setAdapter(adapter);
-//
-//        } else {
-//
-//            adapter.notifyDataSetChanged();
-//
-//        }
-//
-//    }
 
     public void initData(boolean flag) {
 
@@ -215,12 +221,7 @@ public class NewsMainFragment extends Fragment{
         });
 
 
-        if (newsType.equals("news_local")) {
 
-            Intent i = new Intent(getActivity(), CityActivity.class);
-            startActivity(i);
-
-        }
 
     }
 

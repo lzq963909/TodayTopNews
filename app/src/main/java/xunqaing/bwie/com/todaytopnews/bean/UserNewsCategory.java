@@ -5,6 +5,7 @@ import org.xutils.db.annotation.Table;
 
 import java.util.List;
 
+import static android.R.attr.id;
 import static android.R.attr.name;
 import static com.igexin.push.core.g.S;
 
@@ -13,17 +14,17 @@ import static com.igexin.push.core.g.S;
  */
 public class UserNewsCategory {
 
-    private int id;
     private String username;
     private List<MyCateGory> newsCategoryList;
 
-    public int getId() {
-        return id;
+    public UserNewsCategory( String username, List<MyCateGory> newsCategoryList) {
+        this.username = username;
+        this.newsCategoryList = newsCategoryList;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public UserNewsCategory() {
     }
+
 
     public String getUsername() {
         return username;
@@ -33,27 +34,11 @@ public class UserNewsCategory {
         this.username = username;
     }
 
+    public List<MyCateGory> getNewsCategoryList() {
+        return newsCategoryList;
+    }
 
-    private class MyCateGory {
-        @Column(name = "category")
-        private String category;
-        @Column(name = "name")
-        private String name;
-
-        public String getCategory() {
-            return category;
-        }
-
-        public void setCategory(String category) {
-            this.category = category;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
+    public void setNewsCategoryList(List<MyCateGory> newsCategoryList) {
+        this.newsCategoryList = newsCategoryList;
     }
 }

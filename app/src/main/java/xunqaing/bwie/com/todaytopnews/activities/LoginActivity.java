@@ -71,7 +71,7 @@ public class LoginActivity extends Activity {
                             users.put("username",editUserName.getText().toString().trim());
                             users.put("isLogin",true);
                             PreferencesUtils.setMapKey(LoginActivity.this,users);
-                            EventBus.getDefault().post(new IsLoginEvent(true));
+                            EventBus.getDefault().post(new IsLoginEvent(true,editUserName.getText().toString().trim()));
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         } else {
                             Toast.makeText(LoginActivity.this, "账号密码错误请重新输入!", Toast.LENGTH_SHORT).show();

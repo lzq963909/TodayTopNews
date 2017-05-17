@@ -36,6 +36,7 @@ import java.util.Map;
 
 import xunqaing.bwie.com.todaytopnews.IApplication;
 import xunqaing.bwie.com.todaytopnews.R;
+import xunqaing.bwie.com.todaytopnews.bean.MyCateGory;
 import xunqaing.bwie.com.todaytopnews.eventbean.IsLoginEvent;
 import xunqaing.bwie.com.todaytopnews.eventbean.SwitchButtonEvent;
 import xunqaing.bwie.com.todaytopnews.adapter.MyAdapter;
@@ -50,6 +51,8 @@ import xunqaing.bwie.com.todaytopnews.utils.NetUtil;
 import xunqaing.bwie.com.todaytopnews.utils.PreferencesUtils;
 import xunqaing.bwie.com.todaytopnews.utils.SteamTools;
 
+import static com.igexin.push.core.g.U;
+
 public class MainActivity extends SlidingFragmentActivity implements UMAuthListener {
 
     private SlidingMenu slidingMenu;
@@ -63,6 +66,8 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
     private DbManager db;
     private WindowManager.LayoutParams params;
     private LinearLayout linearLayout;
+    List<NewsCategory.DataBeanX.DataBean> list = new ArrayList<NewsCategory.DataBeanX.DataBean>();
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -130,7 +135,6 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
         String result = SteamTools.readSdcardFile("categorYlist.txt");
         NewsCategory newsCategory = JSON.parseObject(result, NewsCategory.class);
         categoryList = newsCategory.getData().getData();
-        List<NewsCategory.DataBeanX.DataBean> list = new ArrayList<NewsCategory.DataBeanX.DataBean>();
         for (int i=0;i<20;i++){
             list.add(categoryList.get(i));
         }
@@ -194,6 +198,19 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
     //登录成功发送的Event
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void LoginEvent(IsLoginEvent event) {
+        String username =  event.getUsername();
+        UserNewsCategory userNewsCategory = new UserNewsCategory();
+
+
+        List<MyCateGory>  listCategory = new ArrayList<>();
+
+        for (int i = 0; i<list.size();i++){
+            listCategory.add(new MyCateGory(list.get(i).getName(),list.get(i).getCategory()));
+        }
+        userNewsCategory.setNewsCategoryList(listCategory);
+        userNewsCategory.setUsername(username);
+        String userNewsCategoryJson = JSON.toJSONString(userNewsCategory);
+        SteamTools.WriteToFile(userNewsCategoryJson,username+".txt");
         Log.d("msgg","运行到这里");
 
     }
@@ -259,29 +276,15 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
 
                 NewsCategory newsCategory = JSON.parseObject(result, NewsCategory.class);
                 categoryList = newsCategory.getData().getData();
-                List<NewsCategory.DataBeanX.DataBean> list = new ArrayList<NewsCategory.DataBeanX.DataBean>();
-                SteamTools.WriteToFile(result,"categorYlist.txt");
                 for (int i=0;i<20;i++){
                     list.add(categoryList.get(i));
                 }
+                SteamTools.WriteToFile(result,"categorYlist.txt");
+
 
                 //处于登录状态的话 得到用户频道信息 否则只显示20条数据
                 if (PreferencesUtils.getValueByKey(MainActivity.this,"isLogin",false)){
-                    try {
-                        UserNewsCategory userNewsCategory = db.selector(UserNewsCategory.class)
-                                .where("username","=",PreferencesUtils.getValueByKey(MainActivity.this,"username","")).findFirst();
-                        if (userNewsCategory == null){
-                            UserNewsCategory userNewsCategory1 = new UserNewsCategory();
-                            userNewsCategory1.setUsername(PreferencesUtils.getValueByKey(MainActivity.this,"username",""));
-                            List<String> categoryList = new ArrayList<String>();
-                            for (int i=0;i<20;i++){
-                                categoryList.add(list.get(i).getCategory());
-                            }
 
-                        }
-                    } catch (DbException e) {
-                        e.printStackTrace();
-                    }
                 }
                 adapter = new MyAdapter(getSupportFragmentManager(), list);
                 viewpager.setAdapter(adapter);
