@@ -5,27 +5,26 @@ import org.xutils.db.annotation.Table;
 
 import java.util.List;
 
+import static android.R.attr.id;
 import static android.R.attr.name;
 import static com.igexin.push.core.g.S;
 
 /**
  * Created by Administrator on 2017/5/14 0014.
  */
-@Table(name = "UserNewsCategory")
 public class UserNewsCategory {
 
-    @Column(name = "id" ,isId = true , autoGen = true)
-    private int id;
     private String username;
-    private List<String> newsCategoryList;
+    private List<MyCateGory> newsCategoryList;
 
-    public int getId() {
-        return id;
+    public UserNewsCategory( String username, List<MyCateGory> newsCategoryList) {
+        this.username = username;
+        this.newsCategoryList = newsCategoryList;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public UserNewsCategory() {
     }
+
 
     public String getUsername() {
         return username;
@@ -35,11 +34,11 @@ public class UserNewsCategory {
         this.username = username;
     }
 
-    public List<String> getNewsCategoryList() {
+    public List<MyCateGory> getNewsCategoryList() {
         return newsCategoryList;
     }
 
-    public void setNewsCategoryList(List<String> newsCategoryList) {
+    public void setNewsCategoryList(List<MyCateGory> newsCategoryList) {
         this.newsCategoryList = newsCategoryList;
     }
 }
