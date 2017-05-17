@@ -30,11 +30,11 @@ import java.util.List;
 
 import xunqaing.bwie.com.todaytopnews.IApplication;
 import xunqaing.bwie.com.todaytopnews.R;
-import xunqaing.bwie.com.todaytopnews.eventbean.SwitchButtonEvent;
 import xunqaing.bwie.com.todaytopnews.activities.CityActivity;
 import xunqaing.bwie.com.todaytopnews.activities.WebViewActivity;
 import xunqaing.bwie.com.todaytopnews.adapter.NewsListAdapter;
 import xunqaing.bwie.com.todaytopnews.bean.TuijianBean;
+import xunqaing.bwie.com.todaytopnews.eventbean.SwitchButtonEvent;
 import xunqaing.bwie.com.todaytopnews.utils.MyUrl;
 import xunqaing.bwie.com.todaytopnews.utils.NetUtil;
 import xunqaing.bwie.com.todaytopnews.utils.SteamTools;
@@ -54,6 +54,7 @@ public class NewsMainFragment extends Fragment{
     private IApplication application;
     private SpringView springView;
     private LinearLayout linearLayout;
+    private String userCity = "北京";
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -179,7 +180,7 @@ public class NewsMainFragment extends Fragment{
 
     private void findDatasFromIntentle(final boolean flag) {
 
-        RequestParams requestParams = new RequestParams(MyUrl.getUrl(newsType));
+        RequestParams requestParams = new RequestParams(MyUrl.getUrl(newsType,userCity));
 
         x.http().get(requestParams, new Callback.CommonCallback<String>() {
 

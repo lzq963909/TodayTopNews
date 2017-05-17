@@ -41,13 +41,13 @@ public class MyUrl {
      * 该方法拼接可以获取实时新闻
      * newstype 从新闻选项的接口中获得 新闻接口中的 ategory中的数据
      */
-    public static String getUrl(String newstype) {
+    public static String getUrl(String newstype ,String userCity) {
         String url = "";
 
         url = urlone + newstype;
         if(newstype.equals("news_local")){
             try {
-                url = urlone + newstype+"&user_city="+ URLEncoder.encode("北京","UTF-8");
+                url = urlone + newstype+"&user_city="+ URLEncoder.encode(userCity,"UTF-8");
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
