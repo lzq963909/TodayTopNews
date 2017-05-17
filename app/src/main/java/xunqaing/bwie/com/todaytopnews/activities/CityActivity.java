@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -12,11 +13,20 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
+
+import org.greenrobot.eventbus.EventBus;
+import org.xutils.common.Callback;
+import org.xutils.http.RequestParams;
+import org.xutils.x;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import xunqaing.bwie.com.todaytopnews.R;
+import xunqaing.bwie.com.todaytopnews.bean.WhichCity;
 import xunqaing.bwie.com.todaytopnews.cityview.CityAdapter;
 import xunqaing.bwie.com.todaytopnews.cityview.CitySortModel;
 import xunqaing.bwie.com.todaytopnews.cityview.EditTextWithDel;
@@ -24,6 +34,10 @@ import xunqaing.bwie.com.todaytopnews.cityview.PinyinComparator;
 import xunqaing.bwie.com.todaytopnews.cityview.PinyinUtils;
 import xunqaing.bwie.com.todaytopnews.cityview.SideBar;
 import xunqaing.bwie.com.todaytopnews.cityview.SortAdapter;
+import xunqaing.bwie.com.todaytopnews.eventbean.SwitchCity;
+
+import static android.R.id.input;
+import static android.R.id.list;
 
 public class CityActivity extends Activity {
     private ListView sortListView;
@@ -32,7 +46,7 @@ public class CityActivity extends Activity {
     private SortAdapter adapter;
     private EditTextWithDel mEtCityName;
     private List<CitySortModel> SourceDateList;
-
+    private List<WhichCity.DataBean> listcityz;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,11 +68,22 @@ public class CityActivity extends Activity {
         sortListView = (ListView) findViewById(R.id.country_lvcountry);
         initDatas();
         initEvents();
-        setAdapter();
+        initData();
+
     }
 
     private void setAdapter() {
-        SourceDateList = filledData(getResources().getStringArray(R.array.provinces));
+        String citys = "";
+        for (int i=0;i<listcityz.size();i++){
+            List<String> list = listcityz.get(i).getCities();
+            for (int a = 0;a<list.size();a++){
+                citys += list.get(a)+",";
+            }
+        }
+        String[]  arr = citys.split(",");
+
+
+        SourceDateList = filledData(arr);
         Collections.sort(SourceDateList, new PinyinComparator());
         adapter = new SortAdapter(this, SourceDateList);
         sortListView.addHeaderView(initHeadView());
@@ -84,8 +109,10 @@ public class CityActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
+                EventBus.getDefault().post(new SwitchCity(((CitySortModel) adapter.getItem(position - 1)).getName()));
                 mTvTitle.setText(((CitySortModel) adapter.getItem(position - 1)).getName());
-                Toast.makeText(getApplication(), ((CitySortModel) adapter.getItem(position)).getName(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplication(), ((CitySortModel) adapter.getItem(position- 1)).getName(), Toast.LENGTH_SHORT).show();
+                CityActivity.this.finish();
             }
         });
 
@@ -170,6 +197,43 @@ public class CityActivity extends Activity {
         Collections.sort(indexString);
         sideBar.setIndexText(indexString);
         return mSortList;
+    }
+    private void initData() {
+
+        RequestParams requestparams = new RequestParams("http://ic.snssdk.com/2/article/city/");
+
+        x.http().get(requestparams, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Log.e("MSGG",result+"========");
+                if (result != null){
+
+                    WhichCity whichCity = JSON.parseObject(result, WhichCity.class);
+                    listcityz = whichCity.getData();
+                    setAdapter();
+
+                }else{
+                    Toast.makeText(CityActivity.this, "空", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
+
     }
 }
 

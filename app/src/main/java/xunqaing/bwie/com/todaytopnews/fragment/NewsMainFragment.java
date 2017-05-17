@@ -35,6 +35,7 @@ import xunqaing.bwie.com.todaytopnews.activities.WebViewActivity;
 import xunqaing.bwie.com.todaytopnews.adapter.NewsListAdapter;
 import xunqaing.bwie.com.todaytopnews.bean.TuijianBean;
 import xunqaing.bwie.com.todaytopnews.eventbean.SwitchButtonEvent;
+import xunqaing.bwie.com.todaytopnews.eventbean.SwitchCity;
 import xunqaing.bwie.com.todaytopnews.utils.MyUrl;
 import xunqaing.bwie.com.todaytopnews.utils.NetUtil;
 import xunqaing.bwie.com.todaytopnews.utils.SteamTools;
@@ -162,7 +163,11 @@ public class NewsMainFragment extends Fragment{
         setBackground(event.isWhite());
 
     }
-
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void refreshView(SwitchCity event) {
+        userCity = event.getCity();
+        findDatasFromIntentle(true);
+    }
     public void setBackground(boolean isWhite) {
 
         //白天模式
@@ -235,15 +240,11 @@ public class NewsMainFragment extends Fragment{
 
     }
 
-    /*//shuaxin
     @Override
-    public void onRefresh() {
-
-        listAll.clear();
-
-//        adapter.notifyDataSetChanged();
-
-        initData(true);
-
-    }*/
+    public void onResume() {
+        super.onResume();
+        if (adapter!=null){
+            adapter.notifyDataSetChanged();
+        }
+    }
 }
