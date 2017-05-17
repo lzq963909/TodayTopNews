@@ -44,7 +44,7 @@ import xunqaing.bwie.com.todaytopnews.utils.SteamTools;
  * Created by Administrator on 2017/5/9 0009.
  */
 
-public class NewsMainFragment extends Fragment{
+public class NewsMainFragment extends Fragment implements SpringView.OnFreshListener{
     private ListView listView;
     private String newsType;
     private List<TuijianBean.DataBean> list;
@@ -104,26 +104,7 @@ public class NewsMainFragment extends Fragment{
 
         springView.setFooter(new AcFunFooter(getActivity(),R.drawable.acfun_footer));
 
-        springView.setListener(new SpringView.OnFreshListener() {
-            @Override
-            public void onRefresh() {//刷新
-
-                listAll.clear();
-
-                initData(true);
-
-                springView.onFinishFreshAndLoad();
-
-            }
-
-            @Override
-            public void onLoadmore() {//加载更多
-
-                initData(false);
-                springView.onFinishFreshAndLoad();
-
-            }
-        });
+        springView.setListener(this);
 
         initData(true);
 
@@ -167,6 +148,7 @@ public class NewsMainFragment extends Fragment{
     public void refreshView(SwitchCity event) {
         userCity = event.getCity();
         findDatasFromIntentle(true);
+        onRefresh();
     }
     public void setBackground(boolean isWhite) {
 
@@ -246,5 +228,22 @@ public class NewsMainFragment extends Fragment{
         if (adapter!=null){
             adapter.notifyDataSetChanged();
         }
+    }
+
+    @Override
+    public void onRefresh() {
+
+        listAll.clear();
+
+        initData(true);
+
+        springView.onFinishFreshAndLoad();
+    }
+
+    @Override
+    public void onLoadmore() {
+
+        initData(false);
+        springView.onFinishFreshAndLoad();
     }
 }
