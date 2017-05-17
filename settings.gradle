@@ -1,1 +1,1 @@
-include ':app', ':slidingmenu', ':jcvideoplayer-lib'
+include ':app', ':slidingmenu'
