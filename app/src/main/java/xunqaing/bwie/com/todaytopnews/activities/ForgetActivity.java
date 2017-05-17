@@ -21,15 +21,24 @@ public class ForgetActivity extends Activity {
     private Button bt_suiji;
     private TextView tv;
     private String suijishu;
+    private TextView login_register_return;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.wangjimima_activity);
 
+        login_register_return = (TextView) findViewById(R.id.login_register_return);
         et = (EditText) findViewById(R.id.wangjimima_et);
         bt = (Button) findViewById(R.id.zhaohuimima_next_button);
         bt_suiji = (Button) findViewById(R.id.wangjimima_bt);
+
+        login_register_return.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         bt_suiji.setOnClickListener(new View.OnClickListener() {
             @Override

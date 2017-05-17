@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.alibaba.fastjson.JSON;
@@ -30,6 +31,7 @@ import xunqaing.bwie.com.todaytopnews.IApplication;
 import xunqaing.bwie.com.todaytopnews.R;
 import xunqaing.bwie.com.todaytopnews.SwitchButtonEvent;
 import xunqaing.bwie.com.todaytopnews.activities.CityActivity;
+import xunqaing.bwie.com.todaytopnews.activities.WebViewActivity;
 import xunqaing.bwie.com.todaytopnews.adapter.NewsListAdapter;
 import xunqaing.bwie.com.todaytopnews.bean.TuijianBean;
 import xunqaing.bwie.com.todaytopnews.utils.MyUrl;
@@ -102,6 +104,20 @@ public class NewsMainFragment extends Fragment{
         });
 
         initData(true);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                Intent intent=new Intent(getActivity(),WebViewActivity.class);
+
+                intent.putExtra("url",list.get(i).getUrl());
+
+                getActivity().startActivity(intent);
+
+                getActivity().overridePendingTransition(R.anim.in1,R.anim.out1);
+            }
+        });
 
     }
 

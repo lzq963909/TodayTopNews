@@ -40,10 +40,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="80dp"
+            android:layout_marginLeft="60dp"
             android:text="+ 86"
             android:textColor="#666666"
-            android:textSize="20dp" />
+            android:textSize="15dp" />
 
         <EditText
             android:id="@+id/wangjimima_et"
