@@ -37,12 +37,12 @@ import java.util.Map;
 
 import xunqaing.bwie.com.todaytopnews.IApplication;
 import xunqaing.bwie.com.todaytopnews.R;
-import xunqaing.bwie.com.todaytopnews.bean.MyCateGory;
-import xunqaing.bwie.com.todaytopnews.eventbean.IsLoginEvent;
-import xunqaing.bwie.com.todaytopnews.eventbean.SwitchButtonEvent;
 import xunqaing.bwie.com.todaytopnews.adapter.MyAdapter;
+import xunqaing.bwie.com.todaytopnews.bean.MyCateGory;
 import xunqaing.bwie.com.todaytopnews.bean.NewsCategory;
 import xunqaing.bwie.com.todaytopnews.bean.UserNewsCategory;
+import xunqaing.bwie.com.todaytopnews.eventbean.IsLoginEvent;
+import xunqaing.bwie.com.todaytopnews.eventbean.SwitchButtonEvent;
 import xunqaing.bwie.com.todaytopnews.fragment.MenuLeftFragment;
 import xunqaing.bwie.com.todaytopnews.fragment.MenuRightFragment;
 import xunqaing.bwie.com.todaytopnews.newsdrag.ChannelActivity;
@@ -52,9 +52,6 @@ import xunqaing.bwie.com.todaytopnews.utils.MyUrl;
 import xunqaing.bwie.com.todaytopnews.utils.NetUtil;
 import xunqaing.bwie.com.todaytopnews.utils.PreferencesUtils;
 import xunqaing.bwie.com.todaytopnews.utils.SteamTools;
-
-import static android.R.id.list;
-import static com.igexin.push.core.g.U;
 
 public class MainActivity extends SlidingFragmentActivity implements UMAuthListener {
 
