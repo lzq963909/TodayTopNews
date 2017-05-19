@@ -51,6 +51,7 @@ import xunqaing.bwie.com.todaytopnews.utils.NetUtil;
 import xunqaing.bwie.com.todaytopnews.utils.PreferencesUtils;
 import xunqaing.bwie.com.todaytopnews.utils.SteamTools;
 
+import static android.R.id.list;
 import static com.igexin.push.core.g.U;
 
 public class MainActivity extends SlidingFragmentActivity implements UMAuthListener {
@@ -66,6 +67,9 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
     private DbManager db;
     private WindowManager.LayoutParams params;
     private LinearLayout linearLayout;
+    private List<MyCateGory> myCateGoriesUser = new ArrayList<>();
+    private List<MyCateGory> myCateGoriesAll = new ArrayList<>();
+
     List<NewsCategory.DataBeanX.DataBean> list = new ArrayList<NewsCategory.DataBeanX.DataBean>();
 
     @Override
@@ -400,5 +404,27 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
     @Override
     public void onCancel(SHARE_MEDIA share_media, int i) {
 
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        try {
+            db.delete(MyCateGory.class);
+            //保存当前登录用户的20条
+            for (int i=0;i<list.size();i++){
+                myCateGoriesUser.add(new MyCateGory(PreferencesUtils.getValueByKey(MainActivity.this,"username",""),list.get(i).getName(),list.get(i).getCategory()));
+            }
+            db.save(myCateGoriesUser);
+
+            //保存所有的48条
+            for (int i=0;i<categoryList.size();i++){
+                myCateGoriesAll.add(new MyCateGory("ALL",categoryList.get(i).getName(),categoryList.get(i).getCategory()));
+            }
+            db.save(myCateGoriesAll);
+
+        } catch (DbException e) {
+            e.printStackTrace();
+        }
     }
 }

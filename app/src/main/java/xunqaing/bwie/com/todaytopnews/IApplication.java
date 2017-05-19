@@ -87,7 +87,7 @@ public class IApplication extends Application {
 
     public void initData() {
         configTj = new DbManager.DaoConfig();
-        configTj.setDbName("tj.db");
+        configTj.setDbName("database.db");
         configTj.setDbVersion(1);
         configTj.setDbUpgradeListener(new DbManager.DbUpgradeListener() {
             @Override
