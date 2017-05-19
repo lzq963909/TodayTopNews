@@ -1,5 +1,6 @@
 package xunqaing.bwie.com.todaytopnews.activities;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
@@ -44,6 +45,7 @@ import xunqaing.bwie.com.todaytopnews.bean.NewsCategory;
 import xunqaing.bwie.com.todaytopnews.bean.UserNewsCategory;
 import xunqaing.bwie.com.todaytopnews.fragment.MenuLeftFragment;
 import xunqaing.bwie.com.todaytopnews.fragment.MenuRightFragment;
+import xunqaing.bwie.com.todaytopnews.newsdrag.ChannelActivity;
 import xunqaing.bwie.com.todaytopnews.service.DemoIntentService;
 import xunqaing.bwie.com.todaytopnews.service.DemoPushService;
 import xunqaing.bwie.com.todaytopnews.utils.MyUrl;
@@ -58,6 +60,7 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
 
     private SlidingMenu slidingMenu;
     private TabLayout tabLayout;
+    private TextView textCategory;
     private ViewPager viewpager;
     private MyAdapter adapter;
     private List<NewsCategory.DataBeanX.DataBean> categoryList;
@@ -69,6 +72,7 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
     private LinearLayout linearLayout;
     private List<MyCateGory> myCateGoriesUser = new ArrayList<>();
     private List<MyCateGory> myCateGoriesAll = new ArrayList<>();
+    private List<MyCateGory> myCateGoriesOther = new ArrayList<>();
 
     List<NewsCategory.DataBeanX.DataBean> list = new ArrayList<NewsCategory.DataBeanX.DataBean>();
 
@@ -81,6 +85,7 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
         tabLayout = (TabLayout) findViewById(R.id.tablayout);
         viewpager = (ViewPager) findViewById(R.id.viewpage);
         linearLayout = (LinearLayout) findViewById(R.id.activity_main);
+        textCategory = (TextView)findViewById(R.id.text_add);
         ImageView iv_left = (ImageView) findViewById(R.id.pub_title_left_imageview);
         ImageView iv_right = (ImageView) findViewById(R.id.pub_title_right_imageview);
         // com.getui.demo.DemoPushService 为第三方自定义推送服务
@@ -131,6 +136,15 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
             public void onClick(View v) {
 
                 slidingMenu.showSecondaryMenu(true);
+            }
+        });
+
+        textCategory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(MainActivity.this,ChannelActivity.class);
+                startActivity(intent);
+                MainActivity.this.overridePendingTransition(R.anim.in1,R.anim.out1);
             }
         });
     }
@@ -422,7 +436,12 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
                 myCateGoriesAll.add(new MyCateGory("ALL",categoryList.get(i).getName(),categoryList.get(i).getCategory()));
             }
             db.save(myCateGoriesAll);
+            //保存其他的条目
 
+            for (int i=20;i<categoryList.size();i++){
+                myCateGoriesOther.add(new MyCateGory("Other",categoryList.get(i).getName(),categoryList.get(i).getCategory()));
+            }
+            db.save(myCateGoriesOther);
         } catch (DbException e) {
             e.printStackTrace();
         }
