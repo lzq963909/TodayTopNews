@@ -9,15 +9,16 @@ import java.util.List;
 
 import xunqaing.bwie.com.todaytopnews.bean.NewsCategory;
 import xunqaing.bwie.com.todaytopnews.fragment.NewsMainFragment;
+import xunqaing.bwie.com.todaytopnews.newsdrag.bean.ChannelItem;
 
 /**
  * Created by Administrator on 2017/5/9 0009.
  */
 
 public class MyAdapter extends FragmentPagerAdapter {
-    private List<NewsCategory.DataBeanX.DataBean> list;
+    private List<ChannelItem> list;
 
-    public MyAdapter(FragmentManager fm,List<NewsCategory.DataBeanX.DataBean> list) {
+    public MyAdapter(FragmentManager fm,List<ChannelItem> list) {
         super(fm);
         this.list = list;
     }

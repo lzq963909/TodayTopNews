@@ -8,7 +8,7 @@ import java.io.Serializable;
 /**
  * ITEM的对应可序化队列属性
  *  */
-@Table(name = "ChannelItem")
+@Table(name = "MyChannelItem1")
 public class ChannelItem implements Serializable {
 	/**
 	 *
@@ -17,7 +17,7 @@ public class ChannelItem implements Serializable {
 	/**
 	 * 栏目对应ID
 	 *  */
-	@Column(name = "id",isId = true)
+	@Column(name = "id",isId = true,autoGen = true)
 	public Integer id;
 	/**
 	 * 栏目对应NAME
@@ -35,50 +35,85 @@ public class ChannelItem implements Serializable {
 	@Column(name = "selected")
 	public Integer selected;
 
+	@Column(name = "category")
+	private String category;
+
+	@Column(name = "username")
+	private String username;
+
 	public ChannelItem() {
 	}
 
-	public ChannelItem(int id, String name, int orderId,int selected) {
-		this.id = Integer.valueOf(id);
+	public ChannelItem(Integer id, String name, Integer orderId, Integer selected, String category, String username) {
+		this.id = id;
 		this.name = name;
-		this.orderId = Integer.valueOf(orderId);
-		this.selected = Integer.valueOf(selected);
+		this.orderId = orderId;
+		this.selected = selected;
+		this.category = category;
+		this.username = username;
 	}
 
-	public int getId() {
-		return this.id.intValue();
+	@Override
+	public String toString() {
+		return "ChannelItem{" +
+				"id=" + id +
+				", name='" + name + '\'' +
+				", orderId=" + orderId +
+				", selected=" + selected +
+				", category='" + category + '\'' +
+				", username='" + username + '\'' +
+				'}';
+	}
+
+	public static long getSerialVersionUID() {
+		return serialVersionUID;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public String getName() {
-		return this.name;
+		return name;
 	}
 
-	public int getOrderId() {
-		return this.orderId.intValue();
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Integer getOrderId() {
+		return orderId;
+	}
+
+	public void setOrderId(Integer orderId) {
+		this.orderId = orderId;
 	}
 
 	public Integer getSelected() {
-		return this.selected;
+		return selected;
 	}
 
-	public void setId(int paramInt) {
-		this.id = Integer.valueOf(paramInt);
+	public void setSelected(Integer selected) {
+		this.selected = selected;
 	}
 
-	public void setName(String paramString) {
-		this.name = paramString;
+	public String getCategory() {
+		return category;
 	}
 
-	public void setOrderId(int paramInt) {
-		this.orderId = Integer.valueOf(paramInt);
+	public void setCategory(String category) {
+		this.category = category;
 	}
 
-	public void setSelected(Integer paramInteger) {
-		this.selected = paramInteger;
+	public String getUsername() {
+		return username;
 	}
 
-	public String toString() {
-		return "ChannelItem [id=" + this.id + ", name=" + this.name
-				+ ", selected=" + this.selected + "]";
+	public void setUsername(String username) {
+		this.username = username;
 	}
 }

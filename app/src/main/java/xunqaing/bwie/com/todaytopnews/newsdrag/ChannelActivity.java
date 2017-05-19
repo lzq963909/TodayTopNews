@@ -100,41 +100,12 @@ public class ChannelActivity extends Activity implements OnItemClickListener {
      */
     private void initData() {
 
-        if (PreferencesUtils.getValueByKey(ChannelActivity.this, "isSaveToDb2", false)) {
             try {
                 userChannelList = (ArrayList<ChannelItem>) db.selector(ChannelItem.class).where("selected", "=", "1").findAll();
                 otherChannelList = (ArrayList<ChannelItem>) db.selector(ChannelItem.class).where("selected", "=", "0").findAll();
             } catch (DbException e) {
                 e.printStackTrace();
             }
-        } else {
-            try {
-
-                myCateGoriesUser = db.selector(MyCateGory.class).where(WhereBuilder.b("username", "=", PreferencesUtils.getValueByKey(ChannelActivity.this, "username", ""))).findAll();
-                myCateGoriesAll = db.selector(MyCateGory.class).where(WhereBuilder.b("username", "=", "ALL")).findAll();
-                myCateGoriesOther = db.selector(MyCateGory.class).where(WhereBuilder.b("username", "=", "Other")).findAll();
-
-                for (int i = 0; i < myCateGoriesAll.size(); i++) {
-                    if (i <= 19) {
-                        ChannelItem item = new ChannelItem();
-                        item.setId(myCateGoriesAll.get(i).getId());
-                        item.setName(myCateGoriesAll.get(i).getName());
-                        item.setOrderId(myCateGoriesAll.get(i).getId());
-                        item.setSelected(1);
-                        userChannelList.add(item);
-                    } else {
-                        ChannelItem item = new ChannelItem();
-                        item.setId(myCateGoriesAll.get(i).getId());
-                        item.setName(myCateGoriesAll.get(i).getName());
-                        item.setOrderId(myCateGoriesAll.get(i).getId() - 19);
-                        item.setSelected(0);
-                        otherChannelList.add(item);
-                    }
-                }
-            } catch (DbException e) {
-                e.printStackTrace();
-            }
-        }
         userAdapter = new DragAdapter(this, userChannelList);
         userGridView.setAdapter(userAdapter);
         otherAdapter = new OtherAdapter(this, otherChannelList);
@@ -340,9 +311,6 @@ public class ChannelActivity extends Activity implements OnItemClickListener {
         } catch (DbException e) {
             e.printStackTrace();
         }
-        Map<String, Object> map = new HashMap<>();
-        map.put("isSaveToDb2", true);
-        PreferencesUtils.setMapKey(ChannelActivity.this, map);
     }
 
     @Override

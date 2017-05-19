@@ -14,6 +14,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.bwei.slidingmenu.SlidingMenu;
@@ -32,6 +33,7 @@ import org.xutils.http.RequestParams;
 import org.xutils.x;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -46,15 +48,13 @@ import xunqaing.bwie.com.todaytopnews.bean.UserNewsCategory;
 import xunqaing.bwie.com.todaytopnews.fragment.MenuLeftFragment;
 import xunqaing.bwie.com.todaytopnews.fragment.MenuRightFragment;
 import xunqaing.bwie.com.todaytopnews.newsdrag.ChannelActivity;
+import xunqaing.bwie.com.todaytopnews.newsdrag.bean.ChannelItem;
 import xunqaing.bwie.com.todaytopnews.service.DemoIntentService;
 import xunqaing.bwie.com.todaytopnews.service.DemoPushService;
 import xunqaing.bwie.com.todaytopnews.utils.MyUrl;
 import xunqaing.bwie.com.todaytopnews.utils.NetUtil;
 import xunqaing.bwie.com.todaytopnews.utils.PreferencesUtils;
-import xunqaing.bwie.com.todaytopnews.utils.SteamTools;
 
-import static android.R.id.list;
-import static com.igexin.push.core.g.U;
 
 public class MainActivity extends SlidingFragmentActivity implements UMAuthListener {
 
@@ -70,11 +70,8 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
     private DbManager db;
     private WindowManager.LayoutParams params;
     private LinearLayout linearLayout;
-    private List<MyCateGory> myCateGoriesUser = new ArrayList<>();
-    private List<MyCateGory> myCateGoriesAll = new ArrayList<>();
-    private List<MyCateGory> myCateGoriesOther = new ArrayList<>();
+    List<ChannelItem> mlist = new ArrayList<>();
 
-    List<NewsCategory.DataBeanX.DataBean> list = new ArrayList<NewsCategory.DataBeanX.DataBean>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -95,7 +92,6 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
 
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
-
         }
 
 
@@ -110,8 +106,8 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
 
         initGrayBackground();
 
-        //判断是否WIFI网络
-        if (NetUtil.GetNetype(MainActivity.this).equals("WIFI")) {
+
+        if (NetUtil.GetNetype(MainActivity.this).equals("WIFI") && PreferencesUtils.getValueByKey(MainActivity.this,"isFirstLogin1",true)){
             initData();
         } else {
             findDatasFromDB();
@@ -142,23 +138,29 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
         textCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(MainActivity.this,ChannelActivity.class);
-                startActivity(intent);
-                MainActivity.this.overridePendingTransition(R.anim.in1,R.anim.out1);
+                if (PreferencesUtils.getValueByKey(MainActivity.this,"isLogin",false)){
+                    Intent intent=new Intent(MainActivity.this,ChannelActivity.class);
+                    startActivity(intent);
+                    MainActivity.this.overridePendingTransition(R.anim.in1,R.anim.out1);
+                }else {
+                    Toast.makeText(MainActivity.this,"请先登录!",Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
     }
 
     private void findDatasFromDB() {
-        String result = SteamTools.readSdcardFile("categorYlist.txt");
-        NewsCategory newsCategory = JSON.parseObject(result, NewsCategory.class);
-        categoryList = newsCategory.getData().getData();
-        for (int i=0;i<20;i++){
-            list.add(categoryList.get(i));
+        List<ChannelItem> list = new ArrayList<>();
+        try {
+            list = db.selector(ChannelItem.class).where("selected", "=", "1").findAll();
+        } catch (DbException e) {
+            e.printStackTrace();
         }
-        adapter = new MyAdapter(getSupportFragmentManager(), list);
-        viewpager.setAdapter(adapter);
 
+        adapter = new MyAdapter(getSupportFragmentManager(), list);
+
+        viewpager.setAdapter(adapter);
     }
 
     @Override
@@ -220,16 +222,6 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
         UserNewsCategory userNewsCategory = new UserNewsCategory();
 
 
-        List<MyCateGory>  listCategory = new ArrayList<>();
-
-        for (int i = 0; i<list.size();i++){
-            listCategory.add(new MyCateGory(list.get(i).getName(),list.get(i).getCategory()));
-        }
-        userNewsCategory.setNewsCategoryList(listCategory);
-        userNewsCategory.setUsername(username);
-        String userNewsCategoryJson = JSON.toJSONString(userNewsCategory);
-        SteamTools.WriteToFile(userNewsCategoryJson,username+".txt");
-        Log.d("msgg","运行到这里");
 
     }
     private void changeMode(boolean white) {
@@ -293,18 +285,10 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
 
 
                 NewsCategory newsCategory = JSON.parseObject(result, NewsCategory.class);
+
                 categoryList = newsCategory.getData().getData();
-                for (int i=0;i<20;i++){
-                    list.add(categoryList.get(i));
-                }
-                SteamTools.WriteToFile(result,"categorYlist.txt");
 
-
-                //处于登录状态的话 得到用户频道信息 否则只显示20条数据
-                if (PreferencesUtils.getValueByKey(MainActivity.this,"isLogin",false)){
-
-                }
-                adapter = new MyAdapter(getSupportFragmentManager(), list);
+                adapter = new MyAdapter(getSupportFragmentManager(),saveData());
                 viewpager.setAdapter(adapter);
             }
 
@@ -420,30 +404,52 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
 
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
+    private List<ChannelItem> saveData() {
+            List<ChannelItem> myList = new ArrayList<>();
+            for (int i = 0; i < categoryList.size(); i++) {
+                ChannelItem item = new ChannelItem();
+                if (i <= 19) {
+                    item.setName(categoryList.get(i).getName());
+                    item.setOrderId(i);
+                    item.setUsername(PreferencesUtils.getValueByKey(MainActivity.this,"username",""));
+                    item.setCategory(categoryList.get(i).getCategory());
+                    item.setSelected(1);
+                    myList.add(item);
+                } else {
+                    item.setName(categoryList.get(i).getName());
+                    item.setOrderId(i - 19);
+                    item.setUsername(PreferencesUtils.getValueByKey(MainActivity.this,"username",""));
+                    item.setCategory(categoryList.get(i).getCategory());
+                    item.setSelected(0);
+                }
+                mlist.add(item);
+            }
+            return myList;
+    }
+
+    private void saveDataFromDb() {
         try {
-            db.delete(MyCateGory.class);
-            //保存当前登录用户的20条
-            for (int i=0;i<list.size();i++){
-                myCateGoriesUser.add(new MyCateGory(PreferencesUtils.getValueByKey(MainActivity.this,"username",""),list.get(i).getName(),list.get(i).getCategory()));
-            }
-            db.save(myCateGoriesUser);
-
-            //保存所有的48条
-            for (int i=0;i<categoryList.size();i++){
-                myCateGoriesAll.add(new MyCateGory("ALL",categoryList.get(i).getName(),categoryList.get(i).getCategory()));
-            }
-            db.save(myCateGoriesAll);
-            //保存其他的条目
-
-            for (int i=20;i<categoryList.size();i++){
-                myCateGoriesOther.add(new MyCateGory("Other",categoryList.get(i).getName(),categoryList.get(i).getCategory()));
-            }
-            db.save(myCateGoriesOther);
+            db.delete(ChannelItem.class);
+            db.save(mlist);
+            Map<String, Object> map = new HashMap<>();
+            map.put("isFirstLogin1", false);
+            PreferencesUtils.setMapKey(MainActivity.this, map);
         } catch (DbException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (PreferencesUtils.getValueByKey(MainActivity.this,"isFirstLogin1",true)){
+            saveDataFromDb();
+        }
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        findDatasFromDB();
     }
 }
