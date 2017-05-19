@@ -6,6 +6,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -152,6 +153,7 @@ public class CityActivity extends Activity {
         mGvCity.setAdapter(adapter);
         return headView;
     }
+
 
     /**
      * 根据输入框中的值来过滤数据并更新ListView

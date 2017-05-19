@@ -208,6 +208,7 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             />
         <activity android:name=".activities.WebViewActivity"></activity>
+        <activity android:name=".newsdrag.ChannelActivity"/>
     </application>
 
 </manifest>

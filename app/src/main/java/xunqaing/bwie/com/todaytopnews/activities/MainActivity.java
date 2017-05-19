@@ -1,5 +1,6 @@
 package xunqaing.bwie.com.todaytopnews.activities;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.xutils.DbManager;
 import org.xutils.common.Callback;
+import org.xutils.ex.DbException;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
@@ -35,14 +37,15 @@ import java.util.Map;
 
 import xunqaing.bwie.com.todaytopnews.IApplication;
 import xunqaing.bwie.com.todaytopnews.R;
-import xunqaing.bwie.com.todaytopnews.adapter.MyAdapter;
 import xunqaing.bwie.com.todaytopnews.bean.MyCateGory;
-import xunqaing.bwie.com.todaytopnews.bean.NewsCategory;
-import xunqaing.bwie.com.todaytopnews.bean.UserNewsCategory;
 import xunqaing.bwie.com.todaytopnews.eventbean.IsLoginEvent;
 import xunqaing.bwie.com.todaytopnews.eventbean.SwitchButtonEvent;
+import xunqaing.bwie.com.todaytopnews.adapter.MyAdapter;
+import xunqaing.bwie.com.todaytopnews.bean.NewsCategory;
+import xunqaing.bwie.com.todaytopnews.bean.UserNewsCategory;
 import xunqaing.bwie.com.todaytopnews.fragment.MenuLeftFragment;
 import xunqaing.bwie.com.todaytopnews.fragment.MenuRightFragment;
+import xunqaing.bwie.com.todaytopnews.newsdrag.ChannelActivity;
 import xunqaing.bwie.com.todaytopnews.service.DemoIntentService;
 import xunqaing.bwie.com.todaytopnews.service.DemoPushService;
 import xunqaing.bwie.com.todaytopnews.utils.MyUrl;
@@ -50,10 +53,14 @@ import xunqaing.bwie.com.todaytopnews.utils.NetUtil;
 import xunqaing.bwie.com.todaytopnews.utils.PreferencesUtils;
 import xunqaing.bwie.com.todaytopnews.utils.SteamTools;
 
+import static android.R.id.list;
+import static com.igexin.push.core.g.U;
+
 public class MainActivity extends SlidingFragmentActivity implements UMAuthListener {
 
     private SlidingMenu slidingMenu;
     private TabLayout tabLayout;
+    private TextView textCategory;
     private ViewPager viewpager;
     private MyAdapter adapter;
     private List<NewsCategory.DataBeanX.DataBean> categoryList;
@@ -63,6 +70,10 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
     private DbManager db;
     private WindowManager.LayoutParams params;
     private LinearLayout linearLayout;
+    private List<MyCateGory> myCateGoriesUser = new ArrayList<>();
+    private List<MyCateGory> myCateGoriesAll = new ArrayList<>();
+    private List<MyCateGory> myCateGoriesOther = new ArrayList<>();
+
     List<NewsCategory.DataBeanX.DataBean> list = new ArrayList<NewsCategory.DataBeanX.DataBean>();
 
     @Override
@@ -74,6 +85,7 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
         tabLayout = (TabLayout) findViewById(R.id.tablayout);
         viewpager = (ViewPager) findViewById(R.id.viewpage);
         linearLayout = (LinearLayout) findViewById(R.id.activity_main);
+        textCategory = (TextView)findViewById(R.id.text_add);
         ImageView iv_left = (ImageView) findViewById(R.id.pub_title_left_imageview);
         ImageView iv_right = (ImageView) findViewById(R.id.pub_title_right_imageview);
         // com.getui.demo.DemoPushService 为第三方自定义推送服务
@@ -85,6 +97,7 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
             EventBus.getDefault().register(this);
 
         }
+
 
 
         //设置TabLayout
@@ -123,6 +136,15 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
             public void onClick(View v) {
 
                 slidingMenu.showSecondaryMenu(true);
+            }
+        });
+
+        textCategory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(MainActivity.this,ChannelActivity.class);
+                startActivity(intent);
+                MainActivity.this.overridePendingTransition(R.anim.in1,R.anim.out1);
             }
         });
     }
@@ -396,5 +418,32 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
     @Override
     public void onCancel(SHARE_MEDIA share_media, int i) {
 
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        try {
+            db.delete(MyCateGory.class);
+            //保存当前登录用户的20条
+            for (int i=0;i<list.size();i++){
+                myCateGoriesUser.add(new MyCateGory(PreferencesUtils.getValueByKey(MainActivity.this,"username",""),list.get(i).getName(),list.get(i).getCategory()));
+            }
+            db.save(myCateGoriesUser);
+
+            //保存所有的48条
+            for (int i=0;i<categoryList.size();i++){
+                myCateGoriesAll.add(new MyCateGory("ALL",categoryList.get(i).getName(),categoryList.get(i).getCategory()));
+            }
+            db.save(myCateGoriesAll);
+            //保存其他的条目
+
+            for (int i=20;i<categoryList.size();i++){
+                myCateGoriesOther.add(new MyCateGory("Other",categoryList.get(i).getName(),categoryList.get(i).getCategory()));
+            }
+            db.save(myCateGoriesOther);
+        } catch (DbException e) {
+            e.printStackTrace();
+        }
     }
 }

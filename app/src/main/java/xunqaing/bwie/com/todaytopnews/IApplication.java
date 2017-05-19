@@ -18,6 +18,7 @@ import com.umeng.socialize.UMShareAPI;
 import org.xutils.DbManager;
 import org.xutils.x;
 
+import xunqaing.bwie.com.todaytopnews.newsdrag.db.SQLHelper;
 import xunqaing.bwie.com.todaytopnews.service.DemoIntentService;
 import xunqaing.bwie.com.todaytopnews.service.DemoPushService;
 
@@ -25,12 +26,15 @@ import xunqaing.bwie.com.todaytopnews.service.DemoPushService;
 public class IApplication extends Application {
 
     public DbManager.DaoConfig configTj;
+    private static IApplication mAppApplication;
+    private SQLHelper sqlHelper;
     @Override
     public void onCreate() {
         super.onCreate();
         x.Ext.init(this);
         initImageLoader();
         initgetui(this);
+        mAppApplication = this;
         initData();
         UMShareAPI.get(this);
         Config.DEBUG = true;
@@ -87,7 +91,7 @@ public class IApplication extends Application {
 
     public void initData() {
         configTj = new DbManager.DaoConfig();
-        configTj.setDbName("tj.db");
+        configTj.setDbName("database.db");
         configTj.setDbVersion(1);
         configTj.setDbUpgradeListener(new DbManager.DbUpgradeListener() {
             @Override
@@ -96,5 +100,20 @@ public class IApplication extends Application {
             }
         });
     }
-
+    /** 获取Application */
+    public static IApplication getApp() {
+        return mAppApplication;
+    }
+    /** 获取数据库Helper */
+    public SQLHelper getSQLHelper() {
+        if (sqlHelper == null)
+            sqlHelper = new SQLHelper(mAppApplication);
+        return sqlHelper;
+    }
+    /** 摧毁应用进程时候调用 */
+    public void onTerminate() {
+        if (sqlHelper != null)
+            sqlHelper.close();
+        super.onTerminate();
+    }
 }
