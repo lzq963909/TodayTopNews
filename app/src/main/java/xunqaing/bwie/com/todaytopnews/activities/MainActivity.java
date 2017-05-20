@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -39,12 +38,11 @@ import java.util.Map;
 
 import xunqaing.bwie.com.todaytopnews.IApplication;
 import xunqaing.bwie.com.todaytopnews.R;
-import xunqaing.bwie.com.todaytopnews.bean.MyCateGory;
-import xunqaing.bwie.com.todaytopnews.eventbean.IsLoginEvent;
-import xunqaing.bwie.com.todaytopnews.eventbean.SwitchButtonEvent;
 import xunqaing.bwie.com.todaytopnews.adapter.MyAdapter;
 import xunqaing.bwie.com.todaytopnews.bean.NewsCategory;
 import xunqaing.bwie.com.todaytopnews.bean.UserNewsCategory;
+import xunqaing.bwie.com.todaytopnews.eventbean.IsLoginEvent;
+import xunqaing.bwie.com.todaytopnews.eventbean.SwitchButtonEvent;
 import xunqaing.bwie.com.todaytopnews.fragment.MenuLeftFragment;
 import xunqaing.bwie.com.todaytopnews.fragment.MenuRightFragment;
 import xunqaing.bwie.com.todaytopnews.newsdrag.ChannelActivity;
@@ -82,7 +80,7 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
         tabLayout = (TabLayout) findViewById(R.id.tablayout);
         viewpager = (ViewPager) findViewById(R.id.viewpage);
         linearLayout = (LinearLayout) findViewById(R.id.activity_main);
-        textCategory = (TextView)findViewById(R.id.text_add);
+        textCategory = (TextView) findViewById(R.id.text_add);
         ImageView iv_left = (ImageView) findViewById(R.id.pub_title_left_imageview);
         ImageView iv_right = (ImageView) findViewById(R.id.pub_title_right_imageview);
         // com.getui.demo.DemoPushService 为第三方自定义推送服务
@@ -93,7 +91,6 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
         }
-
 
 
         //设置TabLayout
@@ -107,13 +104,11 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
         initGrayBackground();
 
 
-        if (NetUtil.GetNetype(MainActivity.this).equals("WIFI") && PreferencesUtils.getValueByKey(MainActivity.this,"isFirstLogin1",true)){
+        if (NetUtil.GetNetype(MainActivity.this).equals("WIFI") && PreferencesUtils.getValueByKey(MainActivity.this, "isFirstLogin1", true)) {
             initData();
         } else {
             findDatasFromDB();
         }
-
-
 
 
         //点击出现侧滑
@@ -138,12 +133,12 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
         textCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (PreferencesUtils.getValueByKey(MainActivity.this,"isLogin",false)){
-                    Intent intent=new Intent(MainActivity.this,ChannelActivity.class);
+                if (PreferencesUtils.getValueByKey(MainActivity.this, "isLogin", false)) {
+                    Intent intent = new Intent(MainActivity.this, ChannelActivity.class);
                     startActivity(intent);
-                    MainActivity.this.overridePendingTransition(R.anim.in1,R.anim.out1);
-                }else {
-                    Toast.makeText(MainActivity.this,"请先登录!",Toast.LENGTH_SHORT).show();
+                    MainActivity.this.overridePendingTransition(R.anim.in1, R.anim.out1);
+                } else {
+                    Toast.makeText(MainActivity.this, "请先登录!", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -166,7 +161,9 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
     @Override
     protected void onResume() {
         super.onResume();
-        findDatasFromDB();
+        if (PreferencesUtils.getValueByKey(MainActivity.this, "isLogin", false)) {
+            findDatasFromDB();
+        }
     }
 
     public void initGrayBackground() {
@@ -209,7 +206,7 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
         setView();
 
         //更改字体颜色
-        switchTextViewColor((ViewGroup) getWindow().getDecorView(),event.isWhite());
+        switchTextViewColor((ViewGroup) getWindow().getDecorView(), event.isWhite());
 
         MainActivity activity = new MainActivity();
         activity.changeMode(event.isWhite());
@@ -218,12 +215,12 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
     //登录成功发送的Event
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void LoginEvent(IsLoginEvent event) {
-        String username =  event.getUsername();
+        String username = event.getUsername();
         UserNewsCategory userNewsCategory = new UserNewsCategory();
 
 
-
     }
+
     private void changeMode(boolean white) {
 
         if (white) {
@@ -247,19 +244,19 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
     /**
      * 遍历出所有的textView设置对应的颜色 （递归）
      */
-    public void switchTextViewColor(ViewGroup view,boolean white) {
+    public void switchTextViewColor(ViewGroup view, boolean white) {
 //        getChildCount 获取ViewGroup下view的个数
 //        view.getChildAt(i) 根据下标获取对应的子view
         for (int i = 0; i < view.getChildCount(); i++) {
             if (view.getChildAt(i) instanceof ViewGroup) {
-                switchTextViewColor((ViewGroup) view.getChildAt(i),white);
+                switchTextViewColor((ViewGroup) view.getChildAt(i), white);
             } else if (view.getChildAt(i) instanceof TextView) {
                 //设置颜色
-                int resouseId ;
+                int resouseId;
                 TextView textView = (TextView) view.getChildAt(i);
-                if(white){
+                if (white) {
                     resouseId = Color.BLACK;
-                }else {
+                } else {
                     resouseId = Color.WHITE;
                 }
                 textView.setTextColor(resouseId);
@@ -288,7 +285,7 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
 
                 categoryList = newsCategory.getData().getData();
 
-                adapter = new MyAdapter(getSupportFragmentManager(),saveData());
+                adapter = new MyAdapter(getSupportFragmentManager(), saveData());
                 viewpager.setAdapter(adapter);
             }
 
@@ -338,13 +335,14 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
     }
 
     // 改变tablayout 字颜色 下标颜色
-    private void setWhiteMode(){
+    private void setWhiteMode() {
         tabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.title_color));
-        tabLayout.setTabTextColors(getResources().getColor(R.color.iblack),getResources().getColor(R.color.title_color));
+        tabLayout.setTabTextColors(getResources().getColor(R.color.iblack), getResources().getColor(R.color.title_color));
     }
-    private void setNightMode(){
+
+    private void setNightMode() {
         tabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.title_color));
-        tabLayout.setTabTextColors(getResources().getColor(R.color.iblack),getResources().getColor(R.color.title_color));
+        tabLayout.setTabTextColors(getResources().getColor(R.color.iblack), getResources().getColor(R.color.title_color));
     }
 
 
@@ -411,14 +409,14 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
             if (i <= 19) {
                 item.setName(categoryList.get(i).getName());
                 item.setOrderId(i);
-                item.setUsername(PreferencesUtils.getValueByKey(MainActivity.this,"username",""));
+                item.setUsername(PreferencesUtils.getValueByKey(MainActivity.this, "username", ""));
                 item.setCategory(categoryList.get(i).getCategory());
                 item.setSelected(1);
                 myList.add(item);
             } else {
                 item.setName(categoryList.get(i).getName());
                 item.setOrderId(i - 19);
-                item.setUsername(PreferencesUtils.getValueByKey(MainActivity.this,"username",""));
+                item.setUsername(PreferencesUtils.getValueByKey(MainActivity.this, "username", ""));
                 item.setCategory(categoryList.get(i).getCategory());
                 item.setSelected(0);
             }
@@ -442,7 +440,7 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
     @Override
     protected void onPause() {
         super.onPause();
-        if (PreferencesUtils.getValueByKey(MainActivity.this,"isFirstLogin1",true)){
+        if (PreferencesUtils.getValueByKey(MainActivity.this, "isFirstLogin1", true)) {
             saveDataFromDb();
         }
     }
