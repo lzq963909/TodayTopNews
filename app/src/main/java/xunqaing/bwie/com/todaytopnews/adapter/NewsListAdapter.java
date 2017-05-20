@@ -1,6 +1,8 @@
 package xunqaing.bwie.com.todaytopnews.adapter;
 
 import android.content.Context;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +21,8 @@ import java.util.List;
 
 import xunqaing.bwie.com.todaytopnews.R;
 import xunqaing.bwie.com.todaytopnews.bean.TuijianBean;
+
+import static android.R.attr.width;
 
 public class NewsListAdapter extends BaseAdapter{
 
@@ -118,15 +122,27 @@ public class NewsListAdapter extends BaseAdapter{
 			@Override
 			public void onClick(View v) {
 
+				final int[] locationl=new int[2];
+				v.getLocationOnScreen(locationl);
+				Rect rect=new Rect();
+				Paint paint=new Paint();
 
 				View view1 = LayoutInflater.from(mcontext).inflate(R.layout.pop,null,false);
 				PopupWindow popupWindow = new PopupWindow(view1, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
 				popupWindow.setFocusable(true);
-//				popupWindow.showAsDropDown(mHolder.textViewDel);
+				popupWindow.showAsDropDown(mHolder.textViewDel);
+// 				float width=60dp;
+				popupWindow.showAtLocation(v,Gravity.NO_GRAVITY,(int)(locationl[0]-width),locationl[1]);
 
 				popupWindow.showAtLocation(mHolder.textViewDel, Gravity.LEFT,100,0);
 
+				popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+					@Override
+					public void onDismiss() {
+
+					}
+				});
 
 			}
 		});
