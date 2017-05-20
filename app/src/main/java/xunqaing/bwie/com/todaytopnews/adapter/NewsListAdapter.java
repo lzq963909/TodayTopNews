@@ -1,11 +1,14 @@
 package xunqaing.bwie.com.todaytopnews.adapter;
 
 import android.content.Context;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -16,8 +19,6 @@ import java.util.List;
 
 import xunqaing.bwie.com.todaytopnews.R;
 import xunqaing.bwie.com.todaytopnews.bean.TuijianBean;
-
-import static java.lang.System.load;
 
 public class NewsListAdapter extends BaseAdapter{
 
@@ -60,7 +61,7 @@ public class NewsListAdapter extends BaseAdapter{
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
-		ViewHolder mHolder;
+		final ViewHolder mHolder;
 		View view = convertView;
 		if (view == null) {
 			view = View.inflate(mcontext,R.layout.list_news_item, null);
@@ -75,6 +76,8 @@ public class NewsListAdapter extends BaseAdapter{
 			mHolder.item_image_1 = (ImageView) view.findViewById(R.id.item_image02);
 			mHolder.item_image_2 = (ImageView) view.findViewById(R.id.item_image03);
 			mHolder.item_image_layout =(LinearLayout) view.findViewById(R.id.item_image_layout);
+			mHolder.textViewDel = (TextView) view.findViewById(R.id.del_id);
+
 			view.setTag(mHolder);
 		} else {
 			mHolder = (ViewHolder) view.getTag();
@@ -110,6 +113,23 @@ public class NewsListAdapter extends BaseAdapter{
 			//imageLoader.displayImage(newsList.get(position).getMiddle_image().getUrl(), mHolder.right_image);
 
 		}
+		mHolder.textViewDel.setVisibility(View.VISIBLE);
+		mHolder.textViewDel.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+
+
+				View view1 = LayoutInflater.from(mcontext).inflate(R.layout.pop,null,false);
+				PopupWindow popupWindow = new PopupWindow(view1, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+				popupWindow.setFocusable(true);
+//				popupWindow.showAsDropDown(mHolder.textViewDel);
+
+				popupWindow.showAtLocation(mHolder.textViewDel, Gravity.LEFT,100,0);
+
+
+			}
+		});
 		return view;
 	}
 
@@ -129,6 +149,7 @@ public class NewsListAdapter extends BaseAdapter{
 		ImageView item_image_0;
 		ImageView item_image_1;
 		ImageView item_image_2;
+		TextView textViewDel ;
 		//大图的图片的话布局
 		ImageView large_image;
 		//评论布局
