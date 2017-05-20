@@ -107,7 +107,7 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
         initGrayBackground();
 
 
-        if (NetUtil.GetNetype(MainActivity.this).equals("WIFI") && PreferencesUtils.getValueByKey(MainActivity.this,"isFirstLogin1",true)){
+        if (NetUtil.GetNetype(MainActivity.this).equals("WIFI")){
             initData();
         } else {
             findDatasFromDB();
