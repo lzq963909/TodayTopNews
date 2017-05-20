@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -38,11 +39,12 @@ import java.util.Map;
 
 import xunqaing.bwie.com.todaytopnews.IApplication;
 import xunqaing.bwie.com.todaytopnews.R;
+import xunqaing.bwie.com.todaytopnews.bean.MyCateGory;
+import xunqaing.bwie.com.todaytopnews.eventbean.IsLoginEvent;
+import xunqaing.bwie.com.todaytopnews.eventbean.SwitchButtonEvent;
 import xunqaing.bwie.com.todaytopnews.adapter.MyAdapter;
 import xunqaing.bwie.com.todaytopnews.bean.NewsCategory;
 import xunqaing.bwie.com.todaytopnews.bean.UserNewsCategory;
-import xunqaing.bwie.com.todaytopnews.eventbean.IsLoginEvent;
-import xunqaing.bwie.com.todaytopnews.eventbean.SwitchButtonEvent;
 import xunqaing.bwie.com.todaytopnews.fragment.MenuLeftFragment;
 import xunqaing.bwie.com.todaytopnews.fragment.MenuRightFragment;
 import xunqaing.bwie.com.todaytopnews.newsdrag.ChannelActivity;
@@ -105,7 +107,7 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
         initGrayBackground();
 
 
-        if (NetUtil.GetNetype(MainActivity.this).equals("WIFI")){
+        if (NetUtil.GetNetype(MainActivity.this).equals("WIFI") && PreferencesUtils.getValueByKey(MainActivity.this,"isFirstLogin1",true)){
             initData();
         } else {
             findDatasFromDB();
@@ -164,7 +166,7 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
     @Override
     protected void onResume() {
         super.onResume();
-
+        findDatasFromDB();
     }
 
     public void initGrayBackground() {
@@ -403,26 +405,26 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
     }
 
     private List<ChannelItem> saveData() {
-            List<ChannelItem> myList = new ArrayList<>();
-            for (int i = 0; i < categoryList.size(); i++) {
-                ChannelItem item = new ChannelItem();
-                if (i <= 19) {
-                    item.setName(categoryList.get(i).getName());
-                    item.setOrderId(i);
-                    item.setUsername(PreferencesUtils.getValueByKey(MainActivity.this,"username",""));
-                    item.setCategory(categoryList.get(i).getCategory());
-                    item.setSelected(1);
-                    myList.add(item);
-                } else {
-                    item.setName(categoryList.get(i).getName());
-                    item.setOrderId(i - 19);
-                    item.setUsername(PreferencesUtils.getValueByKey(MainActivity.this,"username",""));
-                    item.setCategory(categoryList.get(i).getCategory());
-                    item.setSelected(0);
-                }
-                mlist.add(item);
+        List<ChannelItem> myList = new ArrayList<>();
+        for (int i = 0; i < categoryList.size(); i++) {
+            ChannelItem item = new ChannelItem();
+            if (i <= 19) {
+                item.setName(categoryList.get(i).getName());
+                item.setOrderId(i);
+                item.setUsername(PreferencesUtils.getValueByKey(MainActivity.this,"username",""));
+                item.setCategory(categoryList.get(i).getCategory());
+                item.setSelected(1);
+                myList.add(item);
+            } else {
+                item.setName(categoryList.get(i).getName());
+                item.setOrderId(i - 19);
+                item.setUsername(PreferencesUtils.getValueByKey(MainActivity.this,"username",""));
+                item.setCategory(categoryList.get(i).getCategory());
+                item.setSelected(0);
             }
-            return myList;
+            mlist.add(item);
+        }
+        return myList;
     }
 
     private void saveDataFromDb() {
@@ -443,11 +445,5 @@ public class MainActivity extends SlidingFragmentActivity implements UMAuthListe
         if (PreferencesUtils.getValueByKey(MainActivity.this,"isFirstLogin1",true)){
             saveDataFromDb();
         }
-    }
-
-    @Override
-    protected void onPostResume() {
-        super.onPostResume();
-        findDatasFromDB();
     }
 }
