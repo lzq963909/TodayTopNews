@@ -1,13 +1,8 @@
 package xunqaing.bwie.com.todaytopnews.adapter;
 
 import android.content.Context;
-import android.graphics.Paint;
-import android.graphics.Rect;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
-import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -18,16 +13,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.github.chrisbanes.photoview.PhotoView;
 import com.nostra13.universalimageloader.core.ImageLoader;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
 import xunqaing.bwie.com.todaytopnews.R;
 import xunqaing.bwie.com.todaytopnews.bean.TuijianBean;
-
-import static android.R.attr.width;
 
 public class NewsListAdapter extends BaseAdapter{
 
@@ -35,13 +27,15 @@ public class NewsListAdapter extends BaseAdapter{
 	ImageLoader imageLoader = ImageLoader.getInstance();
 	Context mcontext;
 	private PopupWindow popupWindow;
+	private PhotoView photoViewimageview;
+
 	public NewsListAdapter(Context mcontext, List<TuijianBean.DataBean> newsList) {
 		this.newsList = newsList;
 		this.mcontext = mcontext;
 
 	}
 
-	
+
 
 
 	@Override
@@ -81,9 +75,9 @@ public class NewsListAdapter extends BaseAdapter{
 			mHolder.item_media_name = (TextView) view.findViewById(R.id.item_media_name);
 			mHolder.item_comment_count = (TextView) view.findViewById(R.id.item_comment_count);
 			mHolder.right_image = (ImageView) view.findViewById(R.id.item_middle_image);
-			mHolder.item_image_0 = (ImageView) view.findViewById(R.id.item_image01);
-			mHolder.item_image_1 = (ImageView) view.findViewById(R.id.item_image02);
-			mHolder.item_image_2 = (ImageView) view.findViewById(R.id.item_image03);
+			mHolder.item_image_0 = (PhotoView) view.findViewById(R.id.item_image01);
+			mHolder.item_image_1 = (PhotoView) view.findViewById(R.id.item_image02);
+			mHolder.item_image_2 = (PhotoView) view.findViewById(R.id.item_image03);
 			mHolder.item_image_layout =(LinearLayout) view.findViewById(R.id.item_image_layout);
 			mHolder.textViewDel = (TextView) view.findViewById(R.id.del_id);
 
@@ -91,10 +85,41 @@ public class NewsListAdapter extends BaseAdapter{
 		} else {
 			mHolder = (ViewHolder) view.getTag();
 		}
+
+		//
+		mHolder.item_image_0.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+
+				View inflate = LayoutInflater.from(mcontext).inflate(R.layout.pop_phoneview, null);
+
+				photoViewimageview = (PhotoView) inflate.findViewById(R.id.item_image011);
+
+				popupWindow = new PopupWindow(inflate, ViewGroup.LayoutParams.WRAP_CONTENT,
+						ViewGroup.LayoutParams.WRAP_CONTENT);
+				ColorDrawable dw = new ColorDrawable(0x10ab82ff);
+				popupWindow.setBackgroundDrawable(dw);
+				popupWindow.setOutsideTouchable(true);
+				// 获取窗体显示的布局的长宽高,然后设置偏移量就能显示在指定控件的上方了   测量出布局的宽高
+				inflate.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+				popupWindow.showAsDropDown(mHolder.item_image_0, 0, (int) -(inflate.getMeasuredHeight() + mHolder.textViewDel.getHeight()));
+
+				photoViewimageview.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+
+//						photoViewimageview.setImageResource(R.drawable);
+					}
+				});
+
+			}
+		});
+
+
+
+
 		//获取position对应的数据
 		TuijianBean.DataBean news = getItem(position);
-
-
 
 		mHolder.item_title.setText(news.getTitle()+"");
 		mHolder.item_lable.setText(news.getSource());
@@ -122,6 +147,8 @@ public class NewsListAdapter extends BaseAdapter{
 			//imageLoader.displayImage(newsList.get(position).getMiddle_image().getUrl(), mHolder.right_image);
 
 		}
+
+
 		mHolder.textViewDel.setVisibility(View.VISIBLE);
 
 		mHolder.textViewDel.setOnClickListener(new View.OnClickListener() {
@@ -146,7 +173,7 @@ public class NewsListAdapter extends BaseAdapter{
 						popupWindow.dismiss();
 					}
 				});
-//
+
 //				final int[] locationl=new int[2];
 //				v.getLocationOnScreen(locationl);
 //				Rect rect=new Rect();

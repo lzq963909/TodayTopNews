@@ -67,13 +67,15 @@
             android:layout_height="100dp"
             android:padding="5dp"/>
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/item_image_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <ImageView
+
+        <com.github.chrisbanes.photoview.PhotoView
             android:id="@+id/item_image01"
             android:layout_weight="1"
             android:layout_width="wrap_content"
@@ -81,7 +83,7 @@
             android:padding="5dp"
             android:src="@mipmap/ic_launcher" />
 
-        <ImageView
+        <com.github.chrisbanes.photoview.PhotoView
             android:id="@+id/item_image02"
             android:layout_weight="1"
             android:padding="5dp"
@@ -89,7 +91,7 @@
             android:layout_height="wrap_content"
             android:src="@mipmap/ic_launcher" />
 
-        <ImageView
+        <com.github.chrisbanes.photoview.PhotoView
             android:padding="5dp"
             android:id="@+id/item_image03"
             android:layout_weight="1"
@@ -97,6 +99,8 @@
             android:layout_height="wrap_content"
             android:src="@mipmap/ic_launcher" />
     </LinearLayout>
+
+
     <TextView
         android:visibility="visible"
         android:layout_gravity="right"
