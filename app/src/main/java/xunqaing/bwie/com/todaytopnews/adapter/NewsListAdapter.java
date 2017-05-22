@@ -20,6 +20,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 import xunqaing.bwie.com.todaytopnews.R;
@@ -126,6 +128,7 @@ public class NewsListAdapter extends BaseAdapter{
 			@Override
 			public void onClick(View v) {
 				View inflate = LayoutInflater.from(mcontext).inflate(R.layout.pop, null);
+				TextView textView = (TextView) inflate.findViewById(R.id.buganxingqu);
 
 				popupWindow = new PopupWindow(inflate, ViewGroup.LayoutParams.WRAP_CONTENT,
 						ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -135,11 +138,12 @@ public class NewsListAdapter extends BaseAdapter{
 				// 获取窗体显示的布局的长宽高,然后设置偏移量就能显示在指定控件的上方了   测量出布局的宽高
 				inflate.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
 				popupWindow.showAsDropDown(mHolder.textViewDel, 0, (int) -(inflate.getMeasuredHeight() + mHolder.textViewDel.getHeight()));
-				popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+				textView.setOnClickListener(new View.OnClickListener() {
 					@Override
-					public void onDismiss() {
+					public void onClick(View v) {
 						newsList.remove(position);
 						notifyDataSetChanged();
+						popupWindow.dismiss();
 					}
 				});
 //
