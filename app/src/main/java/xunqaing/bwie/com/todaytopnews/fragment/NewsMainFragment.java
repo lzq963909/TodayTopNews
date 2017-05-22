@@ -113,8 +113,8 @@ public class NewsMainFragment extends Fragment implements SpringView.OnFreshList
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
                 Intent intent=new Intent(getActivity(),WebViewActivity.class);
-
-                intent.putExtra("url",list.get(i - 1).getUrl());
+                String url = listAll.get(i-1).getUrl();
+                intent.putExtra("url",url);
 
                 getActivity().startActivity(intent);
 
