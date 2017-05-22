@@ -3,6 +3,8 @@ package xunqaing.bwie.com.todaytopnews.adapter;
 import android.content.Context;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,7 +31,7 @@ public class NewsListAdapter extends BaseAdapter{
 	List<TuijianBean.DataBean> newsList;
 	ImageLoader imageLoader = ImageLoader.getInstance();
 	Context mcontext;
-
+	private PopupWindow popupWindow;
 	public NewsListAdapter(Context mcontext, List<TuijianBean.DataBean> newsList) {
 		this.newsList = newsList;
 		this.mcontext = mcontext;
@@ -118,31 +120,43 @@ public class NewsListAdapter extends BaseAdapter{
 
 		}
 		mHolder.textViewDel.setVisibility(View.VISIBLE);
+
 		mHolder.textViewDel.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				View inflate = LayoutInflater.from(mcontext).inflate(R.layout.pop, null);
 
-				final int[] locationl=new int[2];
-				v.getLocationOnScreen(locationl);
-				Rect rect=new Rect();
-				Paint paint=new Paint();
-
-				View view1 = LayoutInflater.from(mcontext).inflate(R.layout.pop,null,false);
-				PopupWindow popupWindow = new PopupWindow(view1, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-
-				popupWindow.setFocusable(true);
-				popupWindow.showAsDropDown(mHolder.textViewDel);
-// 				float width=60dp;
-				popupWindow.showAtLocation(v,Gravity.NO_GRAVITY,(int)(locationl[0]-width),locationl[1]);
-
-				popupWindow.showAtLocation(mHolder.textViewDel, Gravity.LEFT,100,0);
-
-				popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-					@Override
-					public void onDismiss() {
-
-					}
-				});
+				popupWindow = new PopupWindow(inflate, ViewGroup.LayoutParams.WRAP_CONTENT,
+						ViewGroup.LayoutParams.WRAP_CONTENT);
+				ColorDrawable dw = new ColorDrawable(0x10ab82ff);
+				popupWindow.setBackgroundDrawable(dw);
+				popupWindow.setOutsideTouchable(true);
+				// 获取窗体显示的布局的长宽高,然后设置偏移量就能显示在指定控件的上方了   测量出布局的宽高
+				inflate.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+				popupWindow.showAsDropDown(mHolder.textViewDel, 0, (int) -(inflate.getMeasuredHeight() + mHolder.textViewDel.getHeight()));
+//
+//				final int[] locationl=new int[2];
+//				v.getLocationOnScreen(locationl);
+//				Rect rect=new Rect();
+//				Paint paint=new Paint();
+//
+//				View view1 = LayoutInflater.from(mcontext).inflate(R.layout.pop,null,false);
+//
+//				final PopupWindow popupWindow = new PopupWindow(view1, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+//
+//				popupWindow.setFocusable(true);
+//				popupWindow.showAsDropDown(mHolder.textViewDel);
+//				popupWindow.setOutsideTouchable(true);
+//				popupWindow.setBackgroundDrawable(new BitmapDrawable());
+// 				float width= 60;
+//				popupWindow.showAtLocation(v,Gravity.NO_GRAVITY,(int)(locationl[0]-width),locationl[1]);
+//
+//				popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+//					@Override
+//					public void onDismiss() {
+//						popupWindow.update();
+//					}
+//				});
 
 			}
 		});
