@@ -7,6 +7,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -65,7 +66,7 @@ public class NewsListAdapter extends BaseAdapter{
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(final int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
 		final ViewHolder mHolder;
 		View view = convertView;
@@ -134,6 +135,13 @@ public class NewsListAdapter extends BaseAdapter{
 				// 获取窗体显示的布局的长宽高,然后设置偏移量就能显示在指定控件的上方了   测量出布局的宽高
 				inflate.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
 				popupWindow.showAsDropDown(mHolder.textViewDel, 0, (int) -(inflate.getMeasuredHeight() + mHolder.textViewDel.getHeight()));
+				popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+					@Override
+					public void onDismiss() {
+						newsList.remove(position);
+						notifyDataSetChanged();
+					}
+				});
 //
 //				final int[] locationl=new int[2];
 //				v.getLocationOnScreen(locationl);
