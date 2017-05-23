@@ -95,22 +95,16 @@ public class NewsListAdapter extends BaseAdapter{
 
 				photoViewimageview = (PhotoView) inflate.findViewById(R.id.item_image011);
 
-				popupWindow = new PopupWindow(inflate, ViewGroup.LayoutParams.WRAP_CONTENT,
-						ViewGroup.LayoutParams.WRAP_CONTENT);
+				popupWindow = new PopupWindow(inflate, ViewGroup.LayoutParams.MATCH_PARENT,
+						ViewGroup.LayoutParams.MATCH_PARENT);
 				ColorDrawable dw = new ColorDrawable(0x10ab82ff);
 				popupWindow.setBackgroundDrawable(dw);
 				popupWindow.setOutsideTouchable(true);
 				// 获取窗体显示的布局的长宽高,然后设置偏移量就能显示在指定控件的上方了   测量出布局的宽高
 				inflate.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
 				popupWindow.showAsDropDown(mHolder.item_image_0, 0, (int) -(inflate.getMeasuredHeight() + mHolder.textViewDel.getHeight()));
-
-				photoViewimageview.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-
-//						photoViewimageview.setImageResource(R.drawable);
-					}
-				});
+				//Glide.with(mcontext).load(newsList.get(position).getMiddle_image().getUrl()).centerCrop().into(photoViewimageview);
+				Glide.with(mcontext).load(getItem(position).getImage_list().get(0).getUrl()).centerCrop().into(photoViewimageview);
 
 			}
 		});
@@ -134,17 +128,11 @@ public class NewsListAdapter extends BaseAdapter{
 				Glide.with(mcontext).load(imgUrlList.get(0).getUrl()).override(250, 180).centerCrop().into(mHolder.item_image_0);
 				Glide.with(mcontext).load(imgUrlList.get(1).getUrl()).override(250, 180).centerCrop().into(mHolder.item_image_1);
 				Glide.with(mcontext).load(imgUrlList.get(2).getUrl()).override(250, 180).centerCrop().into(mHolder.item_image_2);
-
-				//imageLoader.displayImage(imgUrlList.get(0).getUrl(), mHolder.item_image_0);
-				//imageLoader.displayImage(imgUrlList.get(1).getUrl(), mHolder.item_image_1);
-				//imageLoader.displayImage(imgUrlList.get(2).getUrl(), mHolder.item_image_2);
 			}
 		}else if (newsList.get(position).getMiddle_image()!=null){
 			mHolder.right_image.setVisibility(View.VISIBLE);
 			mHolder.item_image_layout.setVisibility(View.GONE);
 			Glide.with(mcontext).load(newsList.get(position).getMiddle_image().getUrl()).centerCrop().into(mHolder.right_image);
-
-			//imageLoader.displayImage(newsList.get(position).getMiddle_image().getUrl(), mHolder.right_image);
 
 		}
 
@@ -173,30 +161,6 @@ public class NewsListAdapter extends BaseAdapter{
 						popupWindow.dismiss();
 					}
 				});
-
-//				final int[] locationl=new int[2];
-//				v.getLocationOnScreen(locationl);
-//				Rect rect=new Rect();
-//				Paint paint=new Paint();
-//
-//				View view1 = LayoutInflater.from(mcontext).inflate(R.layout.pop,null,false);
-//
-//				final PopupWindow popupWindow = new PopupWindow(view1, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-//
-//				popupWindow.setFocusable(true);
-//				popupWindow.showAsDropDown(mHolder.textViewDel);
-//				popupWindow.setOutsideTouchable(true);
-//				popupWindow.setBackgroundDrawable(new BitmapDrawable());
-// 				float width= 60;
-//				popupWindow.showAtLocation(v,Gravity.NO_GRAVITY,(int)(locationl[0]-width),locationl[1]);
-//
-//				popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-//					@Override
-//					public void onDismiss() {
-//						popupWindow.update();
-//					}
-//				});
-
 			}
 		});
 		return view;
