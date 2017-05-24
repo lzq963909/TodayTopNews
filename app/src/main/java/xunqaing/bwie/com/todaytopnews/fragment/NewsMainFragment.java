@@ -25,9 +25,11 @@ import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.Request;
 import xunqaing.bwie.com.todaytopnews.IApplication;
 import xunqaing.bwie.com.todaytopnews.R;
 import xunqaing.bwie.com.todaytopnews.activities.CityActivity;
@@ -36,6 +38,7 @@ import xunqaing.bwie.com.todaytopnews.adapter.NewsListAdapter;
 import xunqaing.bwie.com.todaytopnews.bean.TuijianBean;
 import xunqaing.bwie.com.todaytopnews.eventbean.SwitchButtonEvent;
 import xunqaing.bwie.com.todaytopnews.eventbean.SwitchCity;
+import xunqaing.bwie.com.todaytopnews.http.OkHttpManager;
 import xunqaing.bwie.com.todaytopnews.utils.MyUrl;
 import xunqaing.bwie.com.todaytopnews.utils.NetUtil;
 import xunqaing.bwie.com.todaytopnews.utils.SteamTools;
@@ -167,14 +170,14 @@ public class NewsMainFragment extends Fragment implements SpringView.OnFreshList
 
     private void findDatasFromIntentle(final boolean flag) {
 
-        RequestParams requestParams = new RequestParams(MyUrl.getUrl(newsType,userCity));
+        OkHttpManager.getAsync(MyUrl.getUrl(newsType,userCity), new OkHttpManager.DataCallBack() {
+            @Override
+            public void requestFailure(Request request, IOException e) {
 
-        x.http().get(requestParams, new Callback.CommonCallback<String>() {
-
-            private DbManager manager;
+            }
 
             @Override
-            public void onSuccess(String result) {
+            public void requestSuccess(String result) throws Exception {
                 TuijianBean tuijianBean = JSON.parseObject(result, TuijianBean.class);
                 list = tuijianBean.getData();
 
@@ -191,25 +194,7 @@ public class NewsMainFragment extends Fragment implements SpringView.OnFreshList
 
                 SteamTools.WriteToFile(result,"data.txt");
             }
-
-            @Override
-            public void onError(Throwable ex, boolean isOnCallback) {
-
-            }
-
-            @Override
-            public void onCancelled(CancelledException cex) {
-
-            }
-
-            @Override
-            public void onFinished() {
-
-            }
         });
-
-
-
 
     }
 
