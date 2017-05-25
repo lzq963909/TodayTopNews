@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.github.chrisbanes.photoview.PhotoView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.List;
@@ -26,13 +27,15 @@ public class NewsListAdapter extends BaseAdapter{
 	ImageLoader imageLoader = ImageLoader.getInstance();
 	Context mcontext;
 	private PopupWindow popupWindow;
+	private PhotoView photoViewimageview;
+
 	public NewsListAdapter(Context mcontext, List<TuijianBean.DataBean> newsList) {
 		this.newsList = newsList;
 		this.mcontext = mcontext;
 
 	}
 
-	
+
 
 
 	@Override
@@ -72,9 +75,9 @@ public class NewsListAdapter extends BaseAdapter{
 			mHolder.item_media_name = (TextView) view.findViewById(R.id.item_media_name);
 			mHolder.item_comment_count = (TextView) view.findViewById(R.id.item_comment_count);
 			mHolder.right_image = (ImageView) view.findViewById(R.id.item_middle_image);
-			mHolder.item_image_0 = (ImageView) view.findViewById(R.id.item_image01);
-			mHolder.item_image_1 = (ImageView) view.findViewById(R.id.item_image02);
-			mHolder.item_image_2 = (ImageView) view.findViewById(R.id.item_image03);
+			mHolder.item_image_0 = (PhotoView) view.findViewById(R.id.item_image01);
+			mHolder.item_image_1 = (PhotoView) view.findViewById(R.id.item_image02);
+			mHolder.item_image_2 = (PhotoView) view.findViewById(R.id.item_image03);
 			mHolder.item_image_layout =(LinearLayout) view.findViewById(R.id.item_image_layout);
 			mHolder.textViewDel = (TextView) view.findViewById(R.id.del_id);
 
@@ -82,10 +85,35 @@ public class NewsListAdapter extends BaseAdapter{
 		} else {
 			mHolder = (ViewHolder) view.getTag();
 		}
+
+		//
+		mHolder.item_image_0.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+
+				View inflate = LayoutInflater.from(mcontext).inflate(R.layout.pop_phoneview, null);
+
+				photoViewimageview = (PhotoView) inflate.findViewById(R.id.item_image011);
+
+				popupWindow = new PopupWindow(inflate, ViewGroup.LayoutParams.MATCH_PARENT,
+						ViewGroup.LayoutParams.MATCH_PARENT);
+				ColorDrawable dw = new ColorDrawable(0x10ab82ff);
+				popupWindow.setBackgroundDrawable(dw);
+				popupWindow.setOutsideTouchable(true);
+				// 获取窗体显示的布局的长宽高,然后设置偏移量就能显示在指定控件的上方了   测量出布局的宽高
+				inflate.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+				popupWindow.showAsDropDown(mHolder.item_image_0, 0, (int) -(inflate.getMeasuredHeight() + mHolder.textViewDel.getHeight()));
+				//Glide.with(mcontext).load(newsList.get(position).getMiddle_image().getUrl()).centerCrop().into(photoViewimageview);
+				Glide.with(mcontext).load(getItem(position).getImage_list().get(0).getUrl()).centerCrop().into(photoViewimageview);
+
+			}
+		});
+
+
+
+
 		//获取position对应的数据
 		TuijianBean.DataBean news = getItem(position);
-
-
 
 		mHolder.item_title.setText(news.getTitle()+"");
 		mHolder.item_lable.setText(news.getSource());
@@ -100,19 +128,15 @@ public class NewsListAdapter extends BaseAdapter{
 				Glide.with(mcontext).load(imgUrlList.get(0).getUrl()).override(250, 180).centerCrop().into(mHolder.item_image_0);
 				Glide.with(mcontext).load(imgUrlList.get(1).getUrl()).override(250, 180).centerCrop().into(mHolder.item_image_1);
 				Glide.with(mcontext).load(imgUrlList.get(2).getUrl()).override(250, 180).centerCrop().into(mHolder.item_image_2);
-
-				//imageLoader.displayImage(imgUrlList.get(0).getUrl(), mHolder.item_image_0);
-				//imageLoader.displayImage(imgUrlList.get(1).getUrl(), mHolder.item_image_1);
-				//imageLoader.displayImage(imgUrlList.get(2).getUrl(), mHolder.item_image_2);
 			}
 		}else if (newsList.get(position).getMiddle_image()!=null){
 			mHolder.right_image.setVisibility(View.VISIBLE);
 			mHolder.item_image_layout.setVisibility(View.GONE);
 			Glide.with(mcontext).load(newsList.get(position).getMiddle_image().getUrl()).centerCrop().into(mHolder.right_image);
 
-			//imageLoader.displayImage(newsList.get(position).getMiddle_image().getUrl(), mHolder.right_image);
-
 		}
+
+
 		mHolder.textViewDel.setVisibility(View.VISIBLE);
 
 		mHolder.textViewDel.setOnClickListener(new View.OnClickListener() {
@@ -137,30 +161,6 @@ public class NewsListAdapter extends BaseAdapter{
 						popupWindow.dismiss();
 					}
 				});
-//
-//				final int[] locationl=new int[2];
-//				v.getLocationOnScreen(locationl);
-//				Rect rect=new Rect();
-//				Paint paint=new Paint();
-//
-//				View view1 = LayoutInflater.from(mcontext).inflate(R.layout.pop,null,false);
-//
-//				final PopupWindow popupWindow = new PopupWindow(view1, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-//
-//				popupWindow.setFocusable(true);
-//				popupWindow.showAsDropDown(mHolder.textViewDel);
-//				popupWindow.setOutsideTouchable(true);
-//				popupWindow.setBackgroundDrawable(new BitmapDrawable());
-// 				float width= 60;
-//				popupWindow.showAtLocation(v,Gravity.NO_GRAVITY,(int)(locationl[0]-width),locationl[1]);
-//
-//				popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-//					@Override
-//					public void onDismiss() {
-//						popupWindow.update();
-//					}
-//				});
-
 			}
 		});
 		return view;
