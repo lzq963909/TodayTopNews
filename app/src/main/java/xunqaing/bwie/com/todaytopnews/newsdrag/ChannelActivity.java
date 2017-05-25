@@ -19,17 +19,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-
 import org.xutils.DbManager;
-import org.xutils.db.sqlite.WhereBuilder;
 import org.xutils.ex.DbException;
 import org.xutils.x;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
 import xunqaing.bwie.com.todaytopnews.IApplication;
 import xunqaing.bwie.com.todaytopnews.R;
@@ -37,10 +32,8 @@ import xunqaing.bwie.com.todaytopnews.bean.MyCateGory;
 import xunqaing.bwie.com.todaytopnews.newsdrag.adapter.DragAdapter;
 import xunqaing.bwie.com.todaytopnews.newsdrag.adapter.OtherAdapter;
 import xunqaing.bwie.com.todaytopnews.newsdrag.bean.ChannelItem;
-import xunqaing.bwie.com.todaytopnews.newsdrag.bean.ChannelManage;
 import xunqaing.bwie.com.todaytopnews.newsdrag.view.DragGrid;
 import xunqaing.bwie.com.todaytopnews.newsdrag.view.OtherGridView;
-import xunqaing.bwie.com.todaytopnews.utils.PreferencesUtils;
 
 /**
  * 频道管理
@@ -83,6 +76,7 @@ public class ChannelActivity extends Activity implements OnItemClickListener {
     private List<MyCateGory> myCateGoriesUser = new ArrayList<>();
     private List<MyCateGory> myCateGoriesAll = new ArrayList<>();
     private List<MyCateGory> myCateGoriesOther = new ArrayList<>();
+    private TextView back;
 
 
     @Override
@@ -93,6 +87,13 @@ public class ChannelActivity extends Activity implements OnItemClickListener {
         db = x.getDb(application.configTj);
         initView();
         initData();
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     /**
@@ -121,6 +122,8 @@ public class ChannelActivity extends Activity implements OnItemClickListener {
     private void initView() {
         userGridView = (DragGrid) findViewById(R.id.userGridView);
         otherGridView = (OtherGridView) findViewById(R.id.otherGridView);
+        back = (TextView) findViewById(R.id.back);
+
     }
 
     @Override

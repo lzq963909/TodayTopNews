@@ -20,10 +20,6 @@ import com.liaoinstan.springview.widget.SpringView;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-import org.xutils.DbManager;
-import org.xutils.common.Callback;
-import org.xutils.http.RequestParams;
-import org.xutils.x;
 
 import java.io.IOException;
 import java.util.ArrayList;

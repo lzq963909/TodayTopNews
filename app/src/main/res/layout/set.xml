@@ -163,7 +163,7 @@
                     android:layout_centerVertical="true"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:text="转省流量（智能下图） &gt;"
+                    android:text="转省流量（智能下图)&gt;"
                     android:textSize="15dp" />
             </LinearLayout>
             <include
@@ -193,7 +193,7 @@
                     android:layout_centerVertical="true"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:text="        当前缓存:2.84MB  &gt;"
+                    android:text="    当前缓存:2.84MB &gt;"
                     android:textSize="15dp" />
             </LinearLayout>
             <include
@@ -374,7 +374,7 @@
                     android:layout_centerVertical="true"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:text="当前版本4.8.0 &gt;"
+                    android:text="当前版本4.8.0&gt;"
                     android:textSize="15dp" />
             </LinearLayout>
 
