@@ -113,9 +113,9 @@ public class LoginActivity extends Activity {
         login_register_return.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+/*
                 Intent i = new Intent(LoginActivity.this,RegisiterActivity.class);
-                startActivity(i);
+                startActivity(i);*/
                 finish();
             }
         });
