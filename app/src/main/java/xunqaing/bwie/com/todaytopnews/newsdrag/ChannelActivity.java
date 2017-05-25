@@ -91,6 +91,7 @@ public class ChannelActivity extends Activity implements OnItemClickListener {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                saveChannel();
                 finish();
             }
         });
