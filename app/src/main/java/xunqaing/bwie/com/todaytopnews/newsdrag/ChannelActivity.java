@@ -1,7 +1,6 @@
 package xunqaing.bwie.com.todaytopnews.newsdrag;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
@@ -29,7 +28,6 @@ import java.util.List;
 
 import xunqaing.bwie.com.todaytopnews.IApplication;
 import xunqaing.bwie.com.todaytopnews.R;
-import xunqaing.bwie.com.todaytopnews.activities.MainActivity;
 import xunqaing.bwie.com.todaytopnews.bean.MyCateGory;
 import xunqaing.bwie.com.todaytopnews.newsdrag.adapter.DragAdapter;
 import xunqaing.bwie.com.todaytopnews.newsdrag.adapter.OtherAdapter;
@@ -93,10 +91,8 @@ public class ChannelActivity extends Activity implements OnItemClickListener {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                Intent intent=new Intent(ChannelActivity.this, MainActivity.class);
-
-                startActivity(intent);
+                saveChannel();
+                finish();
             }
         });
     }
