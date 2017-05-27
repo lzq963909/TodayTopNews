@@ -43,6 +43,7 @@ public class RegisiterActivity extends Activity {
     private EditText editPassword;
     private TextView login_register_return;
     private TextView register_yonghuxieyi;
+    private TextView register_login;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +105,15 @@ public class RegisiterActivity extends Activity {
                 });
             }
         });
+        register_login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent=new Intent(RegisiterActivity.this,LoginActivity.class);
+
+                startActivity(intent);
+            }
+        });
     }
 
     private void chageTextColor() {
@@ -125,6 +135,7 @@ public class RegisiterActivity extends Activity {
         editUserName = (EditText) regisiterActivity.findViewById(R.id.register_et_baliu);
         editPassword = (EditText) regisiterActivity.findViewById(R.id.register_password);
         regbtn = (Button) regisiterActivity.findViewById(R.id.register_next);
+        register_login = (TextView) findViewById(R.id.register_login);
         login_register_return = (TextView) findViewById(R.id.login_register_return);
         register_yonghuxieyi = (TextView) findViewById(R.id.register_yonghuxieyi);
 
